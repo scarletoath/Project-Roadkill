@@ -14,7 +14,7 @@ public class DeerAIScript : MonoBehaviour {
 						Destroy (this.gameObject);
 
 			//caveman.transform.Find ("blood").gameObject.GetComponent<ParticleSystem> ().Stop();
-						caveman.transform.Find ("blood").gameObject.GetComponent<ParticleSystem> ().Play ();
+			caveman.transform.Find ("blood").gameObject.GetComponent<ParticleSystem> ().Emit(100);
 				}
 	}
 	
@@ -23,7 +23,9 @@ public class DeerAIScript : MonoBehaviour {
 		Vector3 diff = this.transform.position - caveman.transform.position;
 		if (diff.magnitude < 10.0f) 
 		{
-			this.transform.position += diff.normalized * 2 * Time.deltaTime; 
+			Vector3 localvec = Quaternion.Inverse(this.transform.rotation) * diff;
+			if(Vector3.Dot(localvec,Vector3.forward) < 0)
+				this.transform.position += diff.normalized * 8 * Time.deltaTime; 
 		}
 	}
 }
