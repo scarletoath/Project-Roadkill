@@ -23,7 +23,7 @@ public class DeerAIScript : MonoBehaviour {
 		Vector3 diff = this.transform.position - caveman.transform.position;
 		if (diff.magnitude < 10.0f) 
 		{
-			this.transform.position += diff.normalized * 0.1f; 
+			this.transform.position += diff.normalized * 2 * Time.deltaTime; 
 		}
 	}
 }

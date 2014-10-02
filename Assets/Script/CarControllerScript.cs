@@ -25,11 +25,11 @@ public class CarControllerScript : MonoBehaviour {
 
 		if (Input.GetKey (KeyCode.W)) 
 		{
-			this.transform.position += this.transform.rotation * Vector3.forward * 0.2f	;
+			this.transform.position += this.transform.rotation * Vector3.forward * Time.deltaTime * 10	;
 			//this.rigidbody.AddForce(this.transform.rotation * Vector3.forward * 5000);
 		}
 		if (Input.GetKey (KeyCode.S)) {
-			this.transform.position += this.transform.rotation * Vector3.back * 0.2f;
+			this.transform.position += this.transform.rotation * Vector3.back  * Time.deltaTime * 10;
 			//this.rigidbody.AddForce(this.transform.rotation * Vector3.back* 5000);
 		}
 		if (Input.GetKey (KeyCode.A)) {
