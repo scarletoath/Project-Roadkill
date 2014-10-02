@@ -46,7 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CarControllerScript.cs" />
+     <Compile Include="Assets\DeerAIScript.cs" />
+     <Compile Include="Assets\OstrichAIScript.cs" />
+     <Compile Include="Assets\Script\CarControllerScript.cs" />
+     <Compile Include="Assets\Script\ControllerScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
