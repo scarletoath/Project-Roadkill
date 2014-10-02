@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 43d4758ff3f259c4295274246dc213e0
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - TangoPrefab: {fileID: 100000, guid: 0e43889f486b95d488b8368463df9233, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
