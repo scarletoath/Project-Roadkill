@@ -91,7 +91,7 @@ public class GameManager : Singleton<GameManager> {
 			TempPos.z = Random.Range ( 0 , 1000 );
 			TempPos.x = 10 * Mathf.Sin ( Mathf.Deg2Rad * TempPos.z );
 
-			TempRot.SetEulerAngles ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
+			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
 
 			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
