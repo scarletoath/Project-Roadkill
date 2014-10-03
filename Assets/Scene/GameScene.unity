@@ -118,7 +118,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 4.05000019, z: 3.21000004}
+  m_Size: {x: .75, y: 4.05000019, z: 3.21000004}
   m_Center: {x: 0, y: 2.00999999, z: .479999989}
 --- !u!95 &26987048
 Animator:
@@ -141,7 +141,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400000, guid: fb369df66c3625b4aa4b10d786615bd1, type: 3}
   m_PrefabInternal: {fileID: 1419631722}
   m_GameObject: {fileID: 26987045}
-  m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106829}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
   m_LocalPosition: {x: 0, y: .177450061, z: 123.786476}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -568,8 +568,8 @@ GameObject:
   - 4: {fileID: 777034661}
   - 114: {fileID: 777034664}
   - 54: {fileID: 777034662}
-  - 136: {fileID: 777034665}
   - 65: {fileID: 777034663}
+  - 135: {fileID: 777034665}
   m_Layer: 0
   m_Name: Caveman
   m_TagString: Untagged
@@ -597,7 +597,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 777034660}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 1
   m_AngularDrag: 5
   m_UseGravity: 1
@@ -628,8 +628,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b4eda221fdf1a43a41c5b0c015c974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &777034665
-CapsuleCollider:
+--- !u!135 &777034665
+SphereCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -637,10 +637,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 0
-  m_Radius: 1.13999999
-  m_Height: 31.3400002
-  m_Direction: 2
-  m_Center: {x: -.370000005, y: 18, z: -36.0999985}
+  serializedVersion: 2
+  m_Radius: 2.01999998
+  m_Center: {x: 0, y: 19.2399998, z: -12.5900002}
 --- !u!1 &916711141
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,6 +649,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 916711142}
   - 95: {fileID: 916711143}
+  - 135: {fileID: 916711144}
   m_Layer: 0
   m_Name: Amazonian_Spear
   m_TagString: Untagged
@@ -684,6 +684,18 @@ Animator:
   m_ApplyRootMotion: 1
   m_AnimatePhysics: 0
   m_HasTransformHierarchy: 1
+--- !u!135 &916711144
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 916711141}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: .25999999
+  m_Center: {x: -.0199999996, y: .0500000007, z: 1.54999995}
 --- !u!1 &1030165296
 GameObject:
   m_ObjectHideFlags: 0
@@ -2039,7 +2051,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fb369df66c3625b4aa4b10d786615bd1, type: 3}
       propertyPath: m_LocalRotation.y
-      value: .707106829
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fb369df66c3625b4aa4b10d786615bd1, type: 3}
       propertyPath: m_LocalRotation.z
@@ -2047,7 +2059,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fb369df66c3625b4aa4b10d786615bd1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: .707106829
+      value: -4.37113883e-08
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: fb369df66c3625b4aa4b10d786615bd1, type: 3}
       propertyPath: m_Layer
