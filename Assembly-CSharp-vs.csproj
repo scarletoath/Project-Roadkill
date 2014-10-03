@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{70A12BE9-24C2-ACF3-701E-A2D2BF9CBB05}</ProjectGuid>
+	<ProjectGuid>{A15D30B4-C265-194D-09A2-288CFCC48217}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,12 +46,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\DeerAIScript.cs" />
-     <Compile Include="Assets\OstrichAIScript.cs" />
-     <Compile Include="Assets\Script\CarControllerScript.cs" />
+     <Compile Include="Assets\Script\AI\Creature.cs" />
+     <Compile Include="Assets\Script\AI\DeerCreature.cs" />
+     <Compile Include="Assets\Script\AI\OstrichCreature.cs" />
      <Compile Include="Assets\Script\Common\Singleton.cs" />
      <Compile Include="Assets\Script\Controller\PlayerController.cs" />
-     <Compile Include="Assets\Script\ControllerScript.cs" />
+     <Compile Include="Assets\Script\Game\GameManager.cs" />
      <Compile Include="Assets\Script\Input\GameInput.cs" />
      <Compile Include="Assets\Script\Input\SimulationInput.cs" />
      <Compile Include="Assets\TangoSDK\Examples\Scripts\Camera\ARScreen.cs" />
