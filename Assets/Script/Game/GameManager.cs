@@ -1,0 +1,97 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+public class GameManager : Singleton<GameManager> {
+
+	private const string CREATURE_CONTAINER_NAME = "Creatures";
+	private const string CREATURE_TAG = "Creature";
+
+	public int NumCreaturesToSpawn = 10;
+
+	public Creature [] Creatures;
+
+	private Transform CreatureContainer;
+
+	private LinkedList<Creature> SpawnedCreatures;
+	private List<Creature> DeadCreatures;
+
+	private GameObject TempGameObject;
+	private Vector3 TempPos;
+	private Quaternion TempRot;
+
+	// Use this for initialization
+	void Start () {
+		SpawnedCreatures = new LinkedList<Creature> ();
+		DeadCreatures = new List<Creature> ();
+
+		CreatureContainer = transform.root.Find ( CREATURE_CONTAINER_NAME );
+		if ( CreatureContainer == null ) {
+			CreatureContainer = new GameObject ( CREATURE_CONTAINER_NAME ).transform;
+		}
+
+		SpawnCreatures ();
+	}
+
+	// Update is called once per frame
+	void Update () {
+
+	}
+
+	public static int NumTotalCreatures {
+		get {
+			return NumAliveCreatures + NumDeadCreatures;
+		}
+	}
+
+	public static int NumAliveCreatures {
+		get {
+			return Instance.SpawnedCreatures.Count;
+		}
+	}
+
+	public static int NumDeadCreatures {
+		get {
+			return Instance.DeadCreatures.Count;
+		}
+	}
+
+	/// <summary>
+	/// Kills the specified creature.
+	/// </summary>
+	/// <param name="Creature">Returns whether the killing was successful (a dead or non-existing creature cannot be killed).</param>
+	/// <returns></returns>
+	public static bool KillCreature ( Creature Creature ) {
+		LinkedListNode<Creature> CreatureEntry = Instance.SpawnedCreatures.Find ( Creature );
+
+		if ( CreatureEntry != null ) {
+			Instance.SpawnedCreatures.Remove ( Creature );
+			Instance.DeadCreatures.Add ( CreatureEntry.Value );
+
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	private void SpawnCreatures () {
+		// Add existing creatures to list
+		Creature Creature;
+		foreach ( GameObject CreatureObject in GameObject.FindGameObjectsWithTag ( CREATURE_TAG ) ) {
+			Creature = CreatureObject.GetComponent<Creature> ();
+			if ( Creature != null ) {
+				SpawnedCreatures.AddLast ( Creature );
+			}
+		}
+
+		// Spawn new ones
+		for ( int i = 0 ; i < NumCreaturesToSpawn ; i++ ) {
+			TempPos.z = Random.Range ( 0 , 1000 );
+			TempPos.x = 10 * Mathf.Sin ( Mathf.Deg2Rad * TempPos.z );
+
+			TempGameObject = Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as GameObject;
+			TempGameObject.transform.parent = CreatureContainer;
+		}
+	}
+
+}

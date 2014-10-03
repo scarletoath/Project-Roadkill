@@ -35,4 +35,14 @@ public class PlayerController : Singleton<PlayerController> {
 		transform.eulerAngles = TempEuler;
 	}
 
+	public static Vector3 Position {
+		get {
+			return Instance.transform.position;
+		}
+	}
+
+	public static void SplatterBlood () {
+		Instance.particleSystem.Emit ( 100 );
+	}
+
 }
