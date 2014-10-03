@@ -42,7 +42,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TangoPrefab: {fileID: 100000, guid: 0e43889f486b95d488b8368463df9233, type: 2}
   IsSimulation: 0
-  MaxLookAngleY: 80
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

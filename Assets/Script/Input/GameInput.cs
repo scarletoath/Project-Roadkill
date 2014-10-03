@@ -47,16 +47,6 @@ public class GameInput : Singleton<GameInput> {
 				if ( CanUpdatePoseData ) {
 					_PreviousRotation = _CurrentRotation;
 					_CurrentRotation = value;
-
-					// Clamp Y-rotation to prevent gimbal lock
-					Vector3 Euler = _CurrentRotation.eulerAngles;
-					if ( Euler.x > 180 && Euler.x - 360 < -Instance.MaxLookAngleY ) {
-						Euler.x = -Instance.MaxLookAngleY;
-					}
-					else if ( Euler.x < 180 && Euler.x > Instance.MaxLookAngleY ) {
-						Euler.x = Instance.MaxLookAngleY;
-					}
-					_CurrentRotation.eulerAngles = Euler;
 				}
 			}
 		}
@@ -88,15 +78,16 @@ public class GameInput : Singleton<GameInput> {
 	public bool IsSimulation = false;
 
 	/// <summary>
-	/// The maximum vertical angle from looking straight ahead.
-	/// </summary>
-	public float MaxLookAngleY = 80.0f;
-
-	/// <summary>
 	/// A reference to the TangoApplication component.
 	/// </summary>
 	private TangoApplication TangoApp;
-	private VIOProvider.VIOStatus VIOStatus;
+	private VIOProvider.VIOStatus TangoVIOStatus;
+	private DepthTexture TangoDepthTex;
+
+	private Texture2D ColorTex;
+	private Texture2D DepthTex;
+
+	private double Timestamp;
 
 	private SimulationInput SimulationInput;
 
@@ -128,6 +119,16 @@ public class GameInput : Singleton<GameInput> {
 			SimulationInput = gameObject.GetComponent<SimulationInput> ();
 		}
 
+		// Prepare textures
+		TangoDepthTex = GetComponent<DepthTexture> ();
+		if ( TangoDepthTex == null ) {
+			TangoDepthTex = gameObject.AddComponent<DepthTexture> ();
+		}
+		ColorTex = new Texture2D ( 1920 , 1080 , TextureFormat.RGB565 , false );
+		ColorTex.filterMode = FilterMode.Bilinear;
+		ColorTex.wrapMode = TextureWrapMode.Clamp;
+		DepthTex = new Texture2D ( 1920 , 1080 );
+
 		// Disable cursor
 		Screen.showCursor = false;
 
@@ -142,6 +143,13 @@ public class GameInput : Singleton<GameInput> {
 
 	// Update is called once per frame
 	void Update () {
+		// Keep checking for TangoSDK availability if in simulation mode
+		if ( IsSimulation ) {
+			if ( TangoApp.Valid && TangoApp.IsInitialized () ) {
+				IsSimulation = false;
+			}
+		}
+
 		CanUpdatePoseData = true;
 
 		UpdatePoseData ();
@@ -151,6 +159,14 @@ public class GameInput : Singleton<GameInput> {
 
 	public static PoseData Pose { get; private set; }
 
+	public static Texture2D ColorTexture { get { return Instance.ColorTex; } }
+
+	public static Texture2D DepthTexture { get { return Instance.DepthTex; } }
+
+	public static bool GetIsSimulation () {
+		return Instance.IsSimulation;
+	}
+
 	private void UpdatePoseData () {
 		if ( IsSimulation ) {
 			SimulationInput.GetLatestPose ( Pose );
@@ -159,10 +175,16 @@ public class GameInput : Singleton<GameInput> {
 		}
 
 		// Get data from Tango data providers
-		if ( VIOProvider.GetLatestPose ( ref VIOStatus ) ) {
-			Pose.Position = VIOStatus.translation;
-			Pose.Rotation = VIOStatus.rotation;
+		if ( VIOProvider.GetLatestPose ( ref TangoVIOStatus ) ) {
+			Pose.Position = TangoVIOStatus.translation;
+			Pose.Rotation = TangoVIOStatus.rotation;
 		}
+	}
+
+	private void UpdateFrameData () {
+		VideoOverlayProvider.RenderLatestFrame ( ColorTex.GetNativeTextureID () , ColorTex.width , ColorTex.height , ref Timestamp );
+
+		DepthTex = TangoDepthTex.GetDepthTexture ( true , 8 , 1 );
 	}
 
 }

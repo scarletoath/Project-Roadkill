@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d98dc208578cf742ac38fe99a141ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxLookAngleY: 80
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
