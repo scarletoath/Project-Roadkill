@@ -1,6 +1,9 @@
+/Build
 /Library
 /Temp
 /obj
 /*.csproj
 /*.sln*
 /*.suo
+/*.sln
+/*.userprefs
