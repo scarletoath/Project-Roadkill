@@ -33,11 +33,11 @@ public class CarControllerScript : MonoBehaviour {
 			//this.rigidbody.AddForce(this.transform.rotation * Vector3.back* 5000);
 		}
 		if (Input.GetKey (KeyCode.A)) {
-			this.transform.rotation = Quaternion.AngleAxis(-1,new Vector3(0,1,0)) * this.transform.rotation;
+			this.transform.rotation = Quaternion.AngleAxis(-0.5f,new Vector3(0,1,0)) * this.transform.rotation;
 			//this.rigidbody.AddForceAtPosition(this.transform.rotation *  Vector3.left * 0.5f, this.transform.position + this.transform.rotation * (Vector3.forward * 2.5f + Vector3.left*1.5f),ForceMode.Acceleration);
 		}
 		if (Input.GetKey (KeyCode.D)) {
-			this.transform.rotation = Quaternion.AngleAxis(1,new Vector3(0,1,0)) * this.transform.rotation;
+			this.transform.rotation = Quaternion.AngleAxis(0.5f,new Vector3(0,1,0)) * this.transform.rotation;
 			//this.rigidbody.AddForceAtPosition(this.transform.rotation *  Vector3.right * 0.5f, this.transform.position + this.transform.rotation * (Vector3.forward * 2.5f + Vector3.right*1.5f),ForceMode.Acceleration);
 		}
 	}
