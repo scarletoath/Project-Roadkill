@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MouseSensitivity: 120
-  MoveSpeed: 3
+  MoveSpeed: 20
   UseDrift: 0
 --- !u!1001 &100100000
 Prefab:
