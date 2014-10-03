@@ -2,6 +2,10 @@
 
 public class PlayerController : Singleton<PlayerController> {
 
+	public const string TAG = "Player";
+
+	public ParticleSystem BloodParticleSystem;
+
 	/// <summary>
 	/// The maximum vertical angle from looking straight ahead.
 	/// </summary>
@@ -15,6 +19,10 @@ public class PlayerController : Singleton<PlayerController> {
 	// Use this for initialization
 	void Start () {
 		OriginalPos = transform.position;
+
+		if ( BloodParticleSystem == null ) {
+			Debug.Log ( "Blood Particle System cannot be null!" );
+		}
 	}
 
 	// Update is called once per frame
@@ -41,8 +49,12 @@ public class PlayerController : Singleton<PlayerController> {
 		}
 	}
 
+	public static bool IsPlayerObject ( GameObject GameObject ) {
+		return GameObject == Instance.gameObject || GameObject.tag == TAG;
+	}
+
 	public static void SplatterBlood () {
-		Instance.particleSystem.Emit ( 100 );
+		Instance.BloodParticleSystem.Emit ( 100 );
 	}
 
 }

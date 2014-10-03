@@ -4,7 +4,6 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager> {
 
 	private const string CREATURE_CONTAINER_NAME = "Creatures";
-	private const string CREATURE_TAG = "Creature";
 
 	public int NumCreaturesToSpawn = 10;
 
@@ -24,9 +23,12 @@ public class GameManager : Singleton<GameManager> {
 		SpawnedCreatures = new LinkedList<Creature> ();
 		DeadCreatures = new List<Creature> ();
 
-		CreatureContainer = transform.root.Find ( CREATURE_CONTAINER_NAME );
-		if ( CreatureContainer == null ) {
+		TempGameObject = GameObject.Find ( CREATURE_CONTAINER_NAME );
+		if ( TempGameObject == null ) {
 			CreatureContainer = new GameObject ( CREATURE_CONTAINER_NAME ).transform;
+		}
+		else {
+			CreatureContainer = TempGameObject.transform;
 		}
 
 		SpawnCreatures ();
@@ -77,7 +79,7 @@ public class GameManager : Singleton<GameManager> {
 	private void SpawnCreatures () {
 		// Add existing creatures to list
 		Creature Creature;
-		foreach ( GameObject CreatureObject in GameObject.FindGameObjectsWithTag ( CREATURE_TAG ) ) {
+		foreach ( GameObject CreatureObject in GameObject.FindGameObjectsWithTag ( Creature.TAG ) ) {
 			Creature = CreatureObject.GetComponent<Creature> ();
 			if ( Creature != null ) {
 				SpawnedCreatures.AddLast ( Creature );
@@ -89,7 +91,9 @@ public class GameManager : Singleton<GameManager> {
 			TempPos.z = Random.Range ( 0 , 1000 );
 			TempPos.x = 10 * Mathf.Sin ( Mathf.Deg2Rad * TempPos.z );
 
-			TempGameObject = Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as GameObject;
+			TempRot.SetEulerAngles ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
+
+			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
 		}
 	}

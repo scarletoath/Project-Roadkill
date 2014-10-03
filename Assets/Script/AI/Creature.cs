@@ -2,6 +2,8 @@
 
 public abstract class Creature : MonoBehaviour {
 
+	public const string TAG = "Creature";
+
 	public float MoveSpeed = 1.0f;
 
 	protected bool IsDead = false;
