@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public enum CreatureType {
 	None ,
@@ -16,6 +18,11 @@ public enum CreatureState {
 	/// An invalid state.
 	/// </summary>
 	None ,
+	/// <summary>
+	/// A special state to indicate to a called function to use whatever state 
+	/// the Creature is currently in.
+	/// </summary>
+	Current ,
 
 	/// <summary>
 	/// The creature is waiting in position, doing nothing.
@@ -66,6 +73,14 @@ public class CreatureSound {
 	/// The CreatureState that the CreatureSound is for.
 	/// </summary>
 	public CreatureState State;
+	/// <summary>
+	/// The minimum time between playing multiple instances of this CreatureSound.
+	/// </summary>
+	public float MinInterval = 0.0f;
+	/// <summary>
+	/// The maximum time between playing multiple instances of this CreatureSound.
+	/// </summary>
+	public float MaxInterval = 0.0f;
 	/// <summary>
 	/// The AudioClips that are associated with this CreatureSound.
 	/// </summary>
@@ -128,8 +143,12 @@ public abstract class Creature : MonoBehaviour {
 
 	protected Vector3 EscapeDir;
 	protected float CurrentEscapeDistance;
+
 	protected Vector3 TempVec;
 	protected float DotProduct;
+
+	private Dictionary<CreatureState,CreatureSound> SoundDict;
+	private bool IsSoundPlaying;
 
 	private Renderer [] Renderers;
 	private Animator Animator;
@@ -141,6 +160,13 @@ public abstract class Creature : MonoBehaviour {
 
 		if ( audio == null ) {
 			gameObject.AddComponent<AudioSource> ();
+		}
+		audio.loop = false;
+		audio.playOnAwake = false;
+
+		SoundDict = new Dictionary<CreatureState , CreatureSound> ();
+		foreach ( CreatureSound Sound in Sounds ) {
+			SoundDict [ Sound.State ] = Sound;
 		}
 	}
 
@@ -183,7 +209,7 @@ public abstract class Creature : MonoBehaviour {
 	/// </summary>
 	/// <param name="NewState">The state to change to.</param>
 	protected void ChangeState ( CreatureState NewState , GameObject NewTarget = null ) {
-		if ( NewState != CurrentState ) {
+		if ( NewState != CurrentState && NewState != CreatureState.Current && NewState != CreatureState.None ) {
 			CurrentState = NewState;
 
 			if ( CurrentState == CreatureState.Looking ||
@@ -256,6 +282,37 @@ public abstract class Creature : MonoBehaviour {
 		Animator.speed = AnimationSpeed;
 	}
 
+	protected bool PlaySound ( CreatureState State , float Volume = 1.0f , bool OverrideCurrent = false ) {
+		// Don't play new sound if not overriding and there is a sound playing
+		if ( !OverrideCurrent && IsSoundPlaying ) {
+			return false;
+		}
+
+		if ( SoundDict.ContainsKey ( State ) ) {
+			CreatureSound Sound = SoundDict [ State ];
+			float Interval = Random.Range ( Sound.MinInterval , Sound.MaxInterval );
+
+			return PlaySound ( Sound.Get () , Volume , Interval , OverrideCurrent );
+		}
+		else {
+			return false;
+		}
+	}
+
+	protected bool PlaySound ( AudioClip Clip , float Volume = 1.0f , float LoopDelay = 0.0f , bool OverrideCurrent = false ) {
+		// Don't play new sound if not overriding and there is a sound playing
+		if ( !OverrideCurrent && IsSoundPlaying ) {
+			return false;
+		}
+
+		audio.PlayOneShot ( Clip , Volume );
+		IsSoundPlaying = true;
+
+		StartCoroutine ( OnSoundEnd ( Clip.length + LoopDelay ) );
+
+		return true;
+	}
+
 	protected void CheckPlayerProximity () {
 		// Infinity means not scared or not caring about detecting player
 		if ( DetectionRange == Mathf.Infinity ) {
@@ -285,6 +342,8 @@ public abstract class Creature : MonoBehaviour {
 		UseState ();
 
 		CheckPlayerProximity ();
+
+		PlaySound ( CreatureState.Idle );
 	}
 
 	virtual protected void DoLookAt () {
@@ -327,6 +386,8 @@ public abstract class Creature : MonoBehaviour {
 		if ( IsStateJustChanged ) {
 			CurrentEscapeDistance = 0;
 
+			PlaySound ( CreatureState.Escaping , 10.0f , true );
+
 			IsStateJustChanged = false;
 		}
 
@@ -339,6 +400,8 @@ public abstract class Creature : MonoBehaviour {
 
 		transform.Translate ( 0 , 0 , MoveSpeed * Time.deltaTime , Space.Self );
 		CurrentEscapeDistance += MoveSpeed * Time.deltaTime;
+
+		PlaySound ( CreatureState.Moving );
 
 		if ( CurrentEscapeDistance >= EscapeDistance ) {
 			ChangeState ( IsLookAtPlayerAfterEscape ? CreatureState.Looking : CreatureState.Idle , PlayerController.Object );
@@ -356,6 +419,8 @@ public abstract class Creature : MonoBehaviour {
 	virtual protected void DoDying () {
 		if ( IsStateJustChanged ) {
 			IsStateJustChanged = false;
+
+			PlaySound ( CreatureState.Dying , 5.0f , true );
 
 			Debug.Log ( name + " is dying." );
 		}
@@ -386,6 +451,12 @@ public abstract class Creature : MonoBehaviour {
 			case CreatureState.Dying: DoDying (); break;
 			case CreatureState.Dead: DoDead (); break;
 		}
+	}
+
+	private IEnumerator OnSoundEnd ( float SoundDuration ) {
+		yield return new WaitForSeconds ( SoundDuration );
+
+		IsSoundPlaying = false;
 	}
 
 }
