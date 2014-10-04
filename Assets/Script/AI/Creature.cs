@@ -53,21 +53,21 @@ public abstract class Creature : MonoBehaviour {
 
 	public const string TAG = "Creature";
 
-	[Header ( "Movement" )]
+	//[Header ( "Movement" )]
 
 	public float MoveSpeed = 1.0f;
 	public float MaxTurnSpeed = 1.57f;
 
 
-	[Header ( "AI" )]
+	//[Header ( "AI" )]
 
-	[Tooltip ( "Set to Infinity if not scared." )]
+	//[Tooltip ( "Set to Infinity if not scared." )]
 	public float DetectionRange = 25.0f;
 	public float EscapeDistance = 25.0f;
 	public bool IsLookAtPlayerAfterEscape = true;
 
 
-	[Header ( "On Death" )]
+	//[Header ( "On Death" )]
 
 	public float DestroyTime = 1.0f;
 
@@ -203,7 +203,7 @@ public abstract class Creature : MonoBehaviour {
 
 	protected void CheckPlayerProximity () {
 		// Infinity means not scared or not caring about detecting player
-		if ( DetectionRange == Mathf.Infinity ) {
+		if ( DetectionRange == Mathf.Infinity || GameManager.bonuses.quietFeet ) {
 			return;
 		}
 

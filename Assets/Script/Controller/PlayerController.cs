@@ -5,6 +5,8 @@ public class PlayerController : Singleton<PlayerController> {
 	public const string TAG = "Player";
 
 	public ParticleSystem BloodParticleSystem;
+	public GameObject spear;
+	public SphereCollider spearCollider;
 
 	/// <summary>
 	/// The maximum vertical angle from looking straight ahead.
@@ -35,7 +37,7 @@ public class PlayerController : Singleton<PlayerController> {
 		}
 		TempVelocity.y = 0;
 
-		TempPos = transform.position + TempVelocity * Time.deltaTime;
+		TempPos = transform.position + TempVelocity * Time.deltaTime * GameManager.bonuses.walkSpeed;
 		TempPos.y = OriginalPos.y;
 		transform.position = TempPos;
 
@@ -48,6 +50,8 @@ public class PlayerController : Singleton<PlayerController> {
 			TempEuler.x = MaxLookAngleY;
 		}
 		transform.eulerAngles = TempEuler;
+
+		spear.transform.localScale = new Vector3 (1, 1, GameManager.bonuses.spearScale);
 	}
 
 	public static GameObject Object {
