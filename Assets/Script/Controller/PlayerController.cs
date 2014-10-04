@@ -82,6 +82,7 @@ public class PlayerController : Singleton<PlayerController> {
 
 	IEnumerator glowSpearAnimation()
 	{
+		spear.collider.enabled = false;
 		Quaternion original_rot = spear.transform.localRotation;
 		for(float i=0.0f;i<1.0f;i+= Time.deltaTime)
 		{
@@ -104,7 +105,8 @@ public class PlayerController : Singleton<PlayerController> {
 
 		//scale here
 		spear.transform.localScale = new Vector3 (1, 1, GameManager.bonuses.spearScale);
-	}
+		spear.collider.enabled = true;
+}
 
 
 }
