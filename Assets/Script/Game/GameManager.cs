@@ -95,6 +95,8 @@ public class GameManager : Singleton<GameManager> {
 
 			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
+
+			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
 		}
 	}
 
