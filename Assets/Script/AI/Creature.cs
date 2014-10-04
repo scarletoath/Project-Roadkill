@@ -261,6 +261,7 @@ public abstract class Creature : MonoBehaviour {
 
 			ChangeMaterial ( BloodMaterial );
 			PlayerController.SplatterBlood ();
+			GameInput.Vibrate ();
 		}
 	}
 

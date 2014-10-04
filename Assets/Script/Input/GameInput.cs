@@ -181,6 +181,13 @@ public class GameInput : Singleton<GameInput> {
 		return Instance.IsSimulation;
 	}
 
+	/// <summary>
+	/// Vibrates the device for approximately one second, if vibration is available.
+	/// </summary>
+	public static void Vibrate () {
+		Handheld.Vibrate ();
+	}
+
 	private void UpdatePoseData () {
 		if ( IsSimulation ) {
 			SimulationInput.GetLatestPose ( Pose );
