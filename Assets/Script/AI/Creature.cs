@@ -49,12 +49,20 @@ public abstract class Creature : MonoBehaviour {
 
 	public float DestroyTime = 1.0f;
 
+	public Material BloodMaterial;
+
 	protected bool IsDead = false;
+
+	private Renderer [] Renderers;
+
+	void Awake () {
+		CurrentTarget = null;
+		Renderers = GetComponentsInChildren<Renderer> ();
+	}
 
 	// Use this for initialization
 	virtual protected void Start () {
 		ChangeState ( CreatureState.Idle );
-		CurrentTarget = null;
 	}
 
 	// Update is called once per frame
@@ -132,6 +140,17 @@ public abstract class Creature : MonoBehaviour {
 	/// <param name="Collision"></param>
 	virtual protected void DoOnCollisionEnter ( Collision Collision ) {
 		Debug.Log ( Collision.gameObject.name + " hit a CreatureBase!" );
+	}
+
+	protected void ChangeMaterial ( Material NewMaterial ) {
+		// Do nothing is NewMaterial is null
+		if ( NewMaterial == null ) {
+			return;
+		}
+
+		foreach ( Renderer Renderer in Renderers ) {
+			Renderer.material = NewMaterial;
+		}
 	}
 
 	#region STATE ACTIONS

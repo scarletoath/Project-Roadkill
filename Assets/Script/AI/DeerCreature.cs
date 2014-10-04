@@ -81,6 +81,7 @@ public class DeerCreature : Creature {
 			Destroy ( gameObject , DestroyTime );
 			IsDead = true;
 
+			ChangeMaterial ( BloodMaterial );
 			PlayerController.SplatterBlood ();
 		}
 	}
