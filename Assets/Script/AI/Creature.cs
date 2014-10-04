@@ -1,5 +1,15 @@
 ﻿using UnityEngine;
 
+public enum CreatureType {
+	None ,
+
+	Bird ,
+	Dragon ,
+	Elephant ,
+	Gnu ,
+	Hippo ,
+}
+
 public enum CreatureState {
 
 	/// <summary>
@@ -49,9 +59,46 @@ public enum CreatureAnimationState {
 	Die ,
 }
 
+[System.Serializable]
+public class CreatureSound {
+
+	/// <summary>
+	/// The CreatureState that the CreatureSound is for.
+	/// </summary>
+	public CreatureState State;
+	/// <summary>
+	/// The AudioClips that are associated with this CreatureSound.
+	/// </summary>
+	public AudioClip [] Clips;
+
+	/// <summary>
+	/// Gets a random clip.
+	/// </summary>
+	/// <returns>The randomized AudioClip.</returns>
+	public AudioClip Get () {
+		return Get ( Random.Range ( 0 , Clips.Length ) );
+	}
+
+	/// <summary>
+	/// Gets the clip with the specified index.
+	/// </summary>
+	/// <param name="Index">The index of the clip to retrieve.</param>
+	/// <returns>The AudioClip with the specified index. Returns null if Index is out of range or Clips is empty.</returns>
+	public AudioClip Get ( int Index ) {
+		if ( Clips.Length == 0 || Index < 0 || Index >= Clips.Length ) {
+			return null;
+		}
+
+		return Clips [ Index ];
+	}
+
+}
+
 public abstract class Creature : MonoBehaviour {
 
 	public const string TAG = "Creature";
+
+	public CreatureType Type = CreatureType.None;
 
 	[Header ( "Movement" )]
 
@@ -70,8 +117,12 @@ public abstract class Creature : MonoBehaviour {
 	[Header ( "On Death" )]
 
 	public float DestroyTime = 1.0f;
-
 	public Material BloodMaterial;
+
+
+	[Header ( "Sounds" )]
+
+	public CreatureSound [] Sounds;
 
 	protected bool IsDead = false;
 
@@ -87,6 +138,10 @@ public abstract class Creature : MonoBehaviour {
 		CurrentTarget = null;
 		Renderers = GetComponentsInChildren<Renderer> ();
 		Animator = GetComponentInChildren<Animator> ();
+
+		if ( audio == null ) {
+			gameObject.AddComponent<AudioSource> ();
+		}
 	}
 
 	// Use this for initialization
