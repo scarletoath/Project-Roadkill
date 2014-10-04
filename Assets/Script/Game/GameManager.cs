@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
@@ -26,7 +27,13 @@ public class GameManager : Singleton<GameManager> {
 	}
 
 	const int MAX_SPEAR_LEVEL = 7;
-	const int MAX_WALK_SPEED = 7;
+	const int MAX_WALK_SPEED = 20;
+
+	int[] deadCreatures;
+	static int numCreatureTypes = System.Enum.GetNames(typeof(CreatureType)).Length;
+
+	const int MAX_SPAWN_CREATURES = 10;
+
 
 	public static BonusValues bonuses;
 
@@ -35,6 +42,7 @@ public class GameManager : Singleton<GameManager> {
 		SpawnedCreatures = new LinkedList<Creature> ();
 		DeadCreatures = new List<Creature> ();
 		bonuses = new BonusValues ();
+		deadCreatures = new int[numCreatureTypes];
 
 		TempGameObject = GameObject.Find ( CREATURE_CONTAINER_NAME );
 		if ( TempGameObject == null ) {
@@ -45,6 +53,7 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		SpawnCreatures ();
+		StartCoroutine (respawnCreatures ());
 	}
 
 	// Update is called once per frame
@@ -81,6 +90,7 @@ public class GameManager : Singleton<GameManager> {
 		if ( CreatureEntry != null ) {
 			Debug.Log ("killcreature");
 
+			Instance.deadCreatures[(int)Creature.Type]++;
 			Instance.SpawnedCreatures.Remove ( Creature );
 			Instance.DeadCreatures.Add ( CreatureEntry.Value );
 			Instance.CheckBonuses();
@@ -115,12 +125,48 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
+	IEnumerator respawnCreatures()
+	{
+		while (true) 
+		{
+			yield return new WaitForSeconds(5.0f);
+			regenerateCreatures();
+		}
+	}
+
+	private void regenerateCreatures()
+	{
+		for (int i=0; i<MAX_SPAWN_CREATURES - NumAliveCreatures; i++) 
+		{
+			TempPos.z = Random.Range ( 0 , 500 );
+			TempPos.x = 10 * Mathf.Sin ( Mathf.Deg2Rad * TempPos.z );
+			
+			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
+			
+			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
+			TempGameObject.transform.parent = CreatureContainer;
+			SpawnedCreatures.AddLast(TempGameObject.GetComponent<Creature>());
+		}
+	}
+
 	void CheckBonuses()
 	{
 		Debug.Log ("Check Bonuses called");
-		if (DeadCreatures.Count == 3 || DeadCreatures.Count == 5 || DeadCreatures.Count == 7) 
+		if ( (deadCreatures[(int)CreatureType.Elephant] == 1 && bonuses.spearScale == 1) ||
+		    (deadCreatures[(int)CreatureType.Elephant] == 4 && bonuses.spearScale == 2) ||
+		    (deadCreatures[(int)CreatureType.Elephant] == 8 && bonuses.spearScale == 3) )
 		{
 			LevelUpSpear();
+		}
+
+		if (deadCreatures [(int)CreatureType.Bird] == 1 && bonuses.walkSpeed == 1) 
+		{
+			LevelUpWSPD();
+		}
+
+		if (deadCreatures [(int)CreatureType.Bunny] == 1) 
+		{
+			ActivateQuietFoot();
 		}
 		
 	}
@@ -136,8 +182,20 @@ public class GameManager : Singleton<GameManager> {
 
 	void LevelUpWSPD()
 	{
-
+		if (bonuses.walkSpeed >= MAX_WALK_SPEED)
+						return;
+		bonuses.walkSpeed++;
 	}
 
+	void ActivateQuietFoot()
+	{
+		StartCoroutine (QuietFootCountdown ());
+	}
 
+	IEnumerator QuietFootCountdown()
+	{
+		bonuses.quietFeet = true;
+		yield return new WaitForSeconds(10.0f);
+		bonuses.quietFeet = false;
+	}
 }

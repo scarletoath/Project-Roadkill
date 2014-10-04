@@ -7,7 +7,6 @@ public class PlayerController : Singleton<PlayerController> {
 
 	public ParticleSystem BloodParticleSystem;
 	public GameObject spear;
-	public SphereCollider spearCollider;
 
 	/// <summary>
 	/// The maximum vertical angle from looking straight ahead.
