@@ -1,25 +1,120 @@
 ﻿using UnityEngine;
 
+public enum CreatureState {
+
+	/// <summary>
+	/// An invalid state.
+	/// </summary>
+	None ,
+
+	/// <summary>
+	/// The creature is waiting in position, doing nothing.
+	/// </summary>
+	Idle ,
+
+	/// <summary>
+	/// The creature is looking at something without moving.
+	/// </summary>
+	Looking ,
+	/// <summary>
+	/// The creature is moving around on its own, without any stimuli.
+	/// </summary>
+	Moving ,
+	/// <summary>
+	/// The creature is running away from something.
+	/// </summary>
+	Escaping ,
+	/// <summary>
+	/// The creature is running towards something.
+	/// </summary>
+	Chasing ,
+
+	/// <summary>
+	/// The creature is dying.
+	/// </summary>
+	Dying ,
+	/// <summary>
+	/// The creature is dead.
+	/// </summary>
+	Dead ,
+
+}
+
 public abstract class Creature : MonoBehaviour {
 
 	public const string TAG = "Creature";
 
 	public float MoveSpeed = 1.0f;
+	public float MaxTurnSpeed = 1.57f;
+
+	public float DestroyTime = 1.0f;
 
 	protected bool IsDead = false;
 
 	// Use this for initialization
-	void Start () {
-
+	virtual protected void Start () {
+		ChangeState ( CreatureState.Idle );
+		CurrentTarget = null;
 	}
 
 	// Update is called once per frame
-	void Update () {
-		TryMove ();
+	virtual protected void Update () {
+		CheckState ();
 	}
 
 	void OnCollisionEnter ( Collision Collision ) {
 		DoOnCollisionEnter ( Collision );
+	}
+
+	public void LookAt ( GameObject Object ) {
+		ChangeState ( CreatureState.Looking );
+
+		CurrentTarget = Object;
+	}
+
+	public GameObject CurrentTarget { get; private set; }
+
+	/// <summary>
+	/// The current state of the creature.
+	/// </summary>
+	public CreatureState CurrentState { get; private set; }
+
+	/// <summary>
+	/// Indicates whether the creature just changed its state.
+	/// </summary>
+	public bool IsStateJustChanged { get; protected set; }
+
+	/// <summary>
+	/// Changes the state the creature is in. Does nothing if NewState is CurrentState.
+	/// </summary>
+	/// <param name="NewState">The state to change to.</param>
+	protected void ChangeState ( CreatureState NewState , GameObject NewTarget = null ) {
+		if ( NewState != CurrentState ) {
+			CurrentState = NewState;
+
+			if ( CurrentState == CreatureState.Looking ||
+				CurrentState == CreatureState.Escaping ||
+				CurrentState == CreatureState.Chasing ) {
+
+				if ( NewTarget ) {
+					CurrentTarget = NewTarget;
+				}
+				else {
+					Debug.LogError ( CurrentState + " state on " + name + "must have a non-null target!" );
+				}
+			}
+
+			IsStateJustChanged = true;
+		}
+	}
+
+	/// <summary>
+	/// "Uses up" the state, effectively marking as not a new state change.
+	/// </summary>
+	protected void UseState () {
+		if ( IsStateJustChanged ) {
+			IsStateJustChanged = false;
+		}
 	}
 
 	/// <summary>
@@ -39,12 +134,80 @@ public abstract class Creature : MonoBehaviour {
 		Debug.Log ( Collision.gameObject.name + " hit a CreatureBase!" );
 	}
 
+	#region STATE ACTIONS
+	virtual protected void DoIdle () {
+		if ( IsStateJustChanged ) {
+			IsStateJustChanged = false;
+
+			Debug.Log ( name + " is idling." );
+		}
+	}
+
+	virtual protected void DoLookAt () {
+		if ( IsStateJustChanged ) {
+			IsStateJustChanged = false;
+
+			Debug.Log ( name + " is looking at " + CurrentTarget + "." );
+		}
+	}
+
 	/// <summary>
 	/// Tries to move the creature.
 	/// </summary>
 	virtual protected void TryMove () {
 		if ( CanMove ) {
 			transform.Translate ( 0 , 0 , Time.deltaTime * MoveSpeed , Space.Self );
+		}
+	}
+
+	virtual protected void DoEscapeFrom () {
+		if ( IsStateJustChanged ) {
+			IsStateJustChanged = false;
+
+			Debug.Log ( name + " is escaping from " + CurrentTarget + "." );
+		}
+	}
+
+	virtual protected void DoChase () {
+		if ( IsStateJustChanged ) {
+			IsStateJustChanged = false;
+
+			Debug.Log ( name + " is chasing " + CurrentTarget + "." );
+		}
+	}
+
+	virtual protected void DoDying () {
+		if ( IsStateJustChanged ) {
+			IsStateJustChanged = false;
+
+			Debug.Log ( name + " is dying." );
+		}
+	}
+
+	virtual protected void DoDead () {
+		if ( IsStateJustChanged ) {
+			IsStateJustChanged = false;
+
+			Debug.Log ( name + " is dead." );
+		}
+	}
+	#endregion
+
+	/// <summary>
+	/// Checks the creature's current state and performs the respective actions.
+	/// </summary>
+	private void CheckState () {
+		switch ( CurrentState ) {
+			case CreatureState.Idle: DoIdle (); break;
+
+			case CreatureState.Looking: DoLookAt (); break;
+
+			case CreatureState.Moving: TryMove (); break;
+			case CreatureState.Escaping: DoEscapeFrom (); break;
+			case CreatureState.Chasing: DoChase (); break;
+
+			case CreatureState.Dying: DoDying (); break;
+			case CreatureState.Dead: DoDead (); break;
 		}
 	}
 

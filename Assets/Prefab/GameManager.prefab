@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MouseSensitivity: 120
-  MoveSpeed: 20
+  MoveSpeed: 50
   UseDrift: 0
 --- !u!114 &11400004
 MonoBehaviour:

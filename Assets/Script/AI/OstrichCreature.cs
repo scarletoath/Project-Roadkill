@@ -3,13 +3,13 @@
 public class OstrichCreature : Creature {
 
 	// Use this for initialization
-	void Start () {
-
+	override protected void Start () {
+		ChangeState ( CreatureState.Moving );
 	}
 
 	// Update is called once per frame
-	void Update () {
-
+	protected override void Update () {
+		base.Update ();
 	}
 
 	protected override bool CanMove {
