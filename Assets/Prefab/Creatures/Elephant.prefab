@@ -140,8 +140,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400016}
-  - 54: {fileID: 5400000}
   - 65: {fileID: 6500000}
+  - 54: {fileID: 5400000}
   - 114: {fileID: 11400000}
   m_Layer: 8
   m_Name: Elephant
@@ -512,10 +512,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 15
   MaxTurnSpeed: 10
-  DestroyTime: 1
-  BloodMaterial: {fileID: 2100000, guid: 8ce551898852ed148bae3c4bfdd1dd66, type: 2}
-  DetectionRange: 20
+  DetectionRange: 25
   EscapeDistance: 25
+  IsLookAtPlayerAfterEscape: 1
+  DestroyTime: 5
+  BloodMaterial: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

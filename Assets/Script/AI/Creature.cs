@@ -40,12 +40,34 @@ public enum CreatureState {
 
 }
 
+public enum CreatureAnimationState {
+	None ,
+
+	Idle ,
+	Move ,
+
+	Die ,
+}
+
 public abstract class Creature : MonoBehaviour {
 
 	public const string TAG = "Creature";
 
+	[Header ( "Movement" )]
+
 	public float MoveSpeed = 1.0f;
 	public float MaxTurnSpeed = 1.57f;
+
+
+	[Header ( "AI" )]
+
+	[Tooltip ( "Set to Infinity if not scared." )]
+	public float DetectionRange = 25.0f;
+	public float EscapeDistance = 25.0f;
+	public bool IsLookAtPlayerAfterEscape = true;
+
+
+	[Header ( "On Death" )]
 
 	public float DestroyTime = 1.0f;
 
@@ -53,11 +75,18 @@ public abstract class Creature : MonoBehaviour {
 
 	protected bool IsDead = false;
 
+	protected Vector3 EscapeDir;
+	protected float CurrentEscapeDistance;
+	protected Vector3 TempVec;
+	protected float DotProduct;
+
 	private Renderer [] Renderers;
+	private Animator Animator;
 
 	void Awake () {
 		CurrentTarget = null;
 		Renderers = GetComponentsInChildren<Renderer> ();
+		Animator = GetComponentInChildren<Animator> ();
 	}
 
 	// Use this for initialization
@@ -71,7 +100,9 @@ public abstract class Creature : MonoBehaviour {
 	}
 
 	void OnCollisionEnter ( Collision Collision ) {
-		DoOnCollisionEnter ( Collision );
+		if ( !IsDead ) {
+			DoOnCollisionEnter ( Collision );
+		}
 	}
 
 	public void LookAt ( GameObject Object ) {
@@ -139,7 +170,14 @@ public abstract class Creature : MonoBehaviour {
 	/// </summary>
 	/// <param name="Collision"></param>
 	virtual protected void DoOnCollisionEnter ( Collision Collision ) {
-		Debug.Log ( Collision.gameObject.name + " hit a CreatureBase!" );
+		if ( PlayerController.IsPlayerObject ( Collision.gameObject ) ) {
+			ChangeState ( CreatureState.Dying );
+			Destroy ( gameObject , DestroyTime );
+			IsDead = true;
+
+			ChangeMaterial ( BloodMaterial );
+			PlayerController.SplatterBlood ();
+		}
 	}
 
 	protected void ChangeMaterial ( Material NewMaterial ) {
@@ -153,21 +191,70 @@ public abstract class Creature : MonoBehaviour {
 		}
 	}
 
-	#region STATE ACTIONS
-	virtual protected void DoIdle () {
-		if ( IsStateJustChanged ) {
-			IsStateJustChanged = false;
+	/// <summary>
+	/// Triggers the specified animation.
+	/// </summary>
+	/// <param name="AnimationState">The animation state to trigger to.</param>
+	/// <param name="AnimationSpeed">The speed the new animation is to be played at.</param>
+	protected void TriggerAnimation ( CreatureAnimationState AnimationState , float AnimationSpeed = 1.0f ) {
+		Animator.SetTrigger ( AnimationState.ToString () );
+		Animator.speed = AnimationSpeed;
+	}
 
-			Debug.Log ( name + " is idling." );
+	protected void CheckPlayerProximity () {
+		// Infinity means not scared or not caring about detecting player
+		if ( DetectionRange == Mathf.Infinity ) {
+			return;
+		}
+
+		EscapeDir = transform.position - PlayerController.Position;
+		EscapeDir.y = 0;
+
+		// Escape if player is in frontal cone of sight and too near
+		if ( EscapeDir.sqrMagnitude < DetectionRange * DetectionRange ) {
+			// TempVec = local displacement from this creature
+
+			TempVec = transform.InverseTransformDirection ( EscapeDir );
+			DotProduct = Vector3.Dot ( TempVec , Vector3.forward );
+
+			if ( DotProduct < 0 ) {
+				TempVec.y = 0;
+
+				ChangeState ( CreatureState.Escaping , PlayerController.Object );
+			}
 		}
 	}
 
-	virtual protected void DoLookAt () {
-		if ( IsStateJustChanged ) {
-			IsStateJustChanged = false;
+	#region STATE ACTIONS
+	virtual protected void DoIdle () {
+		UseState ();
 
-			Debug.Log ( name + " is looking at " + CurrentTarget + "." );
+		CheckPlayerProximity ();
+	}
+
+	virtual protected void DoLookAt () {
+		UseState ();
+
+		CheckPlayerProximity ();
+
+		// TempVec = world displacement of target from this creature
+
+		TempVec = CurrentTarget.transform.position - transform.position;
+		TempVec.y = 0;
+
+		// Idle if looking directly at player
+		if ( Vector3.Angle ( transform.forward , TempVec ) == 0 ) {
+			ChangeState ( CreatureState.Idle );
+
+			return;
 		}
+
+		transform.forward = Vector3.RotateTowards (
+			transform.forward ,
+			TempVec ,
+			MaxTurnSpeed * Time.deltaTime ,
+			0.0f
+		);
 	}
 
 	/// <summary>
@@ -180,10 +267,26 @@ public abstract class Creature : MonoBehaviour {
 	}
 
 	virtual protected void DoEscapeFrom () {
-		if ( IsStateJustChanged ) {
-			IsStateJustChanged = false;
+		CheckPlayerProximity ();
 
-			Debug.Log ( name + " is escaping from " + CurrentTarget + "." );
+		if ( IsStateJustChanged ) {
+			CurrentEscapeDistance = 0;
+
+			IsStateJustChanged = false;
+		}
+
+		transform.forward = Vector3.RotateTowards (
+			transform.forward ,
+			EscapeDir ,
+			MaxTurnSpeed * Time.deltaTime ,
+			0.0f
+		);
+
+		transform.Translate ( 0 , 0 , MoveSpeed * Time.deltaTime , Space.Self );
+		CurrentEscapeDistance += MoveSpeed * Time.deltaTime;
+
+		if ( CurrentEscapeDistance >= EscapeDistance ) {
+			ChangeState ( IsLookAtPlayerAfterEscape ? CreatureState.Looking : CreatureState.Idle , PlayerController.Object );
 		}
 	}
 
