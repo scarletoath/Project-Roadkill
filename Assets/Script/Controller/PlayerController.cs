@@ -29,13 +29,13 @@ public class PlayerController : Singleton<PlayerController> {
 	// Update is called once per frame
 	void Update () {
 		// Constrain height
-		TempVelocity = GameInput.Pose.Velocity * Time.deltaTime;
+		TempVelocity = GameInput.Pose.Velocity;
 		if ( TempVelocity.sqrMagnitude < 0.01f ) {
 			TempVelocity = Vector3.zero;
 		}
 		TempVelocity.y = 0;
 
-		TempPos = transform.position + TempVelocity;
+		TempPos = transform.position + TempVelocity * Time.deltaTime * 30;
 		TempPos.y = OriginalPos.y;
 		transform.position = TempPos;
 

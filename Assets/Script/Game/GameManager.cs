@@ -88,7 +88,7 @@ public class GameManager : Singleton<GameManager> {
 
 		// Spawn new ones
 		for ( int i = 0 ; i < NumCreaturesToSpawn ; i++ ) {
-			TempPos.z = Random.Range ( 0 , 1000 );
+			TempPos.z = Random.Range ( 0 , 500 );
 			TempPos.x = 10 * Mathf.Sin ( Mathf.Deg2Rad * TempPos.z );
 
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );

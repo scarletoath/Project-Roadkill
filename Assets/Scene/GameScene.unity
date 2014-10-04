@@ -103,7 +103,7 @@ Transform:
   - {fileID: 137496598}
   - {fileID: 823255419}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
 --- !u!114 &12006842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +244,7 @@ Transform:
   m_Children:
   - {fileID: 711615382}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &385349411
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +360,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
 --- !u!1 &466900812
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,7 +526,7 @@ Transform:
   m_Children:
   - {fileID: 466900813}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
 --- !u!1001 &624299738
 Prefab:
   m_ObjectHideFlags: 0
@@ -1775,7 +1775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MouseSensitivity: 120
-  MoveSpeed: 20
+  MoveSpeed: 50
   UseDrift: 0
 --- !u!114 &747706752
 MonoBehaviour:
@@ -1802,7 +1802,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!114 &747706754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1969,7 +1969,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1 &1213999242
 GameObject:
   m_ObjectHideFlags: 0
@@ -2167,6 +2167,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5827644e1152a544b87ad05a3413c23d, type: 2}
       propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 5827644e1152a544b87ad05a3413c23d, type: 2}
+      propertyPath: MoveSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 5827644e1152a544b87ad05a3413c23d, type: 2}
+      propertyPath: IsSimulation
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
