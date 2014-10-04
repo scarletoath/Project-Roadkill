@@ -18,10 +18,23 @@ public class GameManager : Singleton<GameManager> {
 	private Vector3 TempPos;
 	private Quaternion TempRot;
 
+	public class BonusValues
+	{
+		public int spearScale = 1;
+		public float walkSpeed = 1;
+		public bool quietFeet = false;
+	}
+
+	const int MAX_SPEAR_LEVEL = 7;
+	const int MAX_WALK_SPEED = 7;
+
+	public static BonusValues bonuses;
+
 	// Use this for initialization
 	void Start () {
 		SpawnedCreatures = new LinkedList<Creature> ();
 		DeadCreatures = new List<Creature> ();
+		bonuses = new BonusValues ();
 
 		TempGameObject = GameObject.Find ( CREATURE_CONTAINER_NAME );
 		if ( TempGameObject == null ) {
@@ -66,8 +79,11 @@ public class GameManager : Singleton<GameManager> {
 		LinkedListNode<Creature> CreatureEntry = Instance.SpawnedCreatures.Find ( Creature );
 
 		if ( CreatureEntry != null ) {
+			Debug.Log ("killcreature");
+
 			Instance.SpawnedCreatures.Remove ( Creature );
 			Instance.DeadCreatures.Add ( CreatureEntry.Value );
+			Instance.CheckBonuses();
 
 			return true;
 		}
@@ -95,9 +111,33 @@ public class GameManager : Singleton<GameManager> {
 
 			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
-
-			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
+			SpawnedCreatures.AddLast(TempGameObject.GetComponent<Creature>());
 		}
 	}
+
+	void CheckBonuses()
+	{
+		Debug.Log ("Check Bonuses called");
+		if (DeadCreatures.Count == 3 || DeadCreatures.Count == 5 || DeadCreatures.Count == 7) 
+		{
+			LevelUpSpear();
+		}
+		
+	}
+
+	void LevelUpSpear()
+	{
+		if (bonuses.spearScale >= MAX_SPEAR_LEVEL)
+						return;
+
+		bonuses.spearScale++;
+		PlayerController.GlowSpear ();
+	}
+
+	void LevelUpWSPD()
+	{
+
+	}
+
 
 }
