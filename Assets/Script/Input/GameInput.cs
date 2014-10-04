@@ -19,7 +19,10 @@ public class GameInput : Singleton<GameInput> {
 		private Vector3 _CurrentPosition = Vector3.zero;
 		private Quaternion _CurrentRotation = Quaternion.identity;
 
+		private Vector3 _Previous2Position = Vector3.zero;
 		private Vector3 _PreviousPosition = Vector3.zero;
+
+		private Quaternion _Previous2Rotation = Quaternion.identity;
 		private Quaternion _PreviousRotation = Quaternion.identity;
 
 		private Vector3 _Velocity = Vector3.zero;
@@ -32,8 +35,9 @@ public class GameInput : Singleton<GameInput> {
 			}
 			set {
 				if ( CanUpdatePoseData ) {
+					_Previous2Position = _PreviousPosition;
 					_PreviousPosition = _CurrentPosition;
-					_CurrentPosition = value;
+					_CurrentPosition = Vector3.Lerp(Vector3.Lerp(_Previous2Position,_PreviousPosition,0.8f),value,0.6f);
 
 					_Velocity = ( _CurrentPosition - _PreviousPosition ) / Time.deltaTime;
 				}
@@ -46,8 +50,9 @@ public class GameInput : Singleton<GameInput> {
 			}
 			set {
 				if ( CanUpdatePoseData ) {
+					_Previous2Rotation = _PreviousRotation;
 					_PreviousRotation = _CurrentRotation;
-					_CurrentRotation = value;
+					_CurrentRotation = Quaternion.Slerp(Quaternion.Slerp(_Previous2Rotation,_PreviousRotation,0.8f),value,0.6f);
 				}
 			}
 		}
@@ -180,62 +185,10 @@ public class GameInput : Singleton<GameInput> {
 
 		// Get data from Tango data providers
 		if ( VIOProvider.GetLatestPose ( ref TangoVIOStatus ) ) {
-			//Pose.Position = TangoVIOStatus.translation;
-			//Pose.Rotation = TangoVIOStatus.rotation;
+			Pose.Position = TangoVIOStatus.translation;
+			Pose.Rotation = TangoVIOStatus.rotation;
 
-			QueuePosition(TangoVIOStatus.translation);
-			QueueRotation(TangoVIOStatus.rotation.eulerAngles);
 
-			SmoothPosition();
-			SmoothRotation();
-		}
-	}
-
-	private void QueuePosition(Vector3 pos)
-	{
-		_PosQueue.Enqueue (pos);
-		if (_PosQueue.Count > 3)
-			_PosQueue.Dequeue ();
-	}
-
-	private void QueueRotation(Vector3 rot)
-	{
-		_RotQueue.Enqueue (rot);
-		if (_RotQueue.Count > 3)
-			_RotQueue.Dequeue ();
-	}
-
-	private void SmoothPosition()
-	{
-		float[] weights = {0.6f,0.3f,0.1f};
-		Vector3 ret = new Vector3 (0, 0, 0);
-		if (_PosQueue.Count == 3) 
-		{
-			//simple weight first
-			for(int i=0;i<3;i++)
-			{
-				Vector3 pos = (Vector3)_PosQueue.Dequeue();
-				ret += weights[i] * pos;
-				_PosQueue.Enqueue(pos);
-			}
-			Pose.Position = ret;
-		}
-	}
-
-	private void SmoothRotation()
-	{
-		float[] weights = {0.6f,0.3f,0.1f};
-		Vector3 ret = new Vector3 (0, 0, 0);
-		if (_RotQueue.Count == 3) 
-		{
-			//simple weight first
-			for(int i=0;i<3;i++)
-			{
-				Vector3 rot = (Vector3)_RotQueue.Dequeue();
-				ret += weights[i] * rot;
-				_RotQueue.Enqueue(rot);
-			}
-			Pose.Rotation = Quaternion.Euler(ret);
 		}
 	}
 

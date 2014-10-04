@@ -65,7 +65,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  iPhoneBundleIdentifier: com.BVW14-42.Roadkill
+  iPhoneBundleIdentifier: com.BVW1442.Roadkill
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   productGUID: f988838f2e1f91f4283b46cc1dd47127
