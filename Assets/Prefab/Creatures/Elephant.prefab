@@ -510,13 +510,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccafdebf7f4726f4b839b9a2781ce13e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   MoveSpeed: 15
   MaxTurnSpeed: 10
   DetectionRange: 25
   EscapeDistance: 25
   IsLookAtPlayerAfterEscape: 1
   DestroyTime: 5
-  BloodMaterial: {fileID: 0}
+  BloodMaterial: {fileID: 2100000, guid: 8ce551898852ed148bae3c4bfdd1dd66, type: 2}
+  Sounds:
+  - State: 2
+    MinInterval: 1
+    MaxInterval: 4
+    Clips:
+    - {fileID: 8300000, guid: dee2c927cc888bb46a695be296269ac4, type: 3}
+  - State: 5
+    MinInterval: 0
+    MaxInterval: 0
+    Clips:
+    - {fileID: 8300000, guid: d12edc048d26f1c48bc498d5ac7fa76b, type: 3}
+    - {fileID: 8300000, guid: 639b2a118e285184e91e167c318698a1, type: 3}
+    - {fileID: 8300000, guid: 0c7951352c223c04b95491819db90fa6, type: 3}
+  - State: 7
+    MinInterval: 0
+    MaxInterval: 0
+    Clips:
+    - {fileID: 8300000, guid: e2b65cbe06d07b34d86a1a7f43dfcc25, type: 3}
+    - {fileID: 8300000, guid: 7b7eec2f5a66e24429086f64a37bdc70, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
