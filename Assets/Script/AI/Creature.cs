@@ -6,6 +6,7 @@ public enum CreatureType {
 	None ,
 
 	Bird ,
+	Bunny ,
 	Dragon ,
 	Elephant ,
 	Gnu ,
