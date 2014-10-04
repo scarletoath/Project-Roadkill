@@ -5,61 +5,50 @@
 //
 // </copyright>
 //-----------------------------------------------------------------------
-using System.Collections;
 using UnityEngine;
 
-namespace Tango
-{
-    /// <summary>
-    /// Manages the orientation of the screen.
-    /// </summary>
-	public class OrientationManager
-	{
-        /// <summary>
-        /// Gets the Screen orientation.
-        /// </summary>
-        /// <returns> Returns the current orientation of the screen. </returns>
-		public static ScreenOrientation GetScreenOrientation()
-        {
-		#if (UNITY_EDITOR || UNITY_STANDALONE_OSX)
-			if (Screen.width > Screen.height)
-            {
+namespace Tango {
+	/// <summary>
+	/// Manages the orientation of the screen.
+	/// </summary>
+	public class OrientationManager {
+		/// <summary>
+		/// Gets the Screen orientation.
+		/// </summary>
+		/// <returns> Returns the current orientation of the screen. </returns>
+		public static ScreenOrientation GetScreenOrientation () {
+#if (UNITY_EDITOR || UNITY_STANDALONE || UNITY_STANDALONE_OSX)
+			if ( Screen.width > Screen.height ) {
 				return ScreenOrientation.LandscapeLeft;
-            }
-			else
-            {
+			}
+			else {
 				return ScreenOrientation.Portrait;
-            }
-		#elif (UNITY_IPHONE || UNITY_ANDROID)
+			}
+#elif (UNITY_IPHONE || UNITY_ANDROID)
 			return Screen.orientation; 
-		#else 
-			#error not supported platform
-		#endif
+#else
+#error not supported platform
+#endif
 		}
-		
-        /// <summary>
-        /// Get the current world rotation.
-        /// </summary>
-        /// <returns> Returns a Quaternion representing the current world rotation.</returns>
-		public static Quaternion GetWorldRotation()
-        {
-			ScreenOrientation orientation = GetScreenOrientation();
+
+		/// <summary>
+		/// Get the current world rotation.
+		/// </summary>
+		/// <returns> Returns a Quaternion representing the current world rotation.</returns>
+		public static Quaternion GetWorldRotation () {
+			ScreenOrientation orientation = GetScreenOrientation ();
 			Quaternion transformation = Quaternion.identity;
-			if (orientation == ScreenOrientation.LandscapeLeft)
-            {
+			if ( orientation == ScreenOrientation.LandscapeLeft ) {
 				transformation = Quaternion.identity;
 			}
-            else if (orientation == ScreenOrientation.LandscapeRight)
-            {
-				transformation = Quaternion.AngleAxis(180f, Vector3.forward);
+			else if ( orientation == ScreenOrientation.LandscapeRight ) {
+				transformation = Quaternion.AngleAxis ( 180f , Vector3.forward );
 			}
-            else if (orientation == ScreenOrientation.PortraitUpsideDown)
-            {
-				transformation = Quaternion.AngleAxis(90f, Vector3.forward);
+			else if ( orientation == ScreenOrientation.PortraitUpsideDown ) {
+				transformation = Quaternion.AngleAxis ( 90f , Vector3.forward );
 			}
-            else if (orientation == ScreenOrientation.Portrait)
-            {
-				transformation = Quaternion.AngleAxis(-90f, Vector3.forward);
+			else if ( orientation == ScreenOrientation.Portrait ) {
+				transformation = Quaternion.AngleAxis ( -90f , Vector3.forward );
 			}
 			return transformation;
 		}
