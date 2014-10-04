@@ -452,6 +452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 30
   MaxTurnSpeed: 1.57000005
+  DestroyTime: 1
 --- !u!1001 &535050000
 Prefab:
   m_ObjectHideFlags: 0
@@ -1774,7 +1775,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NumCreaturesToSpawn: 10
   Creatures:
+  - {fileID: 11400000, guid: 48853286b9626624ab59fe2be1eef2f8, type: 2}
+  - {fileID: 11400000, guid: fd83a67c4b8e68d4997b5b0d5c41ce5a, type: 2}
   - {fileID: 11400000, guid: dccf6716b76fb934c910632a8633d931, type: 2}
+  - {fileID: 11400000, guid: d0d0d41dde86313449e27e2d7d130297, type: 2}
+  - {fileID: 11400000, guid: 3b33a36603e42e541bc5804b12222230, type: 2}
+  - {fileID: 11400000, guid: 6fd5961fcd448544ab0a01395ebadb8c, type: 2}
+  - {fileID: 11400000, guid: ab0ce79d91370e44282a528b53247435, type: 2}
 --- !u!1 &823255418
 GameObject:
   m_ObjectHideFlags: 0
