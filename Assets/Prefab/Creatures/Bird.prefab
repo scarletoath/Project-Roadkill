@@ -28,8 +28,8 @@ GameObject:
   - 4: {fileID: 400002}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
-  - 95: {fileID: 9500002}
-  m_Layer: 8
+  - 95: {fileID: 9500000}
+  m_Layer: 0
   m_Name: BirdModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: a9fe831e537a9b74a8f6a7f0432a7bc9, type: 2}
+  - {fileID: 2100000, guid: be16535b312e9ec42b26b06f09fdedca, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -115,7 +115,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: .5, z: 0}
---- !u!95 &9500002
+--- !u!95 &9500000
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -147,7 +147,7 @@ MonoBehaviour:
   EscapeDistance: 25
   IsLookAtPlayerAfterEscape: 1
   DestroyTime: 5
-  BloodMaterial: {fileID: 0}
+  BloodMaterial: {fileID: 2100000, guid: f694b7f010f5fa443a3ca33af73be1af, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
