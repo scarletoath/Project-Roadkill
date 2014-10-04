@@ -129,7 +129,6 @@ GameObject:
   - 4: {fileID: 137496598}
   - 54: {fileID: 137496600}
   - 65: {fileID: 137496599}
-  - 135: {fileID: 137496601}
   m_Layer: 0
   m_Name: Caveman
   m_TagString: Player
@@ -178,18 +177,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 2
---- !u!135 &137496601
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 137496597}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: .5
-  m_Center: {x: .0700000003, y: -.170000002, z: 2.23000002}
 --- !u!1 &217860529
 GameObject:
   m_ObjectHideFlags: 0

@@ -172,11 +172,14 @@ public abstract class Creature : MonoBehaviour {
 	virtual protected void DoOnCollisionEnter ( Collision Collision ) {
 		if ( PlayerController.IsPlayerObject ( Collision.gameObject ) ) {
 			ChangeState ( CreatureState.Dying );
+			GameManager.KillCreature(this);
+
 			Destroy ( gameObject , DestroyTime );
 			IsDead = true;
 
 			ChangeMaterial ( BloodMaterial );
 			PlayerController.SplatterBlood ();
+
 		}
 	}
 

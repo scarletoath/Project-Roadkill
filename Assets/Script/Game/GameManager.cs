@@ -79,8 +79,11 @@ public class GameManager : Singleton<GameManager> {
 		LinkedListNode<Creature> CreatureEntry = Instance.SpawnedCreatures.Find ( Creature );
 
 		if ( CreatureEntry != null ) {
+			Debug.Log ("killcreature");
+
 			Instance.SpawnedCreatures.Remove ( Creature );
 			Instance.DeadCreatures.Add ( CreatureEntry.Value );
+			Instance.CheckBonuses();
 
 			return true;
 		}
@@ -108,7 +111,18 @@ public class GameManager : Singleton<GameManager> {
 
 			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
+			SpawnedCreatures.AddLast(TempGameObject.GetComponent<Creature>());
 		}
+	}
+
+	void CheckBonuses()
+	{
+		Debug.Log ("Check Bonuses called");
+		if (DeadCreatures.Count == 3 || DeadCreatures.Count == 5 || DeadCreatures.Count == 7) 
+		{
+			LevelUpSpear();
+		}
+		
 	}
 
 	void LevelUpSpear()
@@ -117,7 +131,7 @@ public class GameManager : Singleton<GameManager> {
 						return;
 
 		bonuses.spearScale++;
-
+		PlayerController.GlowSpear ();
 	}
 
 	void LevelUpWSPD()

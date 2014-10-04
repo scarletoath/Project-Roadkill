@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerController : Singleton<PlayerController> {
 
@@ -51,7 +52,6 @@ public class PlayerController : Singleton<PlayerController> {
 		}
 		transform.eulerAngles = TempEuler;
 
-		spear.transform.localScale = new Vector3 (1, 1, GameManager.bonuses.spearScale);
 	}
 
 	public static GameObject Object {
@@ -73,5 +73,38 @@ public class PlayerController : Singleton<PlayerController> {
 	public static void SplatterBlood () {
 		Instance.BloodParticleSystem.Emit ( 100 );
 	}
+
+	public static void GlowSpear()
+	{
+		Debug.Log ("glowing");
+		Instance.StartCoroutine (Instance.glowSpearAnimation ());
+	}
+
+	IEnumerator glowSpearAnimation()
+	{
+		Quaternion original_rot = spear.transform.localRotation;
+		for(float i=0.0f;i<1.0f;i+= Time.deltaTime)
+		{
+			spear.GetComponentInChildren<MeshRenderer>().material.SetFloat ("_Emission",i);
+			spear.transform.localRotation = Quaternion.Euler(new Vector3(-360.0f * i,0,0)) * original_rot;
+			yield return null;
+		}
+
+		spear.GetComponentInChildren<MeshRenderer>().material.SetFloat ("_Emission",1.0f);
+		yield return new WaitForSeconds (0.5f);
+
+		for(float i=1.0f;i>0.0f;i-= Time.deltaTime)
+		{
+			spear.GetComponentInChildren<MeshRenderer>().material.SetFloat ("_Emission",i);
+			spear.transform.localRotation = Quaternion.Euler(new Vector3(-360.0f * i ,0,0)) * original_rot;
+			yield return null;
+		}
+		spear.GetComponentInChildren<MeshRenderer>().material.SetFloat ("_Emission",0.0f);
+		spear.transform.localRotation = original_rot;
+
+		//scale here
+		spear.transform.localScale = new Vector3 (1, 1, GameManager.bonuses.spearScale);
+	}
+
 
 }
