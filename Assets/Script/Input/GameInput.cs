@@ -1,6 +1,6 @@
-﻿using Tango;
+﻿using System.Collections;
+using Tango;
 using UnityEngine;
-using System.Collections;
 
 public enum ButtonState {
 	None ,
@@ -37,7 +37,7 @@ public class GameInput : Singleton<GameInput> {
 				if ( CanUpdatePoseData ) {
 					_Previous2Position = _PreviousPosition;
 					_PreviousPosition = _CurrentPosition;
-					_CurrentPosition = Vector3.Lerp(Vector3.Lerp(_Previous2Position,_PreviousPosition,0.8f),value,0.6f);
+					_CurrentPosition = Vector3.Lerp ( Vector3.Lerp ( _Previous2Position , _PreviousPosition , 0.8f ) , value , 0.6f );
 
 					_Velocity = ( _CurrentPosition - _PreviousPosition ) / Time.deltaTime;
 				}
@@ -52,7 +52,7 @@ public class GameInput : Singleton<GameInput> {
 				if ( CanUpdatePoseData ) {
 					_Previous2Rotation = _PreviousRotation;
 					_PreviousRotation = _CurrentRotation;
-					_CurrentRotation = Quaternion.Slerp(Quaternion.Slerp(_Previous2Rotation,_PreviousRotation,0.8f),value,0.6f);
+					_CurrentRotation = Quaternion.Slerp ( Quaternion.Slerp ( _Previous2Rotation , _PreviousRotation , 0.8f ) , value , 0.6f );
 				}
 			}
 		}
@@ -76,6 +76,11 @@ public class GameInput : Singleton<GameInput> {
 	/// TangoSDK prefab.
 	/// </summary>
 	public GameObject TangoPrefab;
+
+	/// <summary>
+	/// The multiplier used for PoseData coming from the Tango itself.
+	/// </summary>
+	public float TangoScale = 30.0f;
 
 	/// <summary>
 	/// Indicates whether to use mouse and keyboard for input. It is 
@@ -188,7 +193,7 @@ public class GameInput : Singleton<GameInput> {
 			Pose.Position = TangoVIOStatus.translation;
 			Pose.Rotation = TangoVIOStatus.rotation;
 
-
+			Pose.Position *= TangoScale;
 		}
 	}
 

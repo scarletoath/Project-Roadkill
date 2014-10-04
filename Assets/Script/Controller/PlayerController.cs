@@ -35,7 +35,7 @@ public class PlayerController : Singleton<PlayerController> {
 		}
 		TempVelocity.y = 0;
 
-		TempPos = transform.position + TempVelocity * Time.deltaTime * 30;
+		TempPos = transform.position + TempVelocity * Time.deltaTime;
 		TempPos.y = OriginalPos.y;
 		transform.position = TempPos;
 
