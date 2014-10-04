@@ -1,15 +1,20 @@
 fileFormatVersion: 2
-guid: 308f32b5473771546a603dcb3b563473
+guid: 8ed388280bc619d47856d1b63aa696fa
 ModelImporter:
-  serializedVersion: 15
+  serializedVersion: 16
   fileIDToRecycleName:
     100000: //RootNode
-    100002: default
+    100002: spearHandle
+    100004: spearHead
     400000: //RootNode
-    400002: default
-    2300000: default
-    3300000: default
-    4300000: default
+    400002: spearHandle
+    400004: spearHead
+    2300000: spearHandle
+    2300002: spearHead
+    3300000: spearHandle
+    3300002: spearHead
+    4300000: spearHandle
+    4300002: spearHead
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -19,6 +24,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     optimizeGameObjects: 0
+    motionNodeName: 
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
@@ -62,4 +68,5 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
+  additionalBone: 0
   userData: 
