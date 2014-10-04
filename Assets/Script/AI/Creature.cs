@@ -40,6 +40,15 @@ public enum CreatureState {
 
 }
 
+public enum CreatureAnimationState {
+	None ,
+
+	Idle ,
+	Move ,
+
+	Die ,
+}
+
 public abstract class Creature : MonoBehaviour {
 
 	public const string TAG = "Creature";
@@ -54,10 +63,12 @@ public abstract class Creature : MonoBehaviour {
 	protected bool IsDead = false;
 
 	private Renderer [] Renderers;
+	private Animator Animator;
 
 	void Awake () {
 		CurrentTarget = null;
 		Renderers = GetComponentsInChildren<Renderer> ();
+		Animator = GetComponentInChildren<Animator> ();
 	}
 
 	// Use this for initialization
@@ -151,6 +162,16 @@ public abstract class Creature : MonoBehaviour {
 		foreach ( Renderer Renderer in Renderers ) {
 			Renderer.material = NewMaterial;
 		}
+	}
+
+	/// <summary>
+	/// Triggers the specified animation.
+	/// </summary>
+	/// <param name="AnimationState">The animation state to trigger to.</param>
+	/// <param name="AnimationSpeed">The speed the new animation is to be played at.</param>
+	protected void TriggerAnimation ( CreatureAnimationState AnimationState , float AnimationSpeed = 1.0f ) {
+		Animator.SetTrigger ( AnimationState.ToString () );
+		Animator.speed = AnimationSpeed;
 	}
 
 	#region STATE ACTIONS
