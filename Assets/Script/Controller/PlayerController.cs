@@ -48,6 +48,11 @@ public class PlayerController : Singleton<PlayerController> {
 		TempPos = transform.position + TempVelocity * Time.deltaTime * GameManager.bonuses.walkSpeed;
 		TempPos.y = OriginalPos.y;
 		transform.position = TempPos;
+        float height = Terrain.activeTerrain.SampleHeight(transform.position);
+        Vector3 pos = transform.position;
+        pos.y = height - 20 + 2.5f;
+        transform.position = pos;
+
 
 		// Clamp Y-rotation to prevent gimbal lock
 		TempEuler = GameInput.Pose.Rotation.eulerAngles;
