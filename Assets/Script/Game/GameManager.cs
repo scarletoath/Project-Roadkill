@@ -31,6 +31,8 @@ public class Bonuses {
 	public int MoveSpeedDuration = 10;
 	public int QuietFeetDuration = 10;
 
+	public AudioClip SpearLevelUpSound;
+
 	public int SpearLevel { get; private set; }
 	public float MoveSpeedMultiplier { get; private set; }
 	public bool HasQuietFeet { get; private set; }
@@ -85,6 +87,8 @@ public class Bonuses {
 			yield break;
 		}
 
+		HasQuietFeet = true;
+
 		while ( QuietFeetTimer > 0 ) {
 			yield return new WaitForSeconds ( 1.0f );
 
@@ -132,7 +136,6 @@ public class GameManager : Singleton<GameManager> {
 	void Start () {
 		SpawnedCreatures = new LinkedList<Creature> ();
 		DeadCreatures = new List<Creature> ();
-		Bonuses = new Bonuses ();
 		DeadCreatureCount = new Dictionary<CreatureType , int> ();
 		foreach ( CreatureType Type in System.Enum.GetValues ( typeof ( CreatureType ) ) ) {
 			DeadCreatureCount.Add ( Type , 0 );
@@ -233,23 +236,28 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
-	void CheckBonuses () {
+	private void CheckBonuses () {
 		Debug.Log ( "Check Bonuses called" );
 
 		// First kill, then every 3 kills
 		if ( Bonuses.SpearLevel < Bonuses.MAX_SPEAR_LEVEL && Bonuses.SpearLevel * 3 - 2 == DeadCreatureCount [ CreatureType.Elephant ] ) {
 			Bonuses.IncreaseSpearLevel ();
+			audio.PlayOneShot ( Bonuses.SpearLevelUpSound );
 		}
 
 		// Walk speed increase every 3 hippo kills
-		if ( DeadCreatureCount [ CreatureType.Hippo ] > 0 && DeadCreatureCount [ CreatureType.Hippo ] % 3 == 0 && Bonuses.MoveSpeedMultiplier == 1 ) {
+		if ( IsLastCreatureKilledType ( CreatureType.Hippo ) && DeadCreatureCount [ CreatureType.Hippo ] % 3 == 0 && Bonuses.MoveSpeedMultiplier == 1 ) {
 			StartCoroutine ( Bonuses.IncreaseMoveSpeedLevel () );
 		}
 
 		// Quiet foot every 3 bunny kills
-		if ( DeadCreatureCount [ CreatureType.Bunny ] > 0 && DeadCreatureCount [ CreatureType.Bunny ] % 3 == 0 ) {
+		if ( IsLastCreatureKilledType ( CreatureType.Bunny ) && DeadCreatureCount [ CreatureType.Bunny ] % 3 == 0 ) {
 			StartCoroutine ( Bonuses.EnableQuietFeet () );
 		}
+	}
+
+	private bool IsLastCreatureKilledType ( CreatureType Type ) {
+		return DeadCreatures [ DeadCreatures.Count - 1 ].Type == Type;
 	}
 
 }
