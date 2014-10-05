@@ -199,8 +199,6 @@ public class GameInput : Singleton<GameInput> {
 		if ( VIOProvider.GetLatestPose ( ref TangoVIOStatus ) ) {
 			Pose.Position = TangoVIOStatus.translation * TangoScale;
 			Pose.Rotation = TangoVIOStatus.rotation;
-
-			//Pose.Position *= TangoScale;
 		}
 	}
 
