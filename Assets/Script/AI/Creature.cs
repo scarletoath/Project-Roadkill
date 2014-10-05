@@ -152,7 +152,9 @@ public abstract class Creature : MonoBehaviour {
 	private bool IsSoundPlaying;
 
 	private Renderer [] Renderers;
+
 	private Animator Animator;
+	private CreatureAnimationState CurrentAnimationState = CreatureAnimationState.None;
 
 	void Awake () {
 		CurrentTarget = null;
@@ -282,8 +284,12 @@ public abstract class Creature : MonoBehaviour {
 	/// <param name="AnimationState">The animation state to trigger to.</param>
 	/// <param name="AnimationSpeed">The speed the new animation is to be played at.</param>
 	protected void TriggerAnimation ( CreatureAnimationState AnimationState , float AnimationSpeed = 1.0f ) {
-		Animator.SetTrigger ( AnimationState.ToString () );
-		Animator.speed = AnimationSpeed;
+		if ( AnimationState != CurrentAnimationState ) {
+			Animator.SetTrigger ( AnimationState.ToString () );
+			Animator.speed = AnimationSpeed;
+
+			CurrentAnimationState = AnimationState;
+		}
 	}
 
 	protected bool PlaySound ( CreatureState State , float Volume = 1.0f , bool OverrideCurrent = false ) {
@@ -343,7 +349,11 @@ public abstract class Creature : MonoBehaviour {
 
 	#region STATE ACTIONS
 	virtual protected void DoIdle () {
-		UseState ();
+		if ( IsStateJustChanged ) {
+			TriggerAnimation ( CreatureAnimationState.Idle );
+
+			IsStateJustChanged = false;
+		}
 
 		CheckPlayerProximity ();
 
@@ -391,6 +401,7 @@ public abstract class Creature : MonoBehaviour {
 			CurrentEscapeDistance = 0;
 
 			PlaySound ( CreatureState.Escaping , 10.0f , true );
+			TriggerAnimation ( CreatureAnimationState.Move );
 
 			IsStateJustChanged = false;
 		}
