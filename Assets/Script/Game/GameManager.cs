@@ -50,9 +50,6 @@ public class GameManager : Singleton<GameManager> {
 
 	private Dictionary<CreatureType,int> DeadCreatureCount;
 
-	const int MAX_SPAWN_CREATURES = 10;
-
-
 	public static BonusValues bonuses;
 
 	// Use this for initialization
