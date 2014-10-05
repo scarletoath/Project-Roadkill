@@ -28,6 +28,9 @@ public class HUD : Singleton<HUD> {
 		if ( Achievements.IsKillCountAchievement ( GameManager.NumDeadCreatures ) ) {
 			return ( ( Achievements.KillCount ) GameManager.NumDeadCreatures ).ToString ().Replace ( '_' , ' ' );
 		}
+		else if ( GameManager.NumDeadCreatures >= 20 ) {
+			return "Stop being cruel\nto animals!\n\nOr maybe not.";
+		}
 		else {
 			return string.Empty;
 		}
