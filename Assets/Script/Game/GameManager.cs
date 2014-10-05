@@ -35,7 +35,7 @@ public class GameManager : Singleton<GameManager> {
 	private const int MAX_SPEAR_LEVEL = 7;
 	private const int MAX_WALK_SPEED = 20;
 
-	public int NumCreaturesToSpawn = 10;
+	public int NumCreaturesToSpawn = 20;
 
 	public Creature [] Creatures;
 
@@ -129,16 +129,7 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		// Spawn new ones
-		for ( int i = 0 ; i < NumCreaturesToSpawn ; i++ ) {
-			TempPos.z = Random.Range ( 0 , 100 );
-            TempPos.x = Random.Range(-50, 50);
-
-			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
-
-			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
-			TempGameObject.transform.parent = CreatureContainer;
-			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
-		}
+        regenerateCreatures();
 	}
 
 	IEnumerator respawnCreatures () {
@@ -150,10 +141,13 @@ public class GameManager : Singleton<GameManager> {
 
 	private void regenerateCreatures () {
 		for ( int i=0 ; i < NumCreaturesToSpawn - NumAliveCreatures ; i++ ) {
-			TempPos.z = Random.Range ( 0 , 100 );
-            TempPos.x = Random.Range(-50, 50);
+			TempPos.z = Random.Range (20 , 220 );
+            TempPos.x = Random.Range(-100, 200);
 
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
+
+            if (Terrain.activeTerrain.SampleHeight(TempPos) < 18.5f) ;
+
 
 			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
