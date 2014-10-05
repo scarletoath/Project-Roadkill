@@ -12,6 +12,10 @@ ModelImporter:
     100012: polySurface5
     100014: polySurface6
     100016: tail
+    100018: ear_l
+    100020: ear_r
+    100022: tooth_l
+    100024: tooth_r
     400000: body
     400002: //RootNode
     400004: elephant
@@ -21,24 +25,42 @@ ModelImporter:
     400012: polySurface5
     400014: polySurface6
     400016: tail
+    400018: ear_l
+    400020: ear_r
+    400022: tooth_l
+    400024: tooth_r
     2300000: body
     2300002: polySurface2
     2300004: polySurface3
     2300006: polySurface5
     2300008: polySurface6
     2300010: tail
+    2300012: ear_l
+    2300014: ear_r
+    2300016: tooth_l
+    2300018: tooth_r
     3300000: body
     3300002: polySurface2
     3300004: polySurface3
     3300006: polySurface5
     3300008: polySurface6
     3300010: tail
+    3300012: ear_l
+    3300014: ear_r
+    3300016: tooth_l
+    3300018: tooth_r
     4300000: body
     4300002: tail
     4300004: polySurface2
     4300006: polySurface3
     4300008: polySurface5
     4300010: polySurface6
+    4300012: ear_r
+    4300014: tooth_r
+    4300016: ear_l
+    4300018: tooth_l
+    7400000: Idle
+    7400002: Move
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -55,7 +77,87 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: body
+        weight: 1
+      - path: ear_l
+        weight: 1
+      - path: ear_r
+        weight: 1
+      - path: tail
+        weight: 1
+      - path: tooth_l
+        weight: 1
+      - path: tooth_r
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Move
+      takeName: Take 001
+      firstFrame: 41
+      lastFrame: 128
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: body
+        weight: 1
+      - path: ear_l
+        weight: 1
+      - path: ear_r
+        weight: 1
+      - path: tail
+        weight: 1
+      - path: tooth_l
+        weight: 1
+      - path: tooth_r
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
