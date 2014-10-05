@@ -114,6 +114,8 @@ public abstract class Creature : MonoBehaviour {
 
 	public const string TAG = "Creature";
 
+	public static readonly int TYPE_COUNT = System.Enum.GetNames ( typeof ( CreatureType ) ).Length;
+
 	public CreatureType Type = CreatureType.None;
 
 	//[Header ( "Movement" )]
@@ -325,7 +327,7 @@ public abstract class Creature : MonoBehaviour {
 
 	protected void CheckPlayerProximity () {
 		// Infinity means not scared or not caring about detecting player
-		if ( DetectionRange == Mathf.Infinity || GameManager.bonuses.quietFeet) {
+		if ( DetectionRange == Mathf.Infinity || GameManager.bonuses.quietFeet ) {
 			return;
 		}
 
