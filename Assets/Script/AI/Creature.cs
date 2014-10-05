@@ -327,7 +327,7 @@ public abstract class Creature : MonoBehaviour {
 
 	protected void CheckPlayerProximity () {
 		// Infinity means not scared or not caring about detecting player
-		if ( DetectionRange == Mathf.Infinity || GameManager.bonuses.quietFeet ) {
+		if ( DetectionRange == Mathf.Infinity || GameManager.GetBonuses ().HasQuietFeet ) {
 			return;
 		}
 

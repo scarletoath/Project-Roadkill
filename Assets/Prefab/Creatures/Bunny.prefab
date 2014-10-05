@@ -291,7 +291,24 @@ MonoBehaviour:
   IsLookAtPlayerAfterEscape: 1
   DestroyTime: 5
   BloodMaterial: {fileID: 2100000, guid: cd9247e7557622544899750978b73631, type: 2}
-  Sounds: []
+  Sounds:
+  - State: 2
+    MinInterval: 1
+    MaxInterval: 4
+    Clips:
+    - {fileID: 8300000, guid: 25b2614d74117ef438f8b743ac41f9b1, type: 3}
+    - {fileID: 8300000, guid: 3ffd7bb68e11efd48b61065cbf6768ca, type: 3}
+  - State: 5
+    MinInterval: 0
+    MaxInterval: 2
+    Clips:
+    - {fileID: 8300000, guid: 25b2614d74117ef438f8b743ac41f9b1, type: 3}
+    - {fileID: 8300000, guid: 3ffd7bb68e11efd48b61065cbf6768ca, type: 3}
+  - State: 7
+    MinInterval: 0
+    MaxInterval: 0
+    Clips:
+    - {fileID: 8300000, guid: 1c1d8980f3d30fa40abcabc28743888f, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

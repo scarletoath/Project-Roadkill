@@ -154,20 +154,20 @@ MonoBehaviour:
     MinInterval: 1.5
     MaxInterval: 4
     Clips:
-    - {fileID: 8300000, guid: 19ba08a5569c5f845875adff44d188f1, type: 3}
-    - {fileID: 8300000, guid: d37bb4de42f3a24418d1321db8222869, type: 3}
+    - {fileID: 8300000, guid: 7f09ea44bf4a64246bab5b744e86d834, type: 3}
+    - {fileID: 8300000, guid: 65fffb4f07e676845b5e63e67eaf25c4, type: 3}
   - State: 5
     MinInterval: 0
     MaxInterval: 1
     Clips:
-    - {fileID: 8300000, guid: 19ba08a5569c5f845875adff44d188f1, type: 3}
-    - {fileID: 8300000, guid: d37bb4de42f3a24418d1321db8222869, type: 3}
+    - {fileID: 8300000, guid: 7f09ea44bf4a64246bab5b744e86d834, type: 3}
+    - {fileID: 8300000, guid: 65fffb4f07e676845b5e63e67eaf25c4, type: 3}
   - State: 7
     MinInterval: 0
     MaxInterval: 0
     Clips:
     - {fileID: 8300000, guid: 05cf94ef458d0894590d613f5434dada, type: 3}
-    - {fileID: 8300000, guid: abebd564b826f1048980941327b7d4c8, type: 3}
+    - {fileID: 8300000, guid: 1eaa308bdc42e394cbccbca7972baa0f, type: 3}
   FlyingHeightMin: 0
   FlyingHeightMax: 1
 --- !u!1001 &100100000
