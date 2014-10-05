@@ -185,7 +185,7 @@ public class GameInput : Singleton<GameInput> {
 	/// Vibrates the device for approximately one second, if vibration is available.
 	/// </summary>
 	public static void Vibrate () {
-		Handheld.Vibrate ();
+		//Handheld.Vibrate ();
 	}
 
 	private void UpdatePoseData () {
