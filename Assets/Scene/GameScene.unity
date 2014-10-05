@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BloodParticleSystem: {fileID: 641142168}
-  spear: {fileID: 823255418}
+  Spear: {fileID: 823255418}
   MaxLookAngleY: 80
 --- !u!1 &137496597
 GameObject:
@@ -288,7 +288,7 @@ GameObject:
   - 114: {fileID: 385349419}
   m_Layer: 0
   m_Name: TangoCamera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_targetObject: {fileID: 12006840}
-  m_showBehaviorButtons: 0
+  m_showBehaviorButtons: 1
 --- !u!81 &385349414
 AudioListener:
   m_ObjectHideFlags: 0
@@ -361,7 +361,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: .300000012
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 45
   orthographic: 0
   orthographic size: 5
@@ -1870,7 +1870,7 @@ MonoBehaviour:
   Creatures:
   - {fileID: 11400000, guid: 48853286b9626624ab59fe2be1eef2f8, type: 2}
   - {fileID: 11400000, guid: fd83a67c4b8e68d4997b5b0d5c41ce5a, type: 2}
-  - {fileID: 11400000, guid: fd83a67c4b8e68d4997b5b0d5c41ce5a, type: 2}
+  - {fileID: 11400000, guid: 3b33a36603e42e541bc5804b12222230, type: 2}
   - {fileID: 11400000, guid: d0d0d41dde86313449e27e2d7d130297, type: 2}
   - {fileID: 11400000, guid: 3b33a36603e42e541bc5804b12222230, type: 2}
   - {fileID: 11400000, guid: 6fd5961fcd448544ab0a01395ebadb8c, type: 2}
@@ -2325,7 +2325,7 @@ Prefab:
     - target: {fileID: 11400004, guid: 5827644e1152a544b87ad05a3413c23d, type: 2}
       propertyPath: Creatures.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: fd83a67c4b8e68d4997b5b0d5c41ce5a,
+      objectReference: {fileID: 11400000, guid: 3b33a36603e42e541bc5804b12222230,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5827644e1152a544b87ad05a3413c23d, type: 2}
