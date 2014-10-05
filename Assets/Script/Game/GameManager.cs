@@ -135,7 +135,7 @@ public class GameManager : Singleton<GameManager> {
 
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
 
-			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 1 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
+			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
 			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
 		}
@@ -155,7 +155,7 @@ public class GameManager : Singleton<GameManager> {
 
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
 
-			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 1 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
+			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
 			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
 		}

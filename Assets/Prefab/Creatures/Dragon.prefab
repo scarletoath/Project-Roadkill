@@ -129,7 +129,7 @@ GameObject:
   - 4: {fileID: 400014}
   - 65: {fileID: 6500000}
   - 54: {fileID: 5400000}
-  - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 8
   m_Name: Dragon
   m_TagString: Creature
@@ -500,7 +500,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11400000
+--- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -508,7 +508,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccafdebf7f4726f4b839b9a2781ce13e, type: 3}
+  m_Script: {fileID: 11500000, guid: 155ee101c01bf254e81b1eafd138af50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 3
@@ -521,8 +521,8 @@ MonoBehaviour:
   BloodMaterial: {fileID: 0}
   Sounds:
   - State: 2
-    MinInterval: 0
-    MaxInterval: 0
+    MinInterval: 1
+    MaxInterval: 4
     Clips:
     - {fileID: 8300000, guid: dfa48b3ae8478c7439b518911be7e91c, type: 3}
     - {fileID: 8300000, guid: d274080bd076d7b4b9c41f81f0feff1d, type: 3}
@@ -537,10 +537,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 1c8d92f2f232a7d4e80d325a86e3ba52, type: 3}
   - State: 5
     MinInterval: 0
-    MaxInterval: 0
+    MaxInterval: 1
     Clips:
     - {fileID: 8300000, guid: dad677016d11c4340ab894534f6a39da, type: 3}
     - {fileID: 8300000, guid: 4ed26a771a7631848b68f4c7461df073, type: 3}
+  FlyingHeightMin: 1
+  FlyingHeightMax: 3
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

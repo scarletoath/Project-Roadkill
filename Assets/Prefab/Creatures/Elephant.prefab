@@ -470,7 +470,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: dee2c927cc888bb46a695be296269ac4, type: 3}
   - State: 5
     MinInterval: 0
-    MaxInterval: 0
+    MaxInterval: 1.5
     Clips:
     - {fileID: 8300000, guid: d12edc048d26f1c48bc498d5ac7fa76b, type: 3}
     - {fileID: 8300000, guid: 639b2a118e285184e91e167c318698a1, type: 3}

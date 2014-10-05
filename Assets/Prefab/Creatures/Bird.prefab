@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 65: {fileID: 6500000}
   - 54: {fileID: 5400000}
-  - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 8
   m_Name: Bird
   m_TagString: Creature
@@ -130,7 +130,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11400000
+--- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccafdebf7f4726f4b839b9a2781ce13e, type: 3}
+  m_Script: {fileID: 11500000, guid: 155ee101c01bf254e81b1eafd138af50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
@@ -151,16 +151,25 @@ MonoBehaviour:
   BloodMaterial: {fileID: 2100000, guid: f694b7f010f5fa443a3ca33af73be1af, type: 2}
   Sounds:
   - State: 2
-    MinInterval: 0
-    MaxInterval: 3
+    MinInterval: 1.5
+    MaxInterval: 4
     Clips:
-    - {fileID: 8300000, guid: 0f506e44617fd9846841ee8d2ab05d1b, type: 3}
-    - {fileID: 8300000, guid: 1859de48f505b344a9bbedd5b9cee46a, type: 3}
-    - {fileID: 8300000, guid: 7bc9155e5f9a76e43b3ae4faf82f6477, type: 3}
-    - {fileID: 8300000, guid: 772e814d629921b42b8f6ea5ffc3abb7, type: 3}
-    - {fileID: 8300000, guid: 275b4e7d3edd43b4695c00d2f2e5b4ca, type: 3}
-    - {fileID: 8300000, guid: fd4cc92bbfa29dc45a92bf9f231b55c7, type: 3}
-    - {fileID: 8300000, guid: 2d9054f61264dd248a595b2f01ff8bcf, type: 3}
+    - {fileID: 8300000, guid: 19ba08a5569c5f845875adff44d188f1, type: 3}
+    - {fileID: 8300000, guid: d37bb4de42f3a24418d1321db8222869, type: 3}
+  - State: 5
+    MinInterval: 0
+    MaxInterval: 1
+    Clips:
+    - {fileID: 8300000, guid: 19ba08a5569c5f845875adff44d188f1, type: 3}
+    - {fileID: 8300000, guid: d37bb4de42f3a24418d1321db8222869, type: 3}
+  - State: 7
+    MinInterval: 0
+    MaxInterval: 0
+    Clips:
+    - {fileID: 8300000, guid: 05cf94ef458d0894590d613f5434dada, type: 3}
+    - {fileID: 8300000, guid: abebd564b826f1048980941327b7d4c8, type: 3}
+  FlyingHeightMin: 0
+  FlyingHeightMax: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
