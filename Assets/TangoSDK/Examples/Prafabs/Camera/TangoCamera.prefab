@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_targetObject: {fileID: 0}
-  m_showBehaviorButtons: 1
+  m_showBehaviorButtons: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
