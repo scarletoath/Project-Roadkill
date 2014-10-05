@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
@@ -19,8 +19,7 @@ public class GameManager : Singleton<GameManager> {
 	private Vector3 TempPos;
 	private Quaternion TempRot;
 
-	public class BonusValues
-	{
+	public class BonusValues {
 		public int spearScale = 1;
 		public float walkSpeed = 1;
 		public bool quietFeet = false;
@@ -30,7 +29,7 @@ public class GameManager : Singleton<GameManager> {
 	const int MAX_WALK_SPEED = 20;
 
 	int[] deadCreatures;
-	static int numCreatureTypes = System.Enum.GetNames(typeof(CreatureType)).Length;
+	static int numCreatureTypes = System.Enum.GetNames ( typeof ( CreatureType ) ).Length;
 
 	const int MAX_SPAWN_CREATURES = 10;
 
@@ -42,7 +41,7 @@ public class GameManager : Singleton<GameManager> {
 		SpawnedCreatures = new LinkedList<Creature> ();
 		DeadCreatures = new List<Creature> ();
 		bonuses = new BonusValues ();
-		deadCreatures = new int[numCreatureTypes];
+		deadCreatures = new int [ numCreatureTypes ];
 
 		TempGameObject = GameObject.Find ( CREATURE_CONTAINER_NAME );
 		if ( TempGameObject == null ) {
@@ -53,7 +52,7 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		SpawnCreatures ();
-		StartCoroutine (respawnCreatures ());
+		StartCoroutine ( respawnCreatures () );
 	}
 
 	// Update is called once per frame
@@ -88,12 +87,12 @@ public class GameManager : Singleton<GameManager> {
 		LinkedListNode<Creature> CreatureEntry = Instance.SpawnedCreatures.Find ( Creature );
 
 		if ( CreatureEntry != null ) {
-			Debug.Log ("killcreature");
+			Debug.Log ( "killcreature" );
 
-			Instance.deadCreatures[(int)Creature.Type]++;
+			Instance.deadCreatures [ ( int ) Creature.Type ]++;
 			Instance.SpawnedCreatures.Remove ( Creature );
 			Instance.DeadCreatures.Add ( CreatureEntry.Value );
-			Instance.CheckBonuses();
+			Instance.CheckBonuses ();
 
 			return true;
 		}
@@ -119,110 +118,95 @@ public class GameManager : Singleton<GameManager> {
 
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
 
-			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 1 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
+			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
-			SpawnedCreatures.AddLast(TempGameObject.GetComponent<Creature>());
+			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
 		}
 	}
 
-	IEnumerator respawnCreatures()
-	{
-		while (true) 
-		{
-			yield return new WaitForSeconds(5.0f);
-			regenerateCreatures();
+	IEnumerator respawnCreatures () {
+		while ( true ) {
+			yield return new WaitForSeconds ( 5.0f );
+			regenerateCreatures ();
 		}
 	}
 
-	private void regenerateCreatures()
-	{
-		for (int i=0; i<MAX_SPAWN_CREATURES - NumAliveCreatures; i++) 
-		{
+	private void regenerateCreatures () {
+		for ( int i=0 ; i < MAX_SPAWN_CREATURES - NumAliveCreatures ; i++ ) {
 			TempPos.z = Random.Range ( 0 , 500 );
 			TempPos.x = 10 * Mathf.Sin ( Mathf.Deg2Rad * TempPos.z );
-			
+
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
-			
+
 			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 1 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
-			SpawnedCreatures.AddLast(TempGameObject.GetComponent<Creature>());
+			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
 		}
 	}
 
-	void CheckBonuses()
-	{
-		Debug.Log ("Check Bonuses called");
-		if ( (deadCreatures[(int)CreatureType.Elephant] == 1 && bonuses.spearScale == 1) ||
-		    (deadCreatures[(int)CreatureType.Elephant] == 4 && bonuses.spearScale == 2) ||
-		    (deadCreatures[(int)CreatureType.Elephant] == 7 && bonuses.spearScale == 3) ||
-            (deadCreatures[(int)CreatureType.Elephant] == 10 && bonuses.spearScale == 4))
-		{
-			LevelUpSpear();
+	void CheckBonuses () {
+		Debug.Log ( "Check Bonuses called" );
+		if ( ( deadCreatures [ ( int ) CreatureType.Elephant ] == 1 && bonuses.spearScale == 1 ) ||
+			( deadCreatures [ ( int ) CreatureType.Elephant ] == 4 && bonuses.spearScale == 2 ) ||
+			( deadCreatures [ ( int ) CreatureType.Elephant ] == 7 && bonuses.spearScale == 3 ) ||
+			( deadCreatures [ ( int ) CreatureType.Elephant ] == 10 && bonuses.spearScale == 4 ) ) {
+			LevelUpSpear ();
 		}
 
-		if (deadCreatures [(int)CreatureType.Bird] > 0 && deadCreatures [(int)CreatureType.Bird] % 3==0 && bonuses.walkSpeed == 1) 
-		{
-			LevelUpWSPD();
+		if ( deadCreatures [ ( int ) CreatureType.Bird ] > 0 && deadCreatures [ ( int ) CreatureType.Bird ] % 3 == 0 && bonuses.walkSpeed == 1 ) {
+			LevelUpWSPD ();
 		}
 
-		if (deadCreatures [(int)CreatureType.Bunny] > 0 && deadCreatures [(int)CreatureType.Bunny] % 3==0) 
-		{
-			ActivateQuietFoot();
+		if ( deadCreatures [ ( int ) CreatureType.Bunny ] > 0 && deadCreatures [ ( int ) CreatureType.Bunny ] % 3 == 0 ) {
+			ActivateQuietFoot ();
 		}
-		
+
 	}
 
-	void LevelUpSpear()
-	{
-		if (bonuses.spearScale >= MAX_SPEAR_LEVEL)
-						return;
+	void LevelUpSpear () {
+		if ( bonuses.spearScale >= MAX_SPEAR_LEVEL )
+			return;
 
 		bonuses.spearScale++;
-        CameraUIScript.speartext = "Spear\nLevel\n" + bonuses.spearScale;
+		CameraUIScript.speartext = "Spear\nLevel\n" + bonuses.spearScale;
 		PlayerController.GlowSpear ();
 	}
 
-	void LevelUpWSPD()
-	{
-		if (bonuses.walkSpeed >= MAX_WALK_SPEED)
-						return;
+	void LevelUpWSPD () {
+		if ( bonuses.walkSpeed >= MAX_WALK_SPEED )
+			return;
 		bonuses.walkSpeed++;
-        CameraUIScript.WSPDtext = "WSPD\nx" + bonuses.walkSpeed + "\n";
-        StartCoroutine(WSPDCountdown());
+		CameraUIScript.WSPDtext = "WSPD\nx" + bonuses.walkSpeed + "\n";
+		StartCoroutine ( WSPDCountdown () );
 	}
 
-	void ActivateQuietFoot()
-	{
-        CameraUIScript.quietfoottext = "Sneak\nOn\n";
-		StartCoroutine (QuietFootCountdown ());
+	void ActivateQuietFoot () {
+		CameraUIScript.quietfoottext = "Sneak\nOn\n";
+		StartCoroutine ( QuietFootCountdown () );
 	}
 
-	IEnumerator QuietFootCountdown()
-	{
+	IEnumerator QuietFootCountdown () {
 		bonuses.quietFeet = true;
-        string txt = CameraUIScript.quietfoottext;
-        for (int i = 10; i >= 1; i--)
-        {
-            CameraUIScript.quietfoottext = txt + i;
-            yield return new WaitForSeconds(1.0f);
+		string txt = CameraUIScript.quietfoottext;
+		for ( int i = 10 ; i >= 1 ; i-- ) {
+			CameraUIScript.quietfoottext = txt + i;
+			yield return new WaitForSeconds ( 1.0f );
 
-        }
-        CameraUIScript.quietfoottext = "Sneak\nOff\n";
-        bonuses.quietFeet = false;
+		}
+		CameraUIScript.quietfoottext = "Sneak\nOff\n";
+		bonuses.quietFeet = false;
 	}
 
-    IEnumerator WSPDCountdown()
-    {
-        //yield return new WaitForSeconds(5.0f);
-        string txt = CameraUIScript.WSPDtext;
-        for (int i = 10; i >= 1; i--)
-        {
-            CameraUIScript.WSPDtext = txt + i;
-            yield return new WaitForSeconds(1.0f);
+	IEnumerator WSPDCountdown () {
+		//yield return new WaitForSeconds(5.0f);
+		string txt = CameraUIScript.WSPDtext;
+		for ( int i = 10 ; i >= 1 ; i-- ) {
+			CameraUIScript.WSPDtext = txt + i;
+			yield return new WaitForSeconds ( 1.0f );
 
-        }
+		}
 
-        CameraUIScript.WSPDtext = "WSPD\nx1";
-        bonuses.walkSpeed = 1;
-    }
+		CameraUIScript.WSPDtext = "WSPD\nx1";
+		bonuses.walkSpeed = 1;
+	}
 }
