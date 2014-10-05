@@ -119,7 +119,7 @@ public class GameManager : Singleton<GameManager> {
 
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
 
-			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
+			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 1 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
 			SpawnedCreatures.AddLast(TempGameObject.GetComponent<Creature>());
 		}
@@ -143,7 +143,7 @@ public class GameManager : Singleton<GameManager> {
 			
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
 			
-			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
+			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 1 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
 			SpawnedCreatures.AddLast(TempGameObject.GetComponent<Creature>());
 		}
@@ -154,17 +154,18 @@ public class GameManager : Singleton<GameManager> {
 		Debug.Log ("Check Bonuses called");
 		if ( (deadCreatures[(int)CreatureType.Elephant] == 1 && bonuses.spearScale == 1) ||
 		    (deadCreatures[(int)CreatureType.Elephant] == 4 && bonuses.spearScale == 2) ||
-		    (deadCreatures[(int)CreatureType.Elephant] == 8 && bonuses.spearScale == 3) )
+		    (deadCreatures[(int)CreatureType.Elephant] == 7 && bonuses.spearScale == 3) ||
+            (deadCreatures[(int)CreatureType.Elephant] == 10 && bonuses.spearScale == 4))
 		{
 			LevelUpSpear();
 		}
 
-		if (deadCreatures [(int)CreatureType.Bird] == 1 && bonuses.walkSpeed == 1) 
+		if (deadCreatures [(int)CreatureType.Bird] > 0 && deadCreatures [(int)CreatureType.Bird] % 3==0 && bonuses.walkSpeed == 1) 
 		{
 			LevelUpWSPD();
 		}
 
-		if (deadCreatures [(int)CreatureType.Bunny] == 1) 
+		if (deadCreatures [(int)CreatureType.Bunny] > 0 && deadCreatures [(int)CreatureType.Bunny] % 3==0) 
 		{
 			ActivateQuietFoot();
 		}
@@ -177,6 +178,7 @@ public class GameManager : Singleton<GameManager> {
 						return;
 
 		bonuses.spearScale++;
+        CameraUIScript.speartext = "Spear\nLevel\n" + bonuses.spearScale;
 		PlayerController.GlowSpear ();
 	}
 
@@ -185,17 +187,42 @@ public class GameManager : Singleton<GameManager> {
 		if (bonuses.walkSpeed >= MAX_WALK_SPEED)
 						return;
 		bonuses.walkSpeed++;
+        CameraUIScript.WSPDtext = "WSPD\nx" + bonuses.walkSpeed + "\n";
+        StartCoroutine(WSPDCountdown());
 	}
 
 	void ActivateQuietFoot()
 	{
+        CameraUIScript.quietfoottext = "Sneak\nOn\n";
 		StartCoroutine (QuietFootCountdown ());
 	}
 
 	IEnumerator QuietFootCountdown()
 	{
 		bonuses.quietFeet = true;
-		yield return new WaitForSeconds(10.0f);
-		bonuses.quietFeet = false;
+        string txt = CameraUIScript.quietfoottext;
+        for (int i = 10; i >= 1; i--)
+        {
+            CameraUIScript.quietfoottext = txt + i;
+            yield return new WaitForSeconds(1.0f);
+
+        }
+        CameraUIScript.quietfoottext = "Sneak\nOff\n";
+        bonuses.quietFeet = false;
 	}
+
+    IEnumerator WSPDCountdown()
+    {
+        //yield return new WaitForSeconds(5.0f);
+        string txt = CameraUIScript.WSPDtext;
+        for (int i = 10; i >= 1; i--)
+        {
+            CameraUIScript.WSPDtext = txt + i;
+            yield return new WaitForSeconds(1.0f);
+
+        }
+
+        CameraUIScript.WSPDtext = "WSPD\nx1";
+        bonuses.walkSpeed = 1;
+    }
 }
