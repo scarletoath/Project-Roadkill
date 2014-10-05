@@ -45,13 +45,14 @@ public class PlayerController : Singleton<PlayerController> {
 		}
 		TempVelocity.y = 0;
 
-		TempPos = transform.position + TempVelocity * Time.deltaTime * GameManager.bonuses.walkSpeed;
+		TempPos = transform.position + TempVelocity * Time.deltaTime * GameManager.GetBonuses ().MoveSpeedMultiplier;
 		TempPos.y = OriginalPos.y;
 		transform.position = TempPos;
-        float height = Terrain.activeTerrain.SampleHeight(transform.position);
-        Vector3 pos = transform.position;
-        pos.y = height - 20 + 2.5f;
-        transform.position = pos;
+
+		float height = Terrain.activeTerrain.SampleHeight ( transform.position );
+		Vector3 pos = transform.position;
+		pos.y = height - 20 + 2.5f;
+		transform.position = pos;
 
 
 		// Clamp Y-rotation to prevent gimbal lock
@@ -94,7 +95,6 @@ public class PlayerController : Singleton<PlayerController> {
 	}
 
 	IEnumerator GlowSpearInternal () {
-		//Spear.collider.enabled = false;
 		Quaternion OriginalRot = Spear.transform.localRotation;
 
 		for ( float i = 0.0f ; i < 1.0f ; i += Time.deltaTime ) {
@@ -122,13 +122,11 @@ public class PlayerController : Singleton<PlayerController> {
 		}
 		Spear.transform.localRotation = OriginalRot;
 
-		//scale here
 		Spear.transform.localScale = new Vector3 (
 			OriginalSpearScale.x ,
 			OriginalSpearScale.y ,
-			OriginalSpearScale.z * GameManager.bonuses.spearScale
+			OriginalSpearScale.z * GameManager.GetBonuses ().SpearLevel
 		);
-		//Spear.collider.enabled = true;
 	}
 
 

@@ -22,22 +22,100 @@ public sealed class Achievements {
 
 }
 
-public class GameManager : Singleton<GameManager> {
+[System.Serializable]
+public class Bonuses {
 
-	public class BonusValues {
-		public int spearScale = 1;
-		public float walkSpeed = 1;
-		public bool quietFeet = false;
+	public const int MAX_SPEAR_LEVEL = 7;
+	public const int MAX_MOVE_SPEED_MULTIPLIER = 20;
+
+	public int MoveSpeedDuration = 10;
+	public int QuietFeetDuration = 10;
+
+	public int SpearLevel { get; private set; }
+	public float MoveSpeedMultiplier { get; private set; }
+	public bool HasQuietFeet { get; private set; }
+
+	private int MoveSpeedTimer;
+	private int QuietFeetTimer;
+
+	public Bonuses () {
+		SpearLevel = 1;
+		MoveSpeedMultiplier = 1;
+		HasQuietFeet = false;
+
+		ResetMoveSpeed ();
+		ResetQuietFeet ();
 	}
+
+	public int GetMoveSpeedTimeRemaining () {
+		return MoveSpeedTimer;
+	}
+
+	public int GetQuietFeetTimeRemaining () {
+		return QuietFeetTimer;
+	}
+
+	public void IncreaseSpearLevel () {
+		if ( SpearLevel >= MAX_SPEAR_LEVEL ) {
+			return;
+		}
+
+		SpearLevel++;
+		PlayerController.GlowSpear ();
+	}
+
+	public IEnumerator IncreaseMoveSpeedLevel () {
+		if ( MoveSpeedMultiplier >= MAX_MOVE_SPEED_MULTIPLIER ) {
+			yield break;
+		}
+
+		MoveSpeedMultiplier++;
+
+		while ( MoveSpeedTimer > 0 ) {
+			yield return new WaitForSeconds ( 1.0f );
+
+			MoveSpeedTimer--;
+		}
+
+		ResetMoveSpeed ();
+	}
+
+	public IEnumerator EnableQuietFeet () {
+		if ( HasQuietFeet ) {
+			yield break;
+		}
+
+		while ( QuietFeetTimer > 0 ) {
+			yield return new WaitForSeconds ( 1.0f );
+
+			QuietFeetTimer--;
+		}
+
+		ResetQuietFeet ();
+	}
+
+	private void ResetMoveSpeed () {
+		MoveSpeedMultiplier = 1;
+		MoveSpeedTimer = MoveSpeedDuration;
+	}
+
+	private void ResetQuietFeet () {
+		HasQuietFeet = false;
+		QuietFeetTimer = QuietFeetDuration;
+	}
+
+}
+
+public class GameManager : Singleton<GameManager> {
 
 	private const string CREATURE_CONTAINER_NAME = "Creatures";
 
-	private const int MAX_SPEAR_LEVEL = 7;
-	private const int MAX_WALK_SPEED = 20;
-
 	public int NumCreaturesToSpawn = 10;
+	public float SpawnInterval = 5.0f;
 
 	public Creature [] Creatures;
+
+	public Bonuses Bonuses;
 
 	private Transform CreatureContainer;
 
@@ -50,13 +128,11 @@ public class GameManager : Singleton<GameManager> {
 
 	private Dictionary<CreatureType,int> DeadCreatureCount;
 
-	public static BonusValues bonuses;
-
 	// Use this for initialization
 	void Start () {
 		SpawnedCreatures = new LinkedList<Creature> ();
 		DeadCreatures = new List<Creature> ();
-		bonuses = new BonusValues ();
+		Bonuses = new Bonuses ();
 		DeadCreatureCount = new Dictionary<CreatureType , int> ();
 		foreach ( CreatureType Type in System.Enum.GetValues ( typeof ( CreatureType ) ) ) {
 			DeadCreatureCount.Add ( Type , 0 );
@@ -70,8 +146,8 @@ public class GameManager : Singleton<GameManager> {
 			CreatureContainer = TempGameObject.transform;
 		}
 
-		SpawnCreatures ();
-		StartCoroutine ( respawnCreatures () );
+		SpawnInitialCreatures ();
+		StartCoroutine ( RespawnCreaturesAfterDelay () );
 	}
 
 	// Update is called once per frame
@@ -97,6 +173,10 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
+	public static Bonuses GetBonuses () {
+		return Instance.Bonuses;
+	}
+
 	/// <summary>
 	/// Kills the specified creature.
 	/// </summary>
@@ -118,7 +198,7 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
-	private void SpawnCreatures () {
+	private void SpawnInitialCreatures () {
 		// Add existing creatures to list
 		Creature Creature;
 		foreach ( GameObject CreatureObject in GameObject.FindGameObjectsWithTag ( Creature.TAG ) ) {
@@ -129,29 +209,21 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		// Spawn new ones
-		for ( int i = 0 ; i < NumCreaturesToSpawn ; i++ ) {
-			TempPos.z = Random.Range ( 0 , 100 );
-            TempPos.x = Random.Range(-50, 50);
-
-			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
-
-			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
-			TempGameObject.transform.parent = CreatureContainer;
-			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
-		}
+		RespawnCreatures ();
 	}
 
-	IEnumerator respawnCreatures () {
+	IEnumerator RespawnCreaturesAfterDelay () {
 		while ( true ) {
-			yield return new WaitForSeconds ( 5.0f );
-			regenerateCreatures ();
+			yield return new WaitForSeconds ( SpawnInterval );
+
+			RespawnCreatures ();
 		}
 	}
 
-	private void regenerateCreatures () {
-		for ( int i=0 ; i < NumCreaturesToSpawn - NumAliveCreatures ; i++ ) {
+	private void RespawnCreatures () {
+		for ( int i = 0 ; i < NumCreaturesToSpawn - NumAliveCreatures ; i++ ) {
 			TempPos.z = Random.Range ( 0 , 100 );
-            TempPos.x = Random.Range(-50, 50);
+			TempPos.x = Random.Range ( -50 , 50 );
 
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
 
@@ -165,71 +237,19 @@ public class GameManager : Singleton<GameManager> {
 		Debug.Log ( "Check Bonuses called" );
 
 		// First kill, then every 3 kills
-		if ( bonuses.spearScale < MAX_SPEAR_LEVEL && bonuses.spearScale * 3 - 2 == DeadCreatureCount [ CreatureType.Elephant ] ) {
-			LevelUpSpear ();
+		if ( Bonuses.SpearLevel < Bonuses.MAX_SPEAR_LEVEL && Bonuses.SpearLevel * 3 - 2 == DeadCreatureCount [ CreatureType.Elephant ] ) {
+			Bonuses.IncreaseSpearLevel ();
 		}
 
 		// Walk speed increase every 3 hippo kills
-		if ( DeadCreatureCount [ CreatureType.Hippo ] > 0 && DeadCreatureCount [ CreatureType.Hippo ] % 3 == 0 && bonuses.walkSpeed == 1 ) {
-			LevelUpWSPD ();
+		if ( DeadCreatureCount [ CreatureType.Hippo ] > 0 && DeadCreatureCount [ CreatureType.Hippo ] % 3 == 0 && Bonuses.MoveSpeedMultiplier == 1 ) {
+			StartCoroutine ( Bonuses.IncreaseMoveSpeedLevel () );
 		}
 
 		// Quiet foot every 3 bunny kills
 		if ( DeadCreatureCount [ CreatureType.Bunny ] > 0 && DeadCreatureCount [ CreatureType.Bunny ] % 3 == 0 ) {
-			ActivateQuietFoot ();
+			StartCoroutine ( Bonuses.EnableQuietFeet () );
 		}
-
-		// Achievements
-		if ( Achievements.IsKillCountAchievement ( NumDeadCreatures ) ) {
-			CameraUIScript.achievements = ( ( Achievements.KillCount ) NumDeadCreatures ).ToString ().Replace ( '_' , ' ' );
-		}
-	}
-
-	void LevelUpSpear () {
-		if ( bonuses.spearScale >= MAX_SPEAR_LEVEL )
-			return;
-
-		bonuses.spearScale++;
-		CameraUIScript.speartext = "Spear\nLevel\n" + bonuses.spearScale;
-		PlayerController.GlowSpear ();
-	}
-
-	void LevelUpWSPD () {
-		if ( bonuses.walkSpeed >= MAX_WALK_SPEED )
-			return;
-		bonuses.walkSpeed++;
-		CameraUIScript.WSPDtext = "WSPD\nx" + bonuses.walkSpeed + "\n";
-		StartCoroutine ( WSPDCountdown () );
-	}
-
-	void ActivateQuietFoot () {
-		CameraUIScript.quietfoottext = "Sneak\nOn\n";
-		StartCoroutine ( QuietFootCountdown () );
-	}
-
-	IEnumerator QuietFootCountdown () {
-		if ( bonuses.quietFeet ) yield break;
-		bonuses.quietFeet = true;
-		string txt = CameraUIScript.quietfoottext;
-		for ( int i = 10 ; i >= 1 ; i-- ) {
-			CameraUIScript.quietfoottext = txt + i;
-			yield return new WaitForSeconds ( 1.0f );
-
-		}
-		CameraUIScript.quietfoottext = "Sneak\nOff\n";
-		bonuses.quietFeet = false;
-	}
-
-	IEnumerator WSPDCountdown () {
-		string txt = CameraUIScript.WSPDtext;
-		for ( int i = 10 ; i >= 1 ; i-- ) {
-			CameraUIScript.WSPDtext = txt + i;
-			yield return new WaitForSeconds ( 1.0f );
-
-		}
-
-		CameraUIScript.WSPDtext = "WSPD\nx1";
-		bonuses.walkSpeed = 1;
 	}
 
 }
