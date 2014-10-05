@@ -326,8 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BloodParticleSystem: {fileID: 19800000}
-  spear: {fileID: 100006}
-  spearCollider: {fileID: 0}
+  Spear: {fileID: 100006}
   MaxLookAngleY: 80
 --- !u!198 &19800000
 ParticleSystem:
