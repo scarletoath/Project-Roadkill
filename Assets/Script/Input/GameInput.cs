@@ -197,10 +197,10 @@ public class GameInput : Singleton<GameInput> {
 
 		// Get data from Tango data providers
 		if ( VIOProvider.GetLatestPose ( ref TangoVIOStatus ) ) {
-			Pose.Position = TangoVIOStatus.translation;
+			Pose.Position = TangoVIOStatus.translation * TangoScale;
 			Pose.Rotation = TangoVIOStatus.rotation;
 
-			Pose.Position *= TangoScale;
+			//Pose.Position *= TangoScale;
 		}
 	}
 

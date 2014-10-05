@@ -114,7 +114,7 @@ public class GameManager : Singleton<GameManager> {
 
 		// Spawn new ones
 		for ( int i = 0 ; i < NumCreaturesToSpawn ; i++ ) {
-			TempPos.z = Random.Range ( 0 , 500 );
+			TempPos.z = Random.Range ( 0 , 100 );
 			TempPos.x = 10 * Mathf.Sin ( Mathf.Deg2Rad * TempPos.z );
 
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
@@ -138,7 +138,7 @@ public class GameManager : Singleton<GameManager> {
 	{
 		for (int i=0; i<MAX_SPAWN_CREATURES - NumAliveCreatures; i++) 
 		{
-			TempPos.z = Random.Range ( 0 , 500 );
+			TempPos.z = Random.Range ( 0 , 100 );
 			TempPos.x = 10 * Mathf.Sin ( Mathf.Deg2Rad * TempPos.z );
 			
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
@@ -155,12 +155,14 @@ public class GameManager : Singleton<GameManager> {
 		if ( (deadCreatures[(int)CreatureType.Elephant] == 1 && bonuses.spearScale == 1) ||
 		    (deadCreatures[(int)CreatureType.Elephant] == 4 && bonuses.spearScale == 2) ||
 		    (deadCreatures[(int)CreatureType.Elephant] == 7 && bonuses.spearScale == 3) ||
-            (deadCreatures[(int)CreatureType.Elephant] == 10 && bonuses.spearScale == 4))
+            (deadCreatures[(int)CreatureType.Elephant] == 10 && bonuses.spearScale == 4) ||
+            (deadCreatures[(int)CreatureType.Elephant] == 13 && bonuses.spearScale == 5) ||
+            (deadCreatures[(int)CreatureType.Elephant] == 16 && bonuses.spearScale == 6))
 		{
 			LevelUpSpear();
 		}
 
-		if (deadCreatures [(int)CreatureType.Bird] > 0 && deadCreatures [(int)CreatureType.Bird] % 3==0 && bonuses.walkSpeed == 1) 
+        if (deadCreatures[(int)CreatureType.Hippo] > 0 && deadCreatures[(int)CreatureType.Hippo] % 3 == 0 && bonuses.walkSpeed == 1) 
 		{
 			LevelUpWSPD();
 		}
@@ -169,7 +171,34 @@ public class GameManager : Singleton<GameManager> {
 		{
 			ActivateQuietFoot();
 		}
-		
+
+        if (NumDeadCreatures == 3)
+            CameraUIScript.achievements = "KILLING SPREE\n";
+
+        if (NumDeadCreatures == 4)
+            CameraUIScript.achievements = "DOMINATING\n";
+
+        if (NumDeadCreatures == 5)
+            CameraUIScript.achievements = "MEGA KILL\n";
+
+        if (NumDeadCreatures == 6)
+            CameraUIScript.achievements = "UNSTOPPABLE\n";
+
+        if (NumDeadCreatures == 7)
+            CameraUIScript.achievements = "WICKED SICK\n";
+
+        if (NumDeadCreatures == 8)
+            CameraUIScript.achievements = "MONSTER KILL\n";
+
+        if (NumDeadCreatures == 9)
+            CameraUIScript.achievements = "GODLIKE\n";
+
+        if (NumDeadCreatures == 10)
+            CameraUIScript.achievements = "HOLY SHIT\n";
+
+        if (NumDeadCreatures == 11)
+            CameraUIScript.achievements = "OWNAGE\n";
+
 	}
 
 	void LevelUpSpear()
@@ -199,6 +228,7 @@ public class GameManager : Singleton<GameManager> {
 
 	IEnumerator QuietFootCountdown()
 	{
+        if (bonuses.quietFeet) yield break;
 		bonuses.quietFeet = true;
         string txt = CameraUIScript.quietfoottext;
         for (int i = 10; i >= 1; i--)
@@ -225,4 +255,5 @@ public class GameManager : Singleton<GameManager> {
         CameraUIScript.WSPDtext = "WSPD\nx1";
         bonuses.walkSpeed = 1;
     }
+
 }
