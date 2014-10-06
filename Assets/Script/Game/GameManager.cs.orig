@@ -66,7 +66,6 @@ public class Bonuses {
         {
             ExpCounter = 0;
             IncreaseSpearLevel();
-            //audio.PlayOneShot(Bonuses.SpearLevelUpSound);
         }
     }
 
@@ -272,10 +271,16 @@ public class GameManager : Singleton<GameManager> {
 		Debug.Log ( "Check Bonuses called" );
 
 		// First kill, then every 3 kills
+<<<<<<< HEAD
 		//if ( Bonuses.SpearLevel < Bonuses.MAX_SPEAR_LEVEL && Bonuses.SpearLevel * 3 - 2 == DeadCreatureCount [ CreatureType.Elephant ] ) {
 		//	Bonuses.IncreaseSpearLevel ();
-		//	audio.PlayOneShot ( Bonuses.SpearLevelUpSound );
 		//}
+=======
+		if ( Bonuses.SpearLevel < Bonuses.MAX_SPEAR_LEVEL && Bonuses.SpearLevel * 3 - 2 == DeadCreatureCount [ CreatureType.Elephant ] ) {
+			Bonuses.IncreaseSpearLevel ();
+			audio.PlayOneShot ( Bonuses.SpearLevelUpSound );
+		}
+>>>>>>> 6099e096428b933fc39bbe0a42adfa8755fd756c
 
 		// Walk speed increase every 3 hippo kills
 		if ( IsLastCreatureKilledType ( CreatureType.Hippo ) && DeadCreatureCount [ CreatureType.Hippo ] % 3 == 0 && Bonuses.MoveSpeedMultiplier == 1 ) {
