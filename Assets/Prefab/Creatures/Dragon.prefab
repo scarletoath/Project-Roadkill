@@ -714,6 +714,7 @@ MonoBehaviour:
   DetectionRange: 25
   EscapeDistance: 25
   IsLookAtPlayerAfterEscape: 1
+  EscapeAnimSpeed: 3.5
   DestroyTime: 5
   BloodMaterial: {fileID: 0}
   Sounds:

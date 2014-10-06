@@ -18,8 +18,8 @@ public class OstrichCreature : Creature {
 		}
 	}
 
-	protected override void DoOnCollisionEnter ( Collision Collision ) {
-		rigidbody.isKinematic = false;
+	protected override bool DoOnCollisionEnter ( Collision Collision ) {
+		return !( rigidbody.isKinematic = !base.DoOnCollisionEnter ( Collision ) );
 	}
 
 }

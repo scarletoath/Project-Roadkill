@@ -12,7 +12,7 @@ public class FlyingCreature : Creature {
 		base.Start ();
 
 		FlyingHeight = Random.Range ( FlyingHeightMin , FlyingHeightMax );
-        this.rigidbody.useGravity = false;
+		this.rigidbody.useGravity = false;
 	}
 
 	// Update is called once per frame
@@ -26,10 +26,14 @@ public class FlyingCreature : Creature {
 		}
 	}
 
-    protected override void DoOnCollisionEnter(Collision Collision)
-    {
-        this.rigidbody.useGravity = true;
-        base.DoOnCollisionEnter(Collision);
-        
-    }
+	protected override bool DoOnCollisionEnter ( Collision Collision ) {
+		if ( base.DoOnCollisionEnter ( Collision ) ) {
+			rigidbody.useGravity = true;
+
+			return true;
+		}
+
+		return false;
+	}
+
 }

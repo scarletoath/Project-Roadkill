@@ -113,7 +113,7 @@ public class CreatureSound {
 public abstract class Creature : MonoBehaviour {
 
 	public const string TAG = "Creature";
-    public int Points = 10;
+	public int Points = 10;
 
 	public static readonly int TYPE_COUNT = System.Enum.GetNames ( typeof ( CreatureType ) ).Length;
 
@@ -131,6 +131,7 @@ public abstract class Creature : MonoBehaviour {
 	public float DetectionRange = 25.0f;
 	public float EscapeDistance = 25.0f;
 	public bool IsLookAtPlayerAfterEscape = true;
+	public float EscapeAnimSpeed = 1.0f;
 
 
 	//[Header ( "On Death" )]
@@ -255,8 +256,9 @@ public abstract class Creature : MonoBehaviour {
 	/// <summary>
 	/// Performs actions when the Creature is collided with.
 	/// </summary>
-	/// <param name="Collision"></param>
-	virtual protected void DoOnCollisionEnter ( Collision Collision ) {
+	/// <param name="Collision">Information about the collision.</param>
+	/// <returns>Returns true if the collision is valid.</returns>
+	virtual protected bool DoOnCollisionEnter ( Collision Collision ) {
 		if ( PlayerController.IsPlayerObject ( Collision.gameObject ) ) {
 			ChangeState ( CreatureState.Dying );
 			IsDead = true;
@@ -266,9 +268,13 @@ public abstract class Creature : MonoBehaviour {
 
 			ChangeMaterial ( BloodMaterial );
 			PlayerController.SplatterBlood ();
-            GameManager.GetBonuses().AddExp(this.Points);
-            GameInput.Vibrate ();
+			GameManager.GetBonuses ().AddExp ( this.Points );
+			GameInput.Vibrate ();
+
+			return true;
 		}
+
+		return false;
 	}
 
 	protected void ChangeMaterial ( Material NewMaterial ) {
@@ -405,7 +411,7 @@ public abstract class Creature : MonoBehaviour {
 			CurrentEscapeDistance = 0;
 
 			PlaySound ( CreatureState.Escaping , 10.0f , true );
-			TriggerAnimation ( CreatureAnimationState.Move );
+			TriggerAnimation ( CreatureAnimationState.Move , EscapeAnimSpeed );
 
 			IsStateJustChanged = false;
 		}
