@@ -13,10 +13,6 @@ public class PlayerController : Singleton<PlayerController> {
 	/// </summary>
 	public float MaxLookAngleY = 80.0f;
 
-	public AudioSource BaseTrack;
-	public AudioSource OverlayTrack;
-	public AudioSource OverlayTrack2;
-
 	private Renderer [] SpearRenderers;
 
 	private Vector3 OriginalPos;
@@ -38,8 +34,6 @@ public class PlayerController : Singleton<PlayerController> {
 			OriginalSpearScale = Spear.transform.localScale;
 			SpearRenderers = Spear.GetComponentsInChildren<Renderer> ();
 		}
-
-		BaseTrack.Play ();
 	}
 
 	// Update is called once per frame
@@ -70,20 +64,6 @@ public class PlayerController : Singleton<PlayerController> {
 			TempEuler.x = MaxLookAngleY;
 		}
 		transform.eulerAngles = TempEuler;
-
-		// Start/Stop overlay music based on speed bonus active
-		if ( GameManager.GetBonuses ().MoveSpeedMultiplier > 1 ) {
-			if ( !OverlayTrack.isPlaying ) {
-				OverlayTrack.Play ();
-				OverlayTrack2.Play ();
-			}
-		}
-		else {
-			if ( OverlayTrack.isPlaying ) {
-				OverlayTrack.Stop ();
-				OverlayTrack2.Stop ();
-			}
-		}
 	}
 
 	public static GameObject Object {

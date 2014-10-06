@@ -121,6 +121,9 @@ public class GameManager : Singleton<GameManager> {
 
 	public Bonuses Bonuses;
 
+	public AudioSource BGMSource;
+	public float TimeBeforeFadeBGM = 5.0f;
+
 	private Transform CreatureContainer;
 
 	private LinkedList<Creature> SpawnedCreatures;
@@ -131,6 +134,7 @@ public class GameManager : Singleton<GameManager> {
 	private Quaternion TempRot;
 
 	private Dictionary<CreatureType,int> DeadCreatureCount;
+	private float LastKilledCreatureTime;
 
 	// Use this for initialization
 	void Start () {
@@ -155,7 +159,7 @@ public class GameManager : Singleton<GameManager> {
 
 	// Update is called once per frame
 	void Update () {
-
+		CheckFadeBGM ();
 	}
 
 	public static int NumTotalCreatures {
@@ -193,6 +197,11 @@ public class GameManager : Singleton<GameManager> {
 			Instance.DeadCreatures.Add ( CreatureEntry.Value );
 			Instance.DeadCreatureCount [ Creature.Type ]++;
 			Instance.CheckBonuses ();
+
+			if ( !Instance.BGMSource.isPlaying ) {
+				Instance.BGMSource.Play ();
+			}
+			Instance.LastKilledCreatureTime = Instance.TimeBeforeFadeBGM;
 
 			return true;
 		}
@@ -233,6 +242,26 @@ public class GameManager : Singleton<GameManager> {
 			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
 			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
+		}
+	}
+
+	private void CheckFadeBGM () {
+		if ( !BGMSource.isPlaying ) {
+			return;
+		}
+
+		if ( LastKilledCreatureTime > 0 ) {
+			LastKilledCreatureTime -= Time.deltaTime;
+		}
+
+		if ( LastKilledCreatureTime <= 0 ) {
+			if ( BGMSource.volume > 0 ) {
+				BGMSource.volume -= Time.deltaTime / 2;
+			}
+			else {
+				BGMSource.Stop ();
+				BGMSource.volume = 1;
+			}
 		}
 	}
 
