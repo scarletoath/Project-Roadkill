@@ -46,6 +46,9 @@ public class Bonuses {
 	public delegate void OnSpearLevelUpHandler ();
 	public event OnSpearLevelUpHandler OnSpearLevelUp;
 
+	public delegate void OnIncreaseExpHandler ();
+	public event OnIncreaseExpHandler OnIncreaseExp;
+
 	public int SpearLevel { get; private set; }
 	public float MoveSpeedMultiplier { get; private set; }
 	public bool HasQuietFeet { get; private set; }
@@ -68,6 +71,11 @@ public class Bonuses {
 		if ( ExpCounter > MAX_EXP_BEFORE_LEVEL_UP ) {
 			ExpCounter = 0;
 			IncreaseSpearLevel ();
+		}
+		else {
+			if ( OnIncreaseExp != null ) {
+				OnIncreaseExp ();
+			}
 		}
 	}
 
