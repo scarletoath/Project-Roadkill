@@ -711,6 +711,9 @@ MonoBehaviour:
   Type: 3
   MoveSpeed: 20
   MaxTurnSpeed: 10
+  RoamingDistance: 10
+  RoamingDelayMin: 3
+  RoamingDelayMax: 6
   DetectionRange: 25
   EscapeDistance: 25
   IsLookAtPlayerAfterEscape: 1

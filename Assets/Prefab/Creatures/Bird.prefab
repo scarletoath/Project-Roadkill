@@ -48,6 +48,7 @@ Transform:
   m_Children:
   - {fileID: 400002}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -59,6 +60,7 @@ Transform:
   m_LocalScale: {x: .00999999978, y: .00999999978, z: .00999999978}
   m_Children: []
   m_Father: {fileID: 400000}
+  m_RootOrder: 0
 --- !u!23 &2300000
 Renderer:
   m_ObjectHideFlags: 1
@@ -77,9 +79,8 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
   m_SortingLayerID: 0
+  m_SortingOrder: 0
 --- !u!33 &3300000
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -116,7 +117,7 @@ BoxCollider:
   m_Center: {x: 0, y: .5, z: 0}
 --- !u!95 &9500000
 Animator:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -125,9 +126,10 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: b780b5b30524c2447a964969dbe1ac05, type: 3}
   m_Controller: {fileID: 9100000, guid: 006fa6836b5ead44f85332c903335eb4, type: 2}
   m_CullingMode: 0
+  m_UpdateMode: 0
   m_ApplyRootMotion: 1
-  m_AnimatePhysics: 0
   m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,9 +145,13 @@ MonoBehaviour:
   Type: 1
   MoveSpeed: 10
   MaxTurnSpeed: 10
+  RoamingDistance: 10
+  RoamingDelayMin: 3
+  RoamingDelayMax: 6
   DetectionRange: 10
   EscapeDistance: 10
   IsLookAtPlayerAfterEscape: 1
+  EscapeAnimSpeed: 1
   DestroyTime: 5
   BloodMaterial: {fileID: 2100000, guid: f694b7f010f5fa443a3ca33af73be1af, type: 2}
   Sounds:

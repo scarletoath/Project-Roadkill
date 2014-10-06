@@ -127,6 +127,10 @@ public abstract class Creature : MonoBehaviour {
 
 	//[Header ( "AI" )]
 
+	//[Tooltip("Set to zero to disable roaming.")]
+	public float RoamingDistance = 10.0f;
+	public float RoamingDelayMin = 0.0f;
+	public float RoamingDelayMax = 0.0f;
 	//[Tooltip ( "Set to Infinity if not scared." )]
 	public float DetectionRange = 25.0f;
 	public float EscapeDistance = 25.0f;
@@ -145,6 +149,10 @@ public abstract class Creature : MonoBehaviour {
 	public CreatureSound [] Sounds;
 
 	protected bool IsDead = false;
+
+	protected Vector3 RoamingDir;
+	protected float CurrentRoamingDistance;
+	protected float RoamingTimer;
 
 	protected Vector3 EscapeDir;
 	protected float CurrentEscapeDistance;
@@ -362,12 +370,24 @@ public abstract class Creature : MonoBehaviour {
 		if ( IsStateJustChanged ) {
 			TriggerAnimation ( CreatureAnimationState.Idle );
 
+			if ( RoamingDistance > 0 ) {
+				RoamingTimer = Random.Range ( RoamingDelayMin , RoamingDelayMax );
+			}
+
 			IsStateJustChanged = false;
 		}
 
 		CheckPlayerProximity ();
 
-		PlaySound ( CreatureState.Idle );
+		if ( CurrentState == CreatureState.Idle ) {
+			PlaySound ( CreatureState.Idle );
+
+			RoamingTimer -= Time.deltaTime;
+
+			if ( RoamingTimer <= 0 ) {
+				ChangeState ( CreatureState.Moving );
+			}
+		}
 	}
 
 	virtual protected void DoLookAt () {
@@ -400,7 +420,30 @@ public abstract class Creature : MonoBehaviour {
 	/// </summary>
 	virtual protected void TryMove () {
 		if ( CanMove ) {
+			if ( IsStateJustChanged ) {
+				CurrentRoamingDistance = 0;
+				RoamingDir = new Vector3 ( Random.Range ( -1.0f , 1.0f ) , 0 , Random.Range ( -1.0f , 1.0f ) );
+
+				TriggerAnimation ( CreatureAnimationState.Move );
+
+				IsStateJustChanged = false;
+			}
+
+			CheckPlayerProximity ();
+
+			transform.forward = Vector3.RotateTowards (
+				transform.forward ,
+				RoamingDir ,
+				MaxTurnSpeed * Time.deltaTime ,
+				0.0f
+			);
+
 			transform.Translate ( 0 , 0 , Time.deltaTime * MoveSpeed , Space.Self );
+			CurrentRoamingDistance += MoveSpeed * Time.deltaTime;
+
+			if ( CurrentRoamingDistance >= RoamingDistance ) {
+				ChangeState ( CreatureState.Idle );
+			}
 		}
 	}
 
