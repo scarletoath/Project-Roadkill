@@ -6,7 +6,7 @@ using UnityEngine;
 public sealed class Achievements {
 
 	public enum KillCount {
-        FIRST_BLOOD = 1,
+		FIRST_BLOOD = 1 ,
 		KILLING_SPREE = 3 ,
 		DOMINATING = 4 ,
 		MEGA_KILL = 5 ,
@@ -18,19 +18,16 @@ public sealed class Achievements {
 		OWNAGE = 11 ,
 	}
 
-    public AudioClip[] announcerSounds;
-    private bool isplaying = false;
+	public AudioClip[] announcerSounds;
+	private bool isplaying = false;
 
-    public AudioClip GetAnnouncerSound(int index)
-    {
-        return announcerSounds[index];
-    }
+	public AudioClip GetAnnouncerSound ( int index ) {
+		return announcerSounds [ index ];
+	}
 
 	public static bool IsKillCountAchievement ( int KillCount ) {
 		return System.Enum.IsDefined ( typeof ( KillCount ) , KillCount );
 	}
-
-    
 
 }
 
@@ -195,6 +192,8 @@ public class GameManager : Singleton<GameManager> {
 
 	private const string CREATURE_CONTAINER_NAME = "Creatures";
 
+	private const string KEY_LIFETIME_KILLED_CREATURES_COUNT = "TotalKills";
+
 	public int NumCreaturesToSpawn = 10;
 	public float SpawnInterval = 5.0f;
 
@@ -202,9 +201,9 @@ public class GameManager : Singleton<GameManager> {
 
 	public Bonuses Bonuses;
 
-    public Achievements achievements;
-    private bool isplaying = false;
-    private int currentAnnouncerSound = -1;
+	public Achievements achievements;
+	private bool isplaying = false;
+	private int currentAnnouncerSound = -1;
 
 	public AudioSource BGMSource;
 	public float TimeBeforeFadeBGM = 5.0f;
@@ -219,6 +218,7 @@ public class GameManager : Singleton<GameManager> {
 	private Quaternion TempRot;
 
 	private Dictionary<CreatureType,int> DeadCreatureCount;
+	private int LifetimeKilledCreaturesCount;
 	private float LastKilledCreatureTime;
 
 	// Use this for initialization
@@ -238,6 +238,13 @@ public class GameManager : Singleton<GameManager> {
 			CreatureContainer = TempGameObject.transform;
 		}
 
+		if ( PlayerPrefs.HasKey ( KEY_LIFETIME_KILLED_CREATURES_COUNT ) ) {
+			LifetimeKilledCreaturesCount = PlayerPrefs.GetInt ( KEY_LIFETIME_KILLED_CREATURES_COUNT );
+		}
+		else {
+			PlayerPrefs.SetInt ( KEY_LIFETIME_KILLED_CREATURES_COUNT , 0 );
+		}
+
 		Bonuses.OnSpearLevelUp += PlayerController.UpdateSpear;
 		Bonuses.OnSpearLevelUp += PlayUpgradeSpearSound;
 
@@ -248,6 +255,11 @@ public class GameManager : Singleton<GameManager> {
 	// Update is called once per frame
 	void Update () {
 		CheckFadeBGM ();
+	}
+
+	void OnApplicationQuit () {
+		LifetimeKilledCreaturesCount += NumDeadCreatures;
+		PlayerPrefs.SetInt ( KEY_LIFETIME_KILLED_CREATURES_COUNT , LifetimeKilledCreaturesCount );
 	}
 
 	public static int NumTotalCreatures {
@@ -268,6 +280,12 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
+	public static int NumLifetimeKilledCreatures {
+		get {
+			return Instance.LifetimeKilledCreaturesCount;
+		}
+	}
+
 	public static Bonuses GetBonuses () {
 		return Instance.Bonuses;
 	}
@@ -285,7 +303,7 @@ public class GameManager : Singleton<GameManager> {
 			Instance.DeadCreatures.Add ( CreatureEntry.Value );
 			Instance.DeadCreatureCount [ Creature.Type ]++;
 			Instance.CheckBonuses ();
-            Instance.CheckAndPlayAnnouncerSounds();
+			Instance.CheckAndPlayAnnouncerSounds ();
 
 			Instance.audio.PlayOneShot ( Instance.Bonuses.GetCurrentSpearSound () , 15 );
 
@@ -326,8 +344,8 @@ public class GameManager : Singleton<GameManager> {
 
 	private void RespawnCreatures () {
 		for ( int i = 0 ; i < NumCreaturesToSpawn - NumAliveCreatures ; i++ ) {
-            TempPos.z = Random.Range ( 10 , 100 ) + PlayerController.Position.z;
-			TempPos.x = Random.Range ( 10 , 60 ) * flip() + PlayerController.Position.x;
+			TempPos.z = Random.Range ( 10 , 100 ) + PlayerController.Position.z;
+			TempPos.x = Random.Range ( 10 , 60 ) * flip () + PlayerController.Position.x;
 
 
 
@@ -348,10 +366,9 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
-    private int flip()
-    {
-        return Random.Range(0, 2) == 1 ? 1 : -1;
-    }
+	private int flip () {
+		return Random.Range ( 0 , 2 ) == 1 ? 1 : -1;
+	}
 
 	private void CheckFadeBGM () {
 		if ( !BGMSource.isPlaying ) {
@@ -389,49 +406,50 @@ public class GameManager : Singleton<GameManager> {
 	}
 
 
-    private void CheckAndPlayAnnouncerSounds()
-    {
-        if (Achievements.IsKillCountAchievement(GameManager.NumDeadCreatures))
-            switch ((Achievements.KillCount)GameManager.NumDeadCreatures)
-            {
-                case Achievements.KillCount.FIRST_BLOOD:
-                    StartCoroutine(playAnnouncerSound(0));
-                    break;
-                case Achievements.KillCount.KILLING_SPREE:
-                case Achievements.KillCount.DOMINATING:
-                case Achievements.KillCount.MEGA_KILL:
-                case Achievements.KillCount.UNSTOPPABLE:
-                case Achievements.KillCount.WICKED_SICK:
-                case Achievements.KillCount.MONSTER_KILL:
-                case Achievements.KillCount.GOD_LIKE:
-                case Achievements.KillCount.HOLY_SHIT:
-                case Achievements.KillCount.OWNAGE:
-                    StartCoroutine(playAnnouncerSound(GameManager.NumDeadCreatures + 2));
-                    break;
-                default:
-                    break;
+	private void CheckAndPlayAnnouncerSounds () {
+		if ( Achievements.IsKillCountAchievement ( GameManager.NumDeadCreatures ) )
+			switch ( ( Achievements.KillCount ) GameManager.NumDeadCreatures ) {
+				case Achievements.KillCount.FIRST_BLOOD:
+					StartCoroutine ( playAnnouncerSound ( 0 ) );
+					break;
+				case Achievements.KillCount.KILLING_SPREE:
+				case Achievements.KillCount.DOMINATING:
+				case Achievements.KillCount.MEGA_KILL:
+				case Achievements.KillCount.UNSTOPPABLE:
+				case Achievements.KillCount.WICKED_SICK:
+				case Achievements.KillCount.MONSTER_KILL:
+				case Achievements.KillCount.GOD_LIKE:
+				case Achievements.KillCount.HOLY_SHIT:
+				case Achievements.KillCount.OWNAGE:
+					StartCoroutine ( playAnnouncerSound ( GameManager.NumDeadCreatures + 2 ) );
+					break;
+				default:
+					break;
 
 
-            }
+			}
 
-        if (GameManager.NumDeadCreatures > 11)
-            StartCoroutine(playAnnouncerSound(13));
-    }
+		if ( GameManager.NumDeadCreatures > 11 )
+			StartCoroutine ( playAnnouncerSound ( 13 ) );
+	}
 
-    IEnumerator playAnnouncerSound(int sound_index)
-    {
-        if (isplaying && currentAnnouncerSound == sound_index) yield break;
-        AudioClip sound = achievements.GetAnnouncerSound(sound_index);
-        this.audio.PlayOneShot(sound,15.0f);
-        isplaying = true;
-        currentAnnouncerSound = sound_index;
-        yield return new WaitForSeconds(sound.length);
-        isplaying = false;
-        currentAnnouncerSound = -1;
-    }
+	IEnumerator playAnnouncerSound ( int sound_index ) {
+		if ( isplaying && currentAnnouncerSound == sound_index ) yield break;
+		AudioClip sound = achievements.GetAnnouncerSound ( sound_index );
+		this.audio.PlayOneShot ( sound , 15.0f );
+		isplaying = true;
+		currentAnnouncerSound = sound_index;
+		yield return new WaitForSeconds ( sound.length );
+		isplaying = false;
+		currentAnnouncerSound = -1;
+	}
 
 	private bool IsLastCreatureKilledType ( CreatureType Type ) {
 		return DeadCreatures [ DeadCreatures.Count - 1 ].Type == Type;
+	}
+
+	private void ClearStoredData () {
+		PlayerPrefs.DeleteAll ();
 	}
 
 }
