@@ -223,6 +223,9 @@ public class GameManager : Singleton<GameManager> {
 
     public GameObject BloodSplatter;
 
+    private int nextKillLevel = 0;
+    private float timelastcreaturekilled = 0;
+
 	// Use this for initialization
 	void Start () {
 		SpawnedCreatures = new LinkedList<Creature> ();
@@ -304,7 +307,18 @@ public class GameManager : Singleton<GameManager> {
 			Instance.SpawnedCreatures.Remove ( Creature );
 			Instance.DeadCreatures.Add ( CreatureEntry.Value );
 			Instance.DeadCreatureCount [ Creature.Type ]++;
-			Instance.CheckBonuses ();
+
+            if ( (Time.time - Instance.timelastcreaturekilled) < 5.0f)
+                Instance.nextKillLevel++;
+
+            Debug.Log(Instance.nextKillLevel);
+
+            if (Instance.nextKillLevel > 3)
+                Instance.nextKillLevel = 0;
+
+            Instance.timelastcreaturekilled = Time.time;
+
+            Instance.CheckBonuses ();
 			Instance.CheckAndPlayAnnouncerSounds ();
             Instance.makeSplatter(Creature.gameObject.transform.position);
 
@@ -439,21 +453,33 @@ public class GameManager : Singleton<GameManager> {
 				case Achievements.KillCount.HOLY_SHIT:
 				case Achievements.KillCount.OWNAGE:
 					StartCoroutine ( playAnnouncerSound ( GameManager.NumDeadCreatures + 2 ) );
-					break;
+                    return;
 				default:
 					break;
 
 
 			}
 
-		if ( GameManager.NumDeadCreatures > 11 )
-			StartCoroutine ( playAnnouncerSound ( 13 ) );
-	}
+        if (nextKillLevel == 2)
+        {
+            Debug.Log("Double Kill Played");
+            StartCoroutine (playAnnouncerSound(1));
+        }
+        else if (nextKillLevel == 3)
+        {
+            Debug.Log("Triple Kill Played");
+            StartCoroutine (playAnnouncerSound(2));
+        }
+        else if (GameManager.NumDeadCreatures > 11)
+            StartCoroutine(playAnnouncerSound(13));
+
+    }
 
 	IEnumerator playAnnouncerSound ( int sound_index ) {
 		if ( isplaying && currentAnnouncerSound == sound_index ) yield break;
 		AudioClip sound = achievements.GetAnnouncerSound ( sound_index );
 		this.audio.PlayOneShot ( sound , 15.0f );
+        Debug.Log("sound played:" + sound_index);
 		isplaying = true;
 		currentAnnouncerSound = sound_index;
 		yield return new WaitForSeconds ( sound.length );
