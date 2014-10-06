@@ -38,6 +38,9 @@ public class Bonuses {
 	public int MoveSpeedDuration = 10;
 	public int QuietFeetDuration = 10;
 
+	public GameObject [] SpearPrefabs;
+	public AudioClip [] SpearSounds;
+
 	public AudioClip SpearLevelUpSound;
 
 	public delegate void OnSpearLevelUpHandler ();
@@ -68,6 +71,14 @@ public class Bonuses {
 		}
 	}
 
+	public GameObject GetCurrentSpearPrefab () {
+		return SpearPrefabs [ SpearLevel - 1 ];
+	}
+
+	public AudioClip GetCurrentSpearSound () {
+		return SpearSounds [ SpearLevel - 1 ];
+	}
+
 	public int GetMoveSpeedTimeRemaining () {
 		return MoveSpeedTimer;
 	}
@@ -82,7 +93,6 @@ public class Bonuses {
 		}
 
 		SpearLevel++;
-		PlayerController.GlowSpear ();
 
 		if ( OnSpearLevelUp != null ) {
 			OnSpearLevelUp ();
@@ -147,8 +157,6 @@ public class GameManager : Singleton<GameManager> {
 	public AudioSource BGMSource;
 	public float TimeBeforeFadeBGM = 5.0f;
 
-	public AudioClip StabSound;
-
 	private Transform CreatureContainer;
 
 	private LinkedList<Creature> SpawnedCreatures;
@@ -178,7 +186,7 @@ public class GameManager : Singleton<GameManager> {
 			CreatureContainer = TempGameObject.transform;
 		}
 
-		Bonuses.OnSpearLevelUp += PlayerController.GlowSpear;
+		Bonuses.OnSpearLevelUp += PlayerController.UpdateSpear;
 		Bonuses.OnSpearLevelUp += PlayUpgradeSpearSound;
 
 		SpawnInitialCreatures ();
@@ -226,7 +234,7 @@ public class GameManager : Singleton<GameManager> {
 			Instance.DeadCreatureCount [ Creature.Type ]++;
 			Instance.CheckBonuses ();
 
-			Instance.audio.PlayOneShot ( Instance.StabSound , 15 );
+			Instance.audio.PlayOneShot ( Instance.Bonuses.GetCurrentSpearSound () , 15 );
 
 			if ( !Instance.BGMSource.isPlaying ) {
 				Instance.BGMSource.volume = 1;

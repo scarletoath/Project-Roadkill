@@ -105,43 +105,52 @@ public class PlayerController : Singleton<PlayerController> {
 		Instance.BloodParticleSystem.Emit ( 50 );
 	}
 
-	public static void GlowSpear () {
-		Instance.StartCoroutine ( Instance.GlowSpearInternal () );
+	public static void UpdateSpear () {
+		Instance.UpdateSpearInternal ();
 	}
 
-	IEnumerator GlowSpearInternal () {
-		Quaternion OriginalRot = Spear.transform.localRotation;
+	private void UpdateSpearInternal () {
+		StartCoroutine ( GlowAndChangeSpear () );
+	}
+
+	private IEnumerator GlowAndChangeSpear () {
+		Vector3 OriginalLocalPos = Spear.transform.localPosition;
+		Quaternion OriginalLocalRot = Spear.transform.localRotation;
 
 		for ( float i = 0.0f ; i < 1.0f ; i += Time.deltaTime ) {
 			foreach ( Renderer Renderer in SpearRenderers ) {
 				Renderer.material.SetFloat ( "_Emission" , i * 0.67f );
 			}
-			Spear.transform.localRotation = Quaternion.Euler ( new Vector3 ( -360.0f * i , 0 , 0 ) ) * OriginalRot;
+			Spear.transform.localRotation = Quaternion.Euler ( new Vector3 ( -360.0f * i , 0 , 0 ) ) * OriginalLocalRot;
 			yield return null;
 		}
 
 		foreach ( Renderer Renderer in SpearRenderers ) {
 			Renderer.material.SetFloat ( "_Emission" , 0.67f );
 		}
+		Destroy ( Spear );
+		Spear = Instantiate ( GameManager.GetBonuses ().GetCurrentSpearPrefab () ) as GameObject;
+		Spear.transform.parent = transform;
+		Spear.transform.localPosition = OriginalLocalPos;
+		Spear.transform.localRotation = OriginalLocalRot;
+		SpearRenderers = Spear.GetComponentsInChildren<Renderer> ();
+		foreach ( Renderer Renderer in SpearRenderers ) {
+			Renderer.material.SetFloat ( "_Emission" , 0.67f );
+		}
+
 		yield return new WaitForSeconds ( 0.5f );
 
 		for ( float i = 1.0f ; i > 0.0f ; i -= Time.deltaTime ) {
 			foreach ( Renderer Renderer in SpearRenderers ) {
 				Renderer.material.SetFloat ( "_Emission" , i * 0.67f );
 			}
-			Spear.transform.localRotation = Quaternion.Euler ( new Vector3 ( -360.0f * i , 0 , 0 ) ) * OriginalRot;
+			Spear.transform.localRotation = Quaternion.Euler ( new Vector3 ( -360.0f * i , 0 , 0 ) ) * OriginalLocalRot;
 			yield return null;
 		}
 		foreach ( Renderer Renderer in SpearRenderers ) {
 			Renderer.material.SetFloat ( "_Emission" , 0 );
 		}
-		Spear.transform.localRotation = OriginalRot;
-
-		Spear.transform.localScale = new Vector3 (
-			OriginalSpearScale.x ,
-			OriginalSpearScale.y ,
-			OriginalSpearScale.z * GameManager.GetBonuses ().SpearLevel
-		);
+		Spear.transform.localRotation = OriginalLocalRot;
 	}
 
 
