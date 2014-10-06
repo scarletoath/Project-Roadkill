@@ -275,7 +275,7 @@ public abstract class Creature : MonoBehaviour {
 			GameManager.KillCreature ( this );
 
 			ChangeMaterial ( BloodMaterial );
-			PlayerController.SplatterBlood ();
+            PlayerController.ShowBloodAndPoints(Collision.contacts[0].point, this.Points);
 			GameManager.GetBonuses ().AddExp ( this.Points );
 			GameInput.Vibrate ();
 
