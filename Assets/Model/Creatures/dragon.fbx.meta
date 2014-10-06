@@ -11,6 +11,14 @@ ModelImporter:
     100010: tailhead
     100012: wing_l
     100014: wing_r
+    100016: dragon
+    100018: tailJoint_1
+    100020: tailJoint_2
+    100022: tailJoint_3
+    100024: tailJoint_4
+    100026: tailJoint_5
+    100028: tailJoint_6
+    100030: tailJoint_7
     400000: body
     400002: //RootNode
     400004: ear_l
@@ -19,6 +27,14 @@ ModelImporter:
     400010: tailhead
     400012: wing_l
     400014: wing_r
+    400016: dragon
+    400018: tailJoint_1
+    400020: tailJoint_2
+    400022: tailJoint_3
+    400024: tailJoint_4
+    400026: tailJoint_5
+    400028: tailJoint_6
+    400030: tailJoint_7
     2300000: body
     2300002: ear_l
     2300004: ear_r
@@ -40,8 +56,11 @@ ModelImporter:
     4300008: ear_r
     4300010: wing_r
     4300012: wing_l
+    7400000: Idle/Move
+    7400002: Mr. Bean's Ears
     9500000: //RootNode
     11100000: //RootNode
+    13700000: tail
   materials:
     importMaterials: 1
     materialName: 0
@@ -57,7 +76,123 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle/Move
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 85
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: dragon
+        weight: 1
+      - path: dragon/body
+        weight: 1
+      - path: dragon/ear_l
+        weight: 1
+      - path: dragon/ear_r
+        weight: 1
+      - path: dragon/tail
+        weight: 1
+      - path: dragon/wing_l
+        weight: 1
+      - path: dragon/wing_r
+        weight: 1
+      - path: tailJoint_1
+        weight: 1
+      - path: tailJoint_1/tailJoint_2
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3/tailJoint_4
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3/tailJoint_4/tailJoint_5
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3/tailJoint_4/tailJoint_5/tailJoint_6
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3/tailJoint_4/tailJoint_5/tailJoint_6/tailJoint_7
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3/tailJoint_4/tailJoint_5/tailJoint_6/tailJoint_7/tailhead
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Mr. Bean's Ears
+      takeName: Take 001
+      firstFrame: 87
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: dragon
+        weight: 1
+      - path: dragon/body
+        weight: 1
+      - path: dragon/ear_l
+        weight: 1
+      - path: dragon/ear_r
+        weight: 1
+      - path: dragon/tail
+        weight: 1
+      - path: dragon/wing_l
+        weight: 1
+      - path: dragon/wing_r
+        weight: 1
+      - path: tailJoint_1
+        weight: 1
+      - path: tailJoint_1/tailJoint_2
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3/tailJoint_4
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3/tailJoint_4/tailJoint_5
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3/tailJoint_4/tailJoint_5/tailJoint_6
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3/tailJoint_4/tailJoint_5/tailJoint_6/tailJoint_7
+        weight: 1
+      - path: tailJoint_1/tailJoint_2/tailJoint_3/tailJoint_4/tailJoint_5/tailJoint_6/tailJoint_7/tailhead
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
