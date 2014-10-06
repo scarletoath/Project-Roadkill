@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class HUD : Singleton<HUD> {
 
@@ -45,13 +46,14 @@ public class HUD : Singleton<HUD> {
 		GUI.Label ( new Rect ( 150 , 20 , 40 , 60 ) , DESC_SPEAR_LEVEL + GameManager.GetBonuses ().SpearLevel );
 
 		GUI.Label ( new Rect ( Screen.width - 120 , 20 , 100 , Screen.height ) , GetKillCountAchievementText () );
+
 		GUI.DrawTexture ( new Rect ( 40 , Screen.height - 40 , ( Screen.width - 80 ) * DisplayedExpRatio , 20 ) , expbartex );
 
 	}
 
 	private string GetKillCountAchievementText () {
 		if ( Achievements.IsKillCountAchievement ( GameManager.NumDeadCreatures ) ) {
-			return ( ( Achievements.KillCount ) GameManager.NumDeadCreatures ).ToString ().Replace ( '_' , ' ' );
+            	return ( ( Achievements.KillCount ) GameManager.NumDeadCreatures ).ToString ().Replace ( '_' , ' ' );
 		}
 		else if ( GameManager.NumDeadCreatures >= 20 ) {
 			return "Stop being cruel\nto animals!\n\nOr maybe not.";
@@ -61,7 +63,8 @@ public class HUD : Singleton<HUD> {
 		}
 	}
 
-	private void UpdateTargetExpRatio () {
+    private void UpdateTargetExpRatio()
+    {
 		TargetExpRatio = GameManager.GetBonuses ().ExpRatio;
 
 		if ( TargetExpRatio == 0 ) {

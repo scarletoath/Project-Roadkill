@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public sealed class Achievements {
 
 	public enum KillCount {
+        FIRST_BLOOD = 1,
 		KILLING_SPREE = 3 ,
 		DOMINATING = 4 ,
 		MEGA_KILL = 5 ,
@@ -16,9 +18,19 @@ public sealed class Achievements {
 		OWNAGE = 11 ,
 	}
 
+    public AudioClip[] announcerSounds;
+    private bool isplaying = false;
+
+    public AudioClip GetAnnouncerSound(int index)
+    {
+        return announcerSounds[index];
+    }
+
 	public static bool IsKillCountAchievement ( int KillCount ) {
 		return System.Enum.IsDefined ( typeof ( KillCount ) , KillCount );
 	}
+
+    
 
 }
 
@@ -168,6 +180,10 @@ public class GameManager : Singleton<GameManager> {
 
 	public Bonuses Bonuses;
 
+    public Achievements achievements;
+    private bool isplaying = false;
+    private int currentAnnouncerSound = -1;
+
 	public AudioSource BGMSource;
 	public float TimeBeforeFadeBGM = 5.0f;
 
@@ -247,6 +263,7 @@ public class GameManager : Singleton<GameManager> {
 			Instance.DeadCreatures.Add ( CreatureEntry.Value );
 			Instance.DeadCreatureCount [ Creature.Type ]++;
 			Instance.CheckBonuses ();
+            Instance.CheckAndPlayAnnouncerSounds();
 
 			Instance.audio.PlayOneShot ( Instance.Bonuses.GetCurrentSpearSound () , 15 );
 
@@ -287,8 +304,10 @@ public class GameManager : Singleton<GameManager> {
 
 	private void RespawnCreatures () {
 		for ( int i = 0 ; i < NumCreaturesToSpawn - NumAliveCreatures ; i++ ) {
-			TempPos.z = Random.Range ( 0 , 100 ) + PlayerController.Position.z;
-			TempPos.x = Random.Range ( -50 , 50 ) + PlayerController.Position.x;
+            TempPos.z = Random.Range ( 10 , 100 ) + PlayerController.Position.z;
+			TempPos.x = Random.Range ( 10 , 60 ) * flip() + PlayerController.Position.x;
+
+
 
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
 
@@ -306,6 +325,11 @@ public class GameManager : Singleton<GameManager> {
 			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
 		}
 	}
+
+    private int flip()
+    {
+        return Random.Range(0, 2) == 1 ? 1 : -1;
+    }
 
 	private void CheckFadeBGM () {
 		if ( !BGMSource.isPlaying ) {
@@ -341,6 +365,48 @@ public class GameManager : Singleton<GameManager> {
 			StartCoroutine ( Bonuses.EnableQuietFeet () );
 		}
 	}
+
+
+    private void CheckAndPlayAnnouncerSounds()
+    {
+        if (Achievements.IsKillCountAchievement(GameManager.NumDeadCreatures))
+            switch ((Achievements.KillCount)GameManager.NumDeadCreatures)
+            {
+                case Achievements.KillCount.FIRST_BLOOD:
+                    StartCoroutine(playAnnouncerSound(0));
+                    break;
+                case Achievements.KillCount.KILLING_SPREE:
+                case Achievements.KillCount.DOMINATING:
+                case Achievements.KillCount.MEGA_KILL:
+                case Achievements.KillCount.UNSTOPPABLE:
+                case Achievements.KillCount.WICKED_SICK:
+                case Achievements.KillCount.MONSTER_KILL:
+                case Achievements.KillCount.GOD_LIKE:
+                case Achievements.KillCount.HOLY_SHIT:
+                case Achievements.KillCount.OWNAGE:
+                    StartCoroutine(playAnnouncerSound(GameManager.NumDeadCreatures + 2));
+                    break;
+                default:
+                    break;
+
+
+            }
+
+        if (GameManager.NumDeadCreatures > 11)
+            StartCoroutine(playAnnouncerSound(13));
+    }
+
+    IEnumerator playAnnouncerSound(int sound_index)
+    {
+        if (isplaying && currentAnnouncerSound == sound_index) yield break;
+        AudioClip sound = achievements.GetAnnouncerSound(sound_index);
+        this.audio.PlayOneShot(sound,15.0f);
+        isplaying = true;
+        currentAnnouncerSound = sound_index;
+        yield return new WaitForSeconds(sound.length);
+        isplaying = false;
+        currentAnnouncerSound = -1;
+    }
 
 	private bool IsLastCreatureKilledType ( CreatureType Type ) {
 		return DeadCreatures [ DeadCreatures.Count - 1 ].Type == Type;
