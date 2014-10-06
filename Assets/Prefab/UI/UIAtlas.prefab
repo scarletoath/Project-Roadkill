@@ -42,8 +42,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: ab77dfa0f574bf1429ee645ba3e71d25, type: 2}
   mSprites:
   - name: credits_down
-    x: 2132
-    y: 197
+    x: 3589
+    y: 1122
     width: 500
     height: 256
     borderLeft: 0
@@ -55,8 +55,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: credits_hover
-    x: 1722
-    y: 711
+    x: 3100
+    y: 1379
     width: 500
     height: 256
     borderLeft: 0
@@ -68,72 +68,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: credits_normal
-    x: 2132
-    y: 454
-    width: 500
-    height: 256
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: EXP
-    x: 1358
-    y: 30
-    width: 92
-    height: 42
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: exp bar bg
-    x: 2132
-    y: 105
-    width: 1337
-    height: 45
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: exp bar fill
-    x: 2132
-    y: 151
-    width: 1337
-    height: 45
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: exp bar frame
-    x: 0
-    y: 9
-    width: 1357
-    height: 63
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: intro_down
-    x: 1921
+    x: 2782
     y: 1792
     width: 500
     height: 256
@@ -145,9 +80,74 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: EXP
+    x: 0
+    y: 925
+    width: 92
+    height: 42
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: exp bar bg
+    x: 0
+    y: 879
+    width: 1337
+    height: 45
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: exp bar fill
+    x: 0
+    y: 833
+    width: 1337
+    height: 45
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: exp bar frame
+    x: 1338
+    y: 863
+    width: 1389
+    height: 104
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: intro_down
+    x: 1338
+    y: 606
+    width: 500
+    height: 256
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: intro_hover
-    x: 1631
-    y: 274
+    x: 3589
+    y: 608
     width: 500
     height: 256
     borderLeft: 0
@@ -159,8 +159,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: intro_normal
-    x: 1631
-    y: 17
+    x: 3589
+    y: 865
     width: 500
     height: 256
     borderLeft: 0
@@ -172,10 +172,62 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: invisible
-    x: 1313
-    y: 73
+    x: 2782
+    y: 1178
     width: 317
     height: 457
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: lv 1
+    x: 251
+    y: 936
+    width: 71
+    height: 31
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: lv 2
+    x: 395
+    y: 936
+    width: 71
+    height: 31
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: lv 3
+    x: 323
+    y: 935
+    width: 71
+    height: 32
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: lv max
+    x: 93
+    y: 930
+    width: 157
+    height: 37
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -198,8 +250,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: sprint
-    x: 861
-    y: 118
+    x: 3589
+    y: 1636
     width: 451
     height: 412
     borderLeft: 0
@@ -211,8 +263,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: start_down
-    x: 0
-    y: 531
+    x: 1921
+    y: 1612
     width: 860
     height: 436
     borderLeft: 0
@@ -224,8 +276,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: start_hover
-    x: 861
-    y: 531
+    x: 2728
+    y: 738
     width: 860
     height: 436
     borderLeft: 0
@@ -237,8 +289,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: start_normal
-    x: 0
-    y: 94
+    x: 1921
+    y: 1175
     width: 860
     height: 436
     borderLeft: 0
