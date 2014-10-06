@@ -211,6 +211,22 @@ MonoBehaviour:
     - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
     - {fileID: 8300000, guid: d6aa48fbae5678a448e4d458c656add5, type: 3}
     SpearLevelUpSound: {fileID: 8300000, guid: a2843042f43a8aa4da7e50cc14e35938, type: 3}
+  achievements:
+    announcerSounds:
+    - {fileID: 8300000, guid: 4d94bc2f3ace3cb42a838eec1dd12d8b, type: 3}
+    - {fileID: 8300000, guid: af33ba00299eb7046b449e68644ad94a, type: 3}
+    - {fileID: 8300000, guid: b861401448eae1f4bbe72285885cf2d0, type: 3}
+    - {fileID: 8300000, guid: 867a9cd47018f5242ae26e5911c8ecbe, type: 3}
+    - {fileID: 8300000, guid: 625cfcedbbd8b9a47aad1c2fbf9ce279, type: 3}
+    - {fileID: 8300000, guid: c79688cc21be2534487255229db6b24b, type: 3}
+    - {fileID: 8300000, guid: 43e5db06cc7429641bb7f96305b01015, type: 3}
+    - {fileID: 8300000, guid: a089c65ca358abd4f8135a94169a8301, type: 3}
+    - {fileID: 8300000, guid: a089c65ca358abd4f8135a94169a8301, type: 3}
+    - {fileID: 8300000, guid: 9ded57a98b6c78444af6cc2799d437d6, type: 3}
+    - {fileID: 8300000, guid: e1d195d549d41774a8e9a86886424dfe, type: 3}
+    - {fileID: 8300000, guid: 741547090915bec43ac0758183379717, type: 3}
+    - {fileID: 8300000, guid: 15d60b7de67a41344b667e7034ad03e0, type: 3}
+    - {fileID: 8300000, guid: ffe9d419c73d4c6429a7c94e37bca2b4, type: 3}
   BGMSource: {fileID: 8200002}
   TimeBeforeFadeBGM: 7
 --- !u!1001 &100100000
