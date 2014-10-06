@@ -1906,6 +1906,7 @@ MonoBehaviour:
     SpearLevelUpSound: {fileID: 8300000, guid: a2843042f43a8aa4da7e50cc14e35938, type: 3}
   BGMSource: {fileID: 747706756}
   TimeBeforeFadeBGM: 7
+  StabSound: {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
 --- !u!82 &747706755
 AudioSource:
   m_ObjectHideFlags: 0

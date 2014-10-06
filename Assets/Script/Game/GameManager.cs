@@ -147,6 +147,8 @@ public class GameManager : Singleton<GameManager> {
 	public AudioSource BGMSource;
 	public float TimeBeforeFadeBGM = 5.0f;
 
+	public AudioClip StabSound;
+
 	private Transform CreatureContainer;
 
 	private LinkedList<Creature> SpawnedCreatures;
@@ -223,6 +225,8 @@ public class GameManager : Singleton<GameManager> {
 			Instance.DeadCreatures.Add ( CreatureEntry.Value );
 			Instance.DeadCreatureCount [ Creature.Type ]++;
 			Instance.CheckBonuses ();
+
+			Instance.audio.PlayOneShot ( Instance.StabSound , 15 );
 
 			if ( !Instance.BGMSource.isPlaying ) {
 				Instance.BGMSource.volume = 1;
@@ -301,7 +305,7 @@ public class GameManager : Singleton<GameManager> {
 	}
 
 	private void PlayUpgradeSpearSound () {
-		audio.PlayOneShot ( Bonuses.SpearLevelUpSound );
+		audio.PlayOneShot ( Bonuses.SpearLevelUpSound , 5 );
 	}
 
 	private void CheckBonuses () {
