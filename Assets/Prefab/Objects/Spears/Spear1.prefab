@@ -60,7 +60,7 @@ GameObject:
   - 4: {fileID: 400006}
   - 95: {fileID: 9500000}
   m_Layer: 0
-  m_Name: SpearModel
+  m_Name: spear_lv1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_LocalRotation: {x: 0, y: -.0436193869, z: 0, w: .999048233}
+  m_LocalRotation: {x: 0, y: .0436195284, z: 0, w: -.999048233}
   m_LocalPosition: {x: .535771549, y: -.313323975, z: .600317001}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
@@ -129,7 +129,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 87c028bab07613b4a94503cb3533b8c9, type: 2}
+  - {fileID: 2100000, guid: 6771808edf1702447bc9308612e97036, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -149,7 +149,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 87c028bab07613b4a94503cb3533b8c9, type: 2}
+  - {fileID: 2100000, guid: 6771808edf1702447bc9308612e97036, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0

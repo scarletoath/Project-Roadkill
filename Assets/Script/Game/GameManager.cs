@@ -25,7 +25,7 @@ public sealed class Achievements {
 [System.Serializable]
 public class Bonuses {
 
-	public const int MAX_SPEAR_LEVEL = 7;
+	public const int MAX_SPEAR_LEVEL = 4;
 	public const int MAX_MOVE_SPEED_MULTIPLIER = 20;
 	public const int MAX_EXP_BEFORE_LEVEL_UP = 100;
 	public int ExpCounter = 0;

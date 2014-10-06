@@ -205,17 +205,11 @@ MonoBehaviour:
     - {fileID: 100000, guid: 7a3bd76a4e4d86a4aa222c4305fa2da3, type: 2}
     - {fileID: 100000, guid: 744ebe43f7258f64889c7ff277f5f319, type: 2}
     - {fileID: 100000, guid: 8718e8877b24e5b41995a273ae097c8f, type: 2}
-    - {fileID: 100000, guid: 5915771c695e99a4694710c677937b4e, type: 2}
-    - {fileID: 100000, guid: 44fb0a5632622484d8620cc88a9ede32, type: 2}
-    - {fileID: 100000, guid: 0bec1292f080a2e4f801b4bd6485051b, type: 2}
     SpearSounds:
     - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
-    - {fileID: 8300000, guid: 7e4e4423e1d3bef4983995f3a995ad06, type: 3}
-    - {fileID: 8300000, guid: c3215f4f7a4ec5d46a1e136d1d0cc1f9, type: 3}
+    - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
+    - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
     - {fileID: 8300000, guid: d6aa48fbae5678a448e4d458c656add5, type: 3}
-    - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
-    - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
-    - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
     SpearLevelUpSound: {fileID: 8300000, guid: a2843042f43a8aa4da7e50cc14e35938, type: 3}
   BGMSource: {fileID: 8200002}
   TimeBeforeFadeBGM: 7
