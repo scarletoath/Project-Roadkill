@@ -331,7 +331,7 @@ public class GameManager : Singleton<GameManager> {
 		}
 
 		// Quiet foot every 3 bunny kills
-		if ( IsLastCreatureKilledType ( CreatureType.Bunny ) && DeadCreatureCount [ CreatureType.Bunny ] % 3 == 0 ) {
+		if ( IsLastCreatureKilledType ( CreatureType.Bird ) && DeadCreatureCount [ CreatureType.Bird ] % 3 == 0 ) {
 			StartCoroutine ( Bonuses.EnableQuietFeet () );
 		}
 	}
