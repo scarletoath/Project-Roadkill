@@ -571,7 +571,7 @@ MonoBehaviour:
   pixelSnap: 0
   onClick:
   - mTarget: {fileID: 11400016}
-    mMethodName: OnStartClick
+    mMethodName: OnCreditsClick
     mParameters: []
     oneShot: 0
 --- !u!114 &11400008
@@ -585,7 +585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d44bc69c2ca5f943b845318866dc1bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: b5083cfe83bb875479bd797c61594131, type: 3}
+  audioClip: {fileID: 8300000, guid: a2843042f43a8aa4da7e50cc14e35938, type: 3}
   trigger: 0
   volume: 1
   pitch: 1
@@ -600,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d44bc69c2ca5f943b845318866dc1bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: b5083cfe83bb875479bd797c61594131, type: 3}
+  audioClip: {fileID: 8300000, guid: a2843042f43a8aa4da7e50cc14e35938, type: 3}
   trigger: 0
   volume: 1
   pitch: 1
@@ -627,7 +627,7 @@ MonoBehaviour:
   pixelSnap: 0
   onClick:
   - mTarget: {fileID: 11400016}
-    mMethodName: OnStartClick
+    mMethodName: OnHelpClick
     mParameters: []
     oneShot: 0
 --- !u!114 &11400014
@@ -778,7 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d44bc69c2ca5f943b845318866dc1bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: b5083cfe83bb875479bd797c61594131, type: 3}
+  audioClip: {fileID: 8300000, guid: a2843042f43a8aa4da7e50cc14e35938, type: 3}
   trigger: 0
   volume: 1
   pitch: 1
