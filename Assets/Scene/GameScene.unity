@@ -475,6 +475,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   expbartex: {fileID: 2800000, guid: 64e1cab4d460f064bb9a9ba26f5b4e15, type: 3}
+  stealthtex: {fileID: 2800000, guid: 2324a06a26dcb574d90cb79dac2aecfd, type: 3}
+  sprinttex: {fileID: 2800000, guid: 6e2116333c2cd054484701c8d9d339d5, type: 3}
 --- !u!1 &436099592
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,6 +599,7 @@ MonoBehaviour:
   DetectionRange: 25
   EscapeDistance: 25
   IsLookAtPlayerAfterEscape: 1
+  EscapeAnimSpeed: 1
   DestroyTime: 1
   BloodMaterial: {fileID: 0}
   Sounds: []
@@ -647,6 +650,14 @@ Prefab:
       propertyPath: expbartex
       value: 
       objectReference: {fileID: 2800000, guid: 64e1cab4d460f064bb9a9ba26f5b4e15, type: 3}
+    - target: {fileID: 11400004, guid: 8355e94de70764c27afd0c53d90385cb, type: 2}
+      propertyPath: sprinttex
+      value: 
+      objectReference: {fileID: 2800000, guid: 6e2116333c2cd054484701c8d9d339d5, type: 3}
+    - target: {fileID: 11400004, guid: 8355e94de70764c27afd0c53d90385cb, type: 2}
+      propertyPath: stealthtex
+      value: 
+      objectReference: {fileID: 2800000, guid: 2324a06a26dcb574d90cb79dac2aecfd, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8355e94de70764c27afd0c53d90385cb, type: 2}
   m_RootGameObject: {fileID: 385349411}
