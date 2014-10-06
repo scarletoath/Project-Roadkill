@@ -6,6 +6,9 @@ public class PlayerController : Singleton<PlayerController> {
 	public const string TAG = "Player";
 
 	public ParticleSystem BloodParticleSystem;
+    public GameObject bloodObject;
+    public GameObject pointsObject;
+    public GameObject smokeObject;
 	public GameObject Spear;
     public GameObject[] Walls;
     public GameObject Caveman;
@@ -105,7 +108,33 @@ public class PlayerController : Singleton<PlayerController> {
 		Instance.BloodParticleSystem.Emit ( 50 );
 	}
 
-	public static void UpdateSpear () {
+    public static void ShowBloodAndPoints(Vector3 center, int points)
+    {
+        Instance.bloodObject.transform.position = center;
+        SplatterBlood();
+        if (GameManager.GetBonuses().SpearLevel == Bonuses.MAX_SPEAR_LEVEL)
+            Instance.smokeObject.particleSystem.Emit(100);
+
+        Instance.pointsObject.transform.position = center;
+        Instance.StartCoroutine(Instance.floatingPoints(points));
+    }
+
+    IEnumerator floatingPoints(int points)
+    {
+        Instance.pointsObject.renderer.enabled = true;
+        Instance.pointsObject.GetComponent<TextMesh>().text = "+" + points.ToString() + " Exp";
+      
+        for (float i = 0; i < 3.0f; i += Time.deltaTime)
+        {
+            Instance.pointsObject.transform.Translate(Vector3.up * 0.01f);
+            yield return null;
+        }
+
+        Instance.pointsObject.renderer.enabled = false;
+    }
+
+    public static void UpdateSpear()
+    {
 		Instance.UpdateSpearInternal ();
 	}
 
