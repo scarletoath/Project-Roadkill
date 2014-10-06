@@ -27,6 +27,15 @@ public class Bonuses {
 
 	public const int MAX_SPEAR_LEVEL = 7;
 	public const int MAX_MOVE_SPEED_MULTIPLIER = 20;
+    public const int MAX_EXP_BEFORE_LEVEL_UP = 100;
+    public int ExpCounter = 0;
+    public float ExpRatio
+    {
+        get
+        {
+            return (float)ExpCounter / (float)MAX_EXP_BEFORE_LEVEL_UP;
+        }
+    }
 
 	public int MoveSpeedDuration = 10;
 	public int QuietFeetDuration = 10;
@@ -46,6 +55,17 @@ public class Bonuses {
 		ResetMoveSpeed ();
 		ResetQuietFeet ();
 	}
+
+    public void AddExp(int exp)
+    {
+        ExpCounter += exp;
+
+        if (ExpCounter > MAX_EXP_BEFORE_LEVEL_UP)
+        {
+            ExpCounter = 0;
+            IncreaseSpearLevel();
+        }
+    }
 
 	public int GetMoveSpeedTimeRemaining () {
 		return MoveSpeedTimer;
@@ -222,12 +242,23 @@ public class GameManager : Singleton<GameManager> {
 
 	private void RespawnCreatures () {
 		for ( int i = 0 ; i < NumCreaturesToSpawn - NumAliveCreatures ; i++ ) {
-			TempPos.z = Random.Range ( 0 , 100 );
-			TempPos.x = Random.Range ( -50 , 50 );
+			TempPos.z = Random.Range ( 0 , 100 ) + PlayerController.Position.z;
+            TempPos.x = Random.Range(-50, 50) + PlayerController.Position.x;
 
 			TempRot.eulerAngles = new Vector3 ( 0 , Random.Range ( 0 , 360.0f ) , 0 );
 
-			TempGameObject = ( Instantiate ( Creatures [ Random.Range ( 0 , Creatures.Length ) ] , TempPos , TempRot ) as Creature ).gameObject;
+            int CreatureIndex = Random.Range(0, Creatures.Length);
+
+            if (Terrain.activeTerrain.SampleHeight(TempPos) < 18.5f)
+            {
+                CreatureIndex = 5;
+            }
+            else if (CreatureIndex == 5)
+            {
+                CreatureIndex = Random.Range(0, 5);
+            }
+
+            TempGameObject = (Instantiate(Creatures[CreatureIndex], TempPos, TempRot) as Creature).gameObject;
 			TempGameObject.transform.parent = CreatureContainer;
 			SpawnedCreatures.AddLast ( TempGameObject.GetComponent<Creature> () );
 		}
@@ -237,9 +268,9 @@ public class GameManager : Singleton<GameManager> {
 		Debug.Log ( "Check Bonuses called" );
 
 		// First kill, then every 3 kills
-		if ( Bonuses.SpearLevel < Bonuses.MAX_SPEAR_LEVEL && Bonuses.SpearLevel * 3 - 2 == DeadCreatureCount [ CreatureType.Elephant ] ) {
-			Bonuses.IncreaseSpearLevel ();
-		}
+		//if ( Bonuses.SpearLevel < Bonuses.MAX_SPEAR_LEVEL && Bonuses.SpearLevel * 3 - 2 == DeadCreatureCount [ CreatureType.Elephant ] ) {
+		//	Bonuses.IncreaseSpearLevel ();
+		//}
 
 		// Walk speed increase every 3 hippo kills
 		if ( DeadCreatureCount [ CreatureType.Hippo ] > 0 && DeadCreatureCount [ CreatureType.Hippo ] % 3 == 0 && Bonuses.MoveSpeedMultiplier == 1 ) {

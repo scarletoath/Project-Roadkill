@@ -464,6 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01f0ef7a6f37b5240958c96d04a20de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  expbartex: {fileID: 2800000, guid: 64e1cab4d460f064bb9a9ba26f5b4e15, type: 3}
 --- !u!1 &436099592
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,6 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5a7f11f1d313b428885b02d8d2dbcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Points: 10
   Type: 0
   MoveSpeed: 30
   MaxTurnSpeed: 1.57000005
@@ -631,6 +633,10 @@ Prefab:
       propertyPath: m_targetObject
       value: 
       objectReference: {fileID: 12006840}
+    - target: {fileID: 11400004, guid: 8355e94de70764c27afd0c53d90385cb, type: 2}
+      propertyPath: expbartex
+      value: 
+      objectReference: {fileID: 2800000, guid: 64e1cab4d460f064bb9a9ba26f5b4e15, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8355e94de70764c27afd0c53d90385cb, type: 2}
   m_RootGameObject: {fileID: 385349411}
@@ -714,7 +720,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400008, guid: e066834c40d048248aa16861ee6adb48, type: 2}
   m_PrefabInternal: {fileID: 1602569322}
   m_GameObject: {fileID: 641142165}
-  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
+  m_LocalRotation: {x: .382683486, y: 0, z: 0, w: -.923879504}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -760,7 +766,7 @@ ParticleSystem:
     type: 2}
   m_PrefabInternal: {fileID: 1602569322}
   m_GameObject: {fileID: 641142165}
-  lengthInSec: .5
+  lengthInSec: .25
   startDelay: 0
   speed: 1
   randomSeed: 0
@@ -928,7 +934,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4278190335
+        rgba: 4278190292
       minMaxState: 0
     startSize:
       scalar: 1
@@ -996,7 +1002,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
       minMaxState: 0
-    gravityModifier: 0
+    gravityModifier: 1
     inheritVelocity: 0
     maxNumParticles: 1000
   ShapeModule:
@@ -1016,7 +1022,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 100
+      scalar: 1000
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1058,18 +1064,13 @@ ParticleSystem:
     time3: 0
     m_BurstCount: 0
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
-      scalar: 1
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-        - time: 1
           value: 1
           inSlope: 0
           outSlope: 0
@@ -1084,14 +1085,9 @@ ParticleSystem:
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-      minMaxState: 1
+      minMaxState: 3
   RotationModule:
     enabled: 0
     curve:
@@ -1878,7 +1874,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b196e6f1dcf5ddc47b38e210d55ffa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumCreaturesToSpawn: 30
+  NumCreaturesToSpawn: 20
+  SpawnInterval: 5
   Creatures:
   - {fileID: 11400002, guid: 48853286b9626624ab59fe2be1eef2f8, type: 2}
   - {fileID: 11400000, guid: fd83a67c4b8e68d4997b5b0d5c41ce5a, type: 2}
@@ -1886,6 +1883,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3b33a36603e42e541bc5804b12222230, type: 2}
   - {fileID: 11400000, guid: 6fd5961fcd448544ab0a01395ebadb8c, type: 2}
   - {fileID: 11400000, guid: ab0ce79d91370e44282a528b53247435, type: 2}
+  Bonuses:
+    ExpCounter: 0
+    MoveSpeedDuration: 10
+    QuietFeetDuration: 10
 --- !u!82 &747706755
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2439,6 +2440,14 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: SizeModule.curve.minCurve.m_Curve.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2494,6 +2503,50 @@ Prefab:
     - target: {fileID: 5400000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
       propertyPath: m_Interpolate
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: InitialModule.gravityModifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: .382683486
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -.923879504
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: SizeModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: SizeModule.curve.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: SizeModule.curve.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: InitialModule.startColor.maxColor.rgba
+      value: 4278190292
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 19900000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: lengthInSec
+      value: .25
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: EmissionModule.rate.scalar
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
@@ -2773,7 +2826,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 5827644e1152a544b87ad05a3413c23d, type: 2}
       propertyPath: NumCreaturesToSpawn
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5827644e1152a544b87ad05a3413c23d, type: 2}

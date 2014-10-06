@@ -87,7 +87,7 @@ public class PlayerController : Singleton<PlayerController> {
 	}
 
 	public static void SplatterBlood () {
-		Instance.BloodParticleSystem.Emit ( 100 );
+		Instance.BloodParticleSystem.Emit ( 50 );
 	}
 
 	public static void GlowSpear () {
