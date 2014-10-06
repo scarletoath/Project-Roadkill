@@ -7,13 +7,16 @@ public class HUD : Singleton<HUD> {
 	private const string DESC_QUIET_FEET = "Sneak\n";
 
 	public UISlider ExperienceBar;
-	public UILabel ExperienceMaxLabel;
+	public UISprite ExperienceLevelSprite;
+	public string [] ExperienceLevelSpriteNames;
 	public UISprite QuietFeetIcon;
 	public UISprite MoveSpeedIcon;
 
 	private float DisplayedExpRatio;
 	private float TargetExpRatio;
 	private float ExpBarAnimVelocity;
+
+	private bool IsNeedUpdateExpBar = true;
 
 	// Use this for initialization
 	void Start () {
@@ -25,13 +28,11 @@ public class HUD : Singleton<HUD> {
 
 		UpdateQuietFeetIcon ( false );
 		UpdateMoveSpeedIcon ( false );
-
-		ExperienceMaxLabel.cachedGameObject.SetActive ( false );
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if ( !ExperienceMaxLabel.cachedGameObject.activeSelf ) {
+		if ( IsNeedUpdateExpBar ) {
 			// Animate experience bar value
 			if ( ExpBarAnimVelocity > 0.01f ) {
 				DisplayedExpRatio = Mathf.SmoothDamp ( DisplayedExpRatio , TargetExpRatio , ref ExpBarAnimVelocity , 0.5f );
@@ -42,10 +43,13 @@ public class HUD : Singleton<HUD> {
 				}
 
 				if ( GameManager.GetBonuses ().SpearLevel == Bonuses.MAX_SPEAR_LEVEL ) {
-					ExperienceMaxLabel.cachedGameObject.SetActive ( true );
 					TargetExpRatio = 1;
+					IsNeedUpdateExpBar = false;
+					ExperienceLevelSprite.aspectRatio = 4.25f; // hard-coded as max level sprite is different size
 				}
+
 				DisplayedExpRatio = TargetExpRatio;
+				ExperienceLevelSprite.spriteName = ExperienceLevelSpriteNames [ GameManager.GetBonuses ().SpearLevel - 1 ];
 			}
 
 			// Actual experience bar update
