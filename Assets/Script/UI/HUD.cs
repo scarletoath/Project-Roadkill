@@ -5,9 +5,11 @@ public class HUD : Singleton<HUD> {
 	private const string DESC_SPEAR_LEVEL = "Spear\nLevel\n";
 	private const string DESC_MOVE_SPEED = "Speed\nx ";
 	private const string DESC_QUIET_FEET = "Sneak\n";
-	public Texture2D expbartex;
-	public Texture2D stealthtex;
-	public Texture2D sprinttex;
+
+	public UISlider ExperienceBar;
+	public UILabel ExperienceMaxLabel;
+	public UISprite QuietFeetIcon;
+	public UISprite MoveSpeedIcon;
 
 	private float DisplayedExpRatio;
 	private float TargetExpRatio;
@@ -17,36 +19,38 @@ public class HUD : Singleton<HUD> {
 	void Start () {
 		GameManager.GetBonuses ().OnSpearLevelUp += UpdateTargetExpRatio;
 		GameManager.GetBonuses ().OnIncreaseExp += UpdateTargetExpRatio;
+
+		GameManager.GetBonuses ().OnMoveSpeedChange += UpdateMoveSpeedIcon;
+		GameManager.GetBonuses ().OnQuietFeetChange += UpdateQuietFeetIcon;
+
+		UpdateQuietFeetIcon ( false );
+		UpdateMoveSpeedIcon ( false );
+
+		ExperienceMaxLabel.cachedGameObject.SetActive ( false );
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if ( ExpBarAnimVelocity > 0.01f ) {
-			DisplayedExpRatio = Mathf.SmoothDamp ( DisplayedExpRatio , TargetExpRatio , ref ExpBarAnimVelocity , 0.5f );
-		}
-		else {
-			if ( TargetExpRatio == 1 ) {
-				TargetExpRatio = 0;
+		if ( !ExperienceMaxLabel.cachedGameObject.activeSelf ) {
+			// Animate experience bar value
+			if ( ExpBarAnimVelocity > 0.01f ) {
+				DisplayedExpRatio = Mathf.SmoothDamp ( DisplayedExpRatio , TargetExpRatio , ref ExpBarAnimVelocity , 0.5f );
 			}
-			DisplayedExpRatio = TargetExpRatio;
+			else {
+				if ( TargetExpRatio == 1 ) {
+					TargetExpRatio = 0;
+				}
+
+				if ( GameManager.GetBonuses ().SpearLevel == Bonuses.MAX_SPEAR_LEVEL ) {
+					ExperienceMaxLabel.cachedGameObject.SetActive ( true );
+					TargetExpRatio = 1;
+				}
+				DisplayedExpRatio = TargetExpRatio;
+			}
+
+			// Actual experience bar update
+			ExperienceBar.value = DisplayedExpRatio;
 		}
-	}
-
-	void OnGUI () {
-		if ( GameManager.GetBonuses ().MoveSpeedMultiplier > 1 ) {
-			GUI.DrawTexture ( new Rect ( 20 , 20 , 60 , 60 ) , sprinttex );
-			GUI.Label ( new Rect ( 60 , 60 , 20 , 20 ) , GameManager.GetBonuses ().GetMoveSpeedTimeRemaining ().ToString () );
-		}
-		if ( GameManager.GetBonuses ().HasQuietFeet ) {
-			GUI.DrawTexture ( new Rect ( 80 , 20 , 60 , 60 ) , stealthtex );
-			GUI.Label ( new Rect ( 120 , 60 , 20 , 20 ) , GameManager.GetBonuses ().GetQuietFeetTimeRemaining ().ToString () );
-		}
-
-		GUI.Label ( new Rect ( 150 , 20 , 40 , 60 ) , DESC_SPEAR_LEVEL + GameManager.GetBonuses ().SpearLevel );
-
-		GUI.Label ( new Rect ( Screen.width - 120 , 20 , 100 , Screen.height ) , GetKillCountAchievementText () );
-		GUI.DrawTexture ( new Rect ( 40 , Screen.height - 40 , ( Screen.width - 80 ) * DisplayedExpRatio , 20 ) , expbartex );
-
 	}
 
 	private string GetKillCountAchievementText () {
@@ -69,6 +73,14 @@ public class HUD : Singleton<HUD> {
 		}
 
 		DisplayedExpRatio = Mathf.SmoothDamp ( DisplayedExpRatio , TargetExpRatio , ref ExpBarAnimVelocity , 0.5f );
+	}
+
+	private void UpdateMoveSpeedIcon ( bool IsBonusActive ) {
+		MoveSpeedIcon.cachedGameObject.SetActive ( IsBonusActive );
+	}
+
+	private void UpdateQuietFeetIcon ( bool IsBonusActive ) {
+		QuietFeetIcon.cachedGameObject.SetActive ( IsBonusActive );
 	}
 
 }
