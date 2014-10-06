@@ -115,6 +115,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01f0ef7a6f37b5240958c96d04a20de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExpBarFillTexture: {fileID: 2800000, guid: eacd47c15bedb9e489001a6060bfac29, type: 3}
+  ExpBarFrameTexture: {fileID: 2800000, guid: 25437cb463e643d4bb61278bffbab0eb, type: 3}
+  ExpBarBGTexture: {fileID: 2800000, guid: 110ad988949622c4daac0b48bfa1c57c, type: 3}
+  ExpIconTexture: {fileID: 2800000, guid: 278918a953faa7e498bb2955cea7b1b6, type: 3}
+  QuietFeetIconTexture: {fileID: 2800000, guid: 2324a06a26dcb574d90cb79dac2aecfd,
+    type: 3}
+  MoveSpeedBonusIconTexture: {fileID: 2800000, guid: 6e2116333c2cd054484701c8d9d339d5,
+    type: 3}
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

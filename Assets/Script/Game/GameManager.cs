@@ -61,6 +61,12 @@ public class Bonuses {
 	public delegate void OnIncreaseExpHandler ();
 	public event OnIncreaseExpHandler OnIncreaseExp;
 
+	public delegate void OnQuietFeetChangeHandler ( bool IsBonusActive );
+	public event OnQuietFeetChangeHandler OnQuietFeetChange;
+
+	public delegate void OnMoveSpeedChangeHandler ( bool IsBonusActive );
+	public event OnMoveSpeedChangeHandler OnMoveSpeedChange;
+
 	public int SpearLevel { get; private set; }
 	public float MoveSpeedMultiplier { get; private set; }
 	public bool HasQuietFeet { get; private set; }
@@ -132,6 +138,10 @@ public class Bonuses {
 
 		MoveSpeedMultiplier++;
 
+		if ( OnMoveSpeedChange != null ) {
+			OnMoveSpeedChange ( true );
+		}
+
 		while ( MoveSpeedTimer > 0 ) {
 			yield return new WaitForSeconds ( 1.0f );
 
@@ -139,6 +149,10 @@ public class Bonuses {
 		}
 
 		ResetMoveSpeed ();
+
+		if ( OnMoveSpeedChange != null ) {
+			OnMoveSpeedChange ( false );
+		}
 	}
 
 	public IEnumerator EnableQuietFeet () {
@@ -148,6 +162,10 @@ public class Bonuses {
 
 		HasQuietFeet = true;
 
+		if ( OnQuietFeetChange != null ) {
+			OnQuietFeetChange ( true );
+		}
+
 		while ( QuietFeetTimer > 0 ) {
 			yield return new WaitForSeconds ( 1.0f );
 
@@ -155,6 +173,10 @@ public class Bonuses {
 		}
 
 		ResetQuietFeet ();
+
+		if ( OnQuietFeetChange != null ) {
+			OnQuietFeetChange ( false );
+		}
 	}
 
 	private void ResetMoveSpeed () {
