@@ -6,6 +6,8 @@ public class HUD : Singleton<HUD> {
 	private const string DESC_MOVE_SPEED = "Speed\nx ";
 	private const string DESC_QUIET_FEET = "Sneak\n";
     public Texture2D expbartex;
+    public Texture2D stealthtex;
+    public Texture2D sprinttex;
 
 	// Use this for initialization
 	void Start () {
@@ -18,9 +20,20 @@ public class HUD : Singleton<HUD> {
 	}
 
 	void OnGUI () {
-		GUI.Label ( new Rect ( 20 , 20 , 40 , 60 ) , DESC_SPEAR_LEVEL + GameManager.GetBonuses ().SpearLevel );
-		GUI.Label ( new Rect ( 70 , 20 , 40 , 60 ) , DESC_MOVE_SPEED + GameManager.GetBonuses ().MoveSpeedMultiplier );
-		GUI.Label ( new Rect ( 120 , 20 , 40 , 60 ) , DESC_QUIET_FEET + ( GameManager.GetBonuses ().HasQuietFeet ? GameManager.GetBonuses ().GetQuietFeetTimeRemaining ().ToString () : "Off" ) );
+		//GUI.Label ( new Rect ( 20 , 20 , 40 , 60 ) , DESC_MOVE_SPEED + GameManager.GetBonuses ().MoveSpeedMultiplier );
+        //GUI.Label(new Rect(70, 20, 40, 60),DESC_QUIET_FEET + ( GameManager.GetBonuses ().HasQuietFeet ? GameManager.GetBonuses ().GetQuietFeetTimeRemaining ().ToString () : "Off" ));
+        if (GameManager.GetBonuses().MoveSpeedMultiplier > 1)
+        {
+            GUI.DrawTexture(new Rect(20, 20, 60, 60), sprinttex);
+            GUI.Label(new Rect(60, 60, 20, 20), GameManager.GetBonuses().GetMoveSpeedTimeRemaining().ToString());
+        }
+        if (GameManager.GetBonuses().HasQuietFeet)
+        {
+            GUI.DrawTexture(new Rect(80, 20, 60, 60), stealthtex);
+            GUI.Label(new Rect(120, 60, 20, 20), GameManager.GetBonuses().GetQuietFeetTimeRemaining().ToString());
+        }
+
+        GUI.Label(new Rect(150, 20, 40, 60), DESC_SPEAR_LEVEL + GameManager.GetBonuses().SpearLevel);
 
 		GUI.Label ( new Rect ( Screen.width - 120 , 20 , 100 , Screen.height ) , GetKillCountAchievementText () );
         GUI.DrawTexture(new Rect(40, Screen.height - 40, (Screen.width-80) * GameManager.GetBonuses().ExpRatio, 20), expbartex );

@@ -7,6 +7,8 @@ public class PlayerController : Singleton<PlayerController> {
 
 	public ParticleSystem BloodParticleSystem;
 	public GameObject Spear;
+    public GameObject[] Walls;
+    public GameObject Caveman;
 
 	/// <summary>
 	/// The maximum vertical angle from looking straight ahead.
@@ -47,7 +49,12 @@ public class PlayerController : Singleton<PlayerController> {
 
 		TempPos = transform.position + TempVelocity * Time.deltaTime * GameManager.GetBonuses ().MoveSpeedMultiplier;
 		TempPos.y = OriginalPos.y;
-		transform.position = TempPos;
+
+        Vector3 originalpos = transform.position;
+        transform.position = TempPos;
+        
+        if(HasPlayerHitWall())
+            transform.position = originalpos;
 
 		float height = Terrain.activeTerrain.SampleHeight ( transform.position );
 		Vector3 pos = transform.position;
@@ -65,6 +72,18 @@ public class PlayerController : Singleton<PlayerController> {
 		}
 		transform.eulerAngles = TempEuler;
 	}
+
+    private bool HasPlayerHitWall()
+    {
+        foreach (GameObject wall in Walls)
+        {
+            if (wall.collider.bounds.Intersects(Caveman.collider.bounds))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	public static GameObject Object {
 		get {
