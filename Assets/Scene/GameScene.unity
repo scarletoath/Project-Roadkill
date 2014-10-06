@@ -101,7 +101,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 137496598}
-  - {fileID: 823255419}
+  - {fileID: 1260048633}
   m_Father: {fileID: 0}
 --- !u!114 &12006842
 MonoBehaviour:
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BloodParticleSystem: {fileID: 641142168}
-  Spear: {fileID: 823255418}
+  Spear: {fileID: 1260048630}
   Walls:
   - {fileID: 2043347883}
   - {fileID: 2086575190}
@@ -999,9 +999,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 436099593}
-  - 95: {fileID: 823255420}
+  - 33: {fileID: 1260048635}
+  - 23: {fileID: 1260048634}
   m_Layer: 0
-  m_Name: SpearModel
+  m_Name: spearHandle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1013,13 +1014,11 @@ Transform:
   m_PrefabParentObject: {fileID: 400012, guid: e066834c40d048248aa16861ee6adb48, type: 2}
   m_PrefabInternal: {fileID: 1602569322}
   m_GameObject: {fileID: 436099592}
-  m_LocalRotation: {x: .65328151, y: .270598054, z: .270598054, w: .65328151}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .00999999978, y: .00999999978, z: .00999999978}
-  m_Children:
-  - {fileID: 1260048633}
-  - {fileID: 630145800}
-  m_Father: {fileID: 823255419}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 21.1408501, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 630145800}
 --- !u!1 &466900812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,11 +1291,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 630145800}
-  - 33: {fileID: 1260048632}
-  - 23: {fileID: 1260048631}
+  - 95: {fileID: 823255420}
   m_Layer: 0
-  m_Name: spearHead
-  m_TagString: Untagged
+  m_Name: SpearModel
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1307,11 +1305,13 @@ Transform:
   m_PrefabParentObject: {fileID: 400002, guid: e066834c40d048248aa16861ee6adb48, type: 2}
   m_PrefabInternal: {fileID: 1602569322}
   m_GameObject: {fileID: 630145799}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 88.1776733, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 436099593}
+  m_LocalRotation: {x: .65328151, y: .270598054, z: .270598054, w: .65328151}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: .00999999978, y: .00999999978, z: .00999999978}
+  m_Children:
+  - {fileID: 436099593}
+  - {fileID: 823255419}
+  m_Father: {fileID: 1260048633}
 --- !u!1 &641142165
 GameObject:
   m_ObjectHideFlags: 0
@@ -2543,10 +2543,25 @@ MonoBehaviour:
     ExpCounter: 0
     MoveSpeedDuration: 10
     QuietFeetDuration: 10
+    SpearPrefabs:
+    - {fileID: 100000, guid: b1eef3e6c69d34244a2147cfd7153e08, type: 2}
+    - {fileID: 100000, guid: 7a3bd76a4e4d86a4aa222c4305fa2da3, type: 2}
+    - {fileID: 100000, guid: 744ebe43f7258f64889c7ff277f5f319, type: 2}
+    - {fileID: 100000, guid: 8718e8877b24e5b41995a273ae097c8f, type: 2}
+    - {fileID: 100000, guid: 5915771c695e99a4694710c677937b4e, type: 2}
+    - {fileID: 100000, guid: 44fb0a5632622484d8620cc88a9ede32, type: 2}
+    - {fileID: 100000, guid: 0bec1292f080a2e4f801b4bd6485051b, type: 2}
+    SpearSounds:
+    - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
+    - {fileID: 8300000, guid: 7e4e4423e1d3bef4983995f3a995ad06, type: 3}
+    - {fileID: 8300000, guid: c3215f4f7a4ec5d46a1e136d1d0cc1f9, type: 3}
+    - {fileID: 8300000, guid: d6aa48fbae5678a448e4d458c656add5, type: 3}
+    - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
+    - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
+    - {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
     SpearLevelUpSound: {fileID: 8300000, guid: a2843042f43a8aa4da7e50cc14e35938, type: 3}
   BGMSource: {fileID: 747706756}
   TimeBeforeFadeBGM: 7
-  StabSound: {fileID: 8300000, guid: cead888254b429f4794ffb51d10595b5, type: 3}
 --- !u!82 &747706755
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2941,10 +2956,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 823255419}
-  - 65: {fileID: 823255421}
+  - 33: {fileID: 1260048632}
+  - 23: {fileID: 1260048631}
   m_Layer: 0
-  m_Name: Spear
-  m_TagString: Player
+  m_Name: spearHead
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2955,12 +2971,11 @@ Transform:
   m_PrefabParentObject: {fileID: 400006, guid: e066834c40d048248aa16861ee6adb48, type: 2}
   m_PrefabInternal: {fileID: 1602569322}
   m_GameObject: {fileID: 823255418}
-  m_LocalRotation: {x: 0, y: .0436195284, z: 0, w: -.999048233}
-  m_LocalPosition: {x: .535771549, y: -.313323975, z: .600317001}
-  m_LocalScale: {x: 2, y: 2, z: 2}
-  m_Children:
-  - {fileID: 436099593}
-  m_Father: {fileID: 12006841}
+  m_LocalRotation: {x: 0, y: .0436195284, z: -0, w: -.999048233}
+  m_LocalPosition: {x: -0, y: 88.1776733, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 630145800}
 --- !u!95 &823255420
 Animator:
   serializedVersion: 2
@@ -2968,7 +2983,7 @@ Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: e066834c40d048248aa16861ee6adb48,
     type: 2}
   m_PrefabInternal: {fileID: 1602569322}
-  m_GameObject: {fileID: 436099592}
+  m_GameObject: {fileID: 630145799}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8ed388280bc619d47856d1b63aa696fa, type: 3}
   m_Controller: {fileID: 0}
@@ -2982,7 +2997,7 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 6500002, guid: e066834c40d048248aa16861ee6adb48,
     type: 2}
   m_PrefabInternal: {fileID: 1602569322}
-  m_GameObject: {fileID: 823255418}
+  m_GameObject: {fileID: 1260048630}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -3343,17 +3358,17 @@ Transform:
   m_LocalPosition: {x: 513.826355, y: 20, z: 307.940155}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1278717695}
   - {fileID: 214347616}
-  - {fileID: 1294285101}
   - {fileID: 133788808}
+  - {fileID: 1294285101}
   - {fileID: 782394392}
+  - {fileID: 1278717695}
   - {fileID: 217031992}
-  - {fileID: 832497083}
-  - {fileID: 1211968042}
-  - {fileID: 1868803952}
-  - {fileID: 1098487764}
   - {fileID: 1456608877}
+  - {fileID: 1098487764}
+  - {fileID: 1868803952}
+  - {fileID: 1211968042}
+  - {fileID: 832497083}
   m_Father: {fileID: 138502145}
 --- !u!1 &1098487763
 GameObject:
@@ -3725,11 +3740,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1260048633}
-  - 33: {fileID: 1260048635}
-  - 23: {fileID: 1260048634}
+  - 65: {fileID: 823255421}
   m_Layer: 0
-  m_Name: spearHandle
-  m_TagString: Untagged
+  m_Name: Spear
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3740,7 +3754,7 @@ Renderer:
   m_PrefabParentObject: {fileID: 2300000, guid: e066834c40d048248aa16861ee6adb48,
     type: 2}
   m_PrefabInternal: {fileID: 1602569322}
-  m_GameObject: {fileID: 630145799}
+  m_GameObject: {fileID: 823255418}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -3762,7 +3776,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 3300000, guid: e066834c40d048248aa16861ee6adb48,
     type: 2}
   m_PrefabInternal: {fileID: 1602569322}
-  m_GameObject: {fileID: 630145799}
+  m_GameObject: {fileID: 823255418}
   m_Mesh: {fileID: 4300002, guid: 8ed388280bc619d47856d1b63aa696fa, type: 3}
 --- !u!4 &1260048633
 Transform:
@@ -3770,18 +3784,19 @@ Transform:
   m_PrefabParentObject: {fileID: 400010, guid: e066834c40d048248aa16861ee6adb48, type: 2}
   m_PrefabInternal: {fileID: 1602569322}
   m_GameObject: {fileID: 1260048630}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 21.1408501, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 436099593}
+  m_LocalRotation: {x: 0, y: .0436195284, z: 0, w: -.999048233}
+  m_LocalPosition: {x: .535771549, y: -.313323975, z: .600317001}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_Children:
+  - {fileID: 630145800}
+  m_Father: {fileID: 12006841}
 --- !u!23 &1260048634
 Renderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 2300002, guid: e066834c40d048248aa16861ee6adb48,
     type: 2}
   m_PrefabInternal: {fileID: 1602569322}
-  m_GameObject: {fileID: 1260048630}
+  m_GameObject: {fileID: 436099592}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -3803,7 +3818,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 3300002, guid: e066834c40d048248aa16861ee6adb48,
     type: 2}
   m_PrefabInternal: {fileID: 1602569322}
-  m_GameObject: {fileID: 1260048630}
+  m_GameObject: {fileID: 436099592}
   m_Mesh: {fileID: 4300000, guid: 8ed388280bc619d47856d1b63aa696fa, type: 3}
 --- !u!1 &1271662945
 GameObject:
@@ -4446,6 +4461,18 @@ Prefab:
       propertyPath: Caveman
       value: 
       objectReference: {fileID: 137496597}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
+      propertyPath: SizeModule.curve.minCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e066834c40d048248aa16861ee6adb48, type: 2}
   m_RootGameObject: {fileID: 12006840}
