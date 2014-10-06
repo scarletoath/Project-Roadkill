@@ -66,15 +66,14 @@ public class Bonuses {
 	}
 
 	public void AddExp ( int exp ) {
-        if (SpearLevel >= MAX_SPEAR_LEVEL)
-        {
-            ExpCounter = 0;
-            return;
-        }
-        
-        ExpCounter += exp;
+		if ( SpearLevel >= MAX_SPEAR_LEVEL ) {
+			ExpCounter = 0;
+			return;
+		}
 
-		if ( ExpCounter > MAX_EXP_BEFORE_LEVEL_UP ) {
+		ExpCounter += exp;
+
+		if ( ExpCounter >= MAX_EXP_BEFORE_LEVEL_UP ) {
 			ExpCounter = 0;
 			IncreaseSpearLevel ();
 		}
@@ -103,7 +102,7 @@ public class Bonuses {
 
 	public void IncreaseSpearLevel () {
 		if ( SpearLevel >= MAX_SPEAR_LEVEL ) {
-            ExpCounter = 0;
+			ExpCounter = 0;
 			return;
 		}
 
