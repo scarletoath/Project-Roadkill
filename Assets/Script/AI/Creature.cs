@@ -113,6 +113,7 @@ public class CreatureSound {
 public abstract class Creature : MonoBehaviour {
 
 	public const string TAG = "Creature";
+    public int Points = 10;
 
 	public static readonly int TYPE_COUNT = System.Enum.GetNames ( typeof ( CreatureType ) ).Length;
 
@@ -265,7 +266,8 @@ public abstract class Creature : MonoBehaviour {
 
 			ChangeMaterial ( BloodMaterial );
 			PlayerController.SplatterBlood ();
-			GameInput.Vibrate ();
+            GameManager.GetBonuses().AddExp(this.Points);
+            GameInput.Vibrate ();
 		}
 	}
 
