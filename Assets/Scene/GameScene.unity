@@ -4367,7 +4367,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c79688cc21be2534487255229db6b24b, type: 3}
     - {fileID: 8300000, guid: 43e5db06cc7429641bb7f96305b01015, type: 3}
     - {fileID: 8300000, guid: a089c65ca358abd4f8135a94169a8301, type: 3}
-    - {fileID: 8300000, guid: a089c65ca358abd4f8135a94169a8301, type: 3}
+    - {fileID: 8300000, guid: 481c842c426194641a10be11cfcdbb11, type: 3}
     - {fileID: 8300000, guid: 9ded57a98b6c78444af6cc2799d437d6, type: 3}
     - {fileID: 8300000, guid: e1d195d549d41774a8e9a86886424dfe, type: 3}
     - {fileID: 8300000, guid: 741547090915bec43ac0758183379717, type: 3}
@@ -4375,6 +4375,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ffe9d419c73d4c6429a7c94e37bca2b4, type: 3}
   BGMSource: {fileID: 747706756}
   TimeBeforeFadeBGM: 7
+  BloodSplatter: {fileID: 100000, guid: 838263083f65b7c4c81a8327faab7b5f, type: 2}
 --- !u!82 &747706755
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7337,6 +7338,14 @@ Prefab:
       propertyPath: NumCreaturesToSpawn
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 5827644e1152a544b87ad05a3413c23d, type: 2}
+      propertyPath: BloodSplatter
+      value: 
+      objectReference: {fileID: 100000, guid: 838263083f65b7c4c81a8327faab7b5f, type: 2}
+    - target: {fileID: 11400004, guid: 5827644e1152a544b87ad05a3413c23d, type: 2}
+      propertyPath: achievements.announcerSounds.Array.data[8]
+      value: 
+      objectReference: {fileID: 8300000, guid: 481c842c426194641a10be11cfcdbb11, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5827644e1152a544b87ad05a3413c23d, type: 2}
   m_RootGameObject: {fileID: 747706750}

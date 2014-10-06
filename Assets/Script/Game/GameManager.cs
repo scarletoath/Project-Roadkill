@@ -221,6 +221,8 @@ public class GameManager : Singleton<GameManager> {
 	private int LifetimeKilledCreaturesCount;
 	private float LastKilledCreatureTime;
 
+    public GameObject BloodSplatter;
+
 	// Use this for initialization
 	void Start () {
 		SpawnedCreatures = new LinkedList<Creature> ();
@@ -304,6 +306,7 @@ public class GameManager : Singleton<GameManager> {
 			Instance.DeadCreatureCount [ Creature.Type ]++;
 			Instance.CheckBonuses ();
 			Instance.CheckAndPlayAnnouncerSounds ();
+            Instance.makeSplatter(Creature.gameObject.transform.position);
 
 			Instance.audio.PlayOneShot ( Instance.Bonuses.GetCurrentSpearSound () , 15 );
 
@@ -319,6 +322,20 @@ public class GameManager : Singleton<GameManager> {
 			return false;
 		}
 	}
+
+    private void makeSplatter(Vector3 pos)
+    {
+        if (Terrain.activeTerrain.SampleHeight(pos) > 19.9 &&
+            Terrain.activeTerrain.SampleHeight(pos + Vector3.forward * 5f ) > 19.9 &&
+            Terrain.activeTerrain.SampleHeight(pos + Vector3.back * 5f) > 19.9 &&
+            Terrain.activeTerrain.SampleHeight(pos + Vector3.right * 5f) > 19.9 &&
+            Terrain.activeTerrain.SampleHeight(pos + Vector3.left * 5f) > 19.9)
+        {
+            Vector3 splatterpos = pos;
+            splatterpos.y = 0.0001f;
+            Instantiate(Instance.BloodSplatter, splatterpos, Quaternion.Euler(90, 0, 0));
+        }
+    }
 
 	private void SpawnInitialCreatures () {
 		// Add existing creatures to list
