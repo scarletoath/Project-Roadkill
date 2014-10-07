@@ -446,7 +446,7 @@ public class GameManager : Singleton<GameManager> {
 		if ( GameInput.IsBackOrEscapePressed ) {
 			IsPaused = !IsPaused;
 
-			Time.timeScale = IsPaused ? 0 : 1;
+			//Time.timeScale = IsPaused ? 0 : 1;
 
 			if ( IsPaused ) {
 				PausePanel.cachedGameObject.SetActive ( true );

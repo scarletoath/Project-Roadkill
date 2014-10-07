@@ -93,7 +93,7 @@ public class HUD : Singleton<HUD> {
 	}
 
 	private IEnumerator LoadLevelAfterSound () {
-		Time.timeScale = 1;
+		//Time.timeScale = 1;
 
 		yield return new WaitForSeconds ( 0.288f );
 
