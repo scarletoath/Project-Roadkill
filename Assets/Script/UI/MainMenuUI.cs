@@ -12,9 +12,7 @@ public class MainMenuUI : MonoBehaviour {
 	}
 
 	public void OnCreditsClick () {
-#if UNITY_ANDROID
-		Handheld.PlayFullScreenMovie ( "StarWars.mp4" , Color.black , FullScreenMovieControlMode.CancelOnInput );
-#endif
+		Handheld.PlayFullScreenMovie ( "Credits.mp4" , Color.black , FullScreenMovieControlMode.CancelOnInput );
 	}
 
 	public void OnBackClick () {
