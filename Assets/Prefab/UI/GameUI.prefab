@@ -1397,7 +1397,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 11400000, guid: fc53537ee020d6f46acec2e75791864b, type: 2}
-  mSpriteName: back_normal
+  mSpriteName: menu_n
   mFillCenter: 1
 --- !u!114 &11400040
 MonoBehaviour:
@@ -1416,8 +1416,8 @@ MonoBehaviour:
   disabledColor: {r: .988235295, g: .988235295, b: .988235295, a: 1}
   duration: .200000003
   dragHighlight: 0
-  hoverSprite: back_hover
-  pressedSprite: back_down
+  hoverSprite: menu_h
+  pressedSprite: menu_d
   disabledSprite: 
   pixelSnap: 0
   onClick:
