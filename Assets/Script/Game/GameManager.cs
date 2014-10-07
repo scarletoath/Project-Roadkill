@@ -262,6 +262,8 @@ public class GameManager : Singleton<GameManager> {
 
 		SpawnInitialCreatures ();
 		StartCoroutine ( RespawnCreaturesAfterDelay () );
+
+		Screen.showCursor = false;
 	}
 
 	// Update is called once per frame

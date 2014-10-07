@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour {
 
+	void Start () {
+		Screen.showCursor = false;
+	}
+
 	public void OnStartClick () {
 		StartCoroutine ( LoadLevelAfterSound () );
 	}
@@ -12,7 +16,9 @@ public class MainMenuUI : MonoBehaviour {
 	}
 
 	public void OnCreditsClick () {
+#if UNITY_ANDROID
 		Handheld.PlayFullScreenMovie ( "Credits.mp4" , Color.black , FullScreenMovieControlMode.CancelOnInput );
+#endif
 	}
 
 	public void OnBackClick () {

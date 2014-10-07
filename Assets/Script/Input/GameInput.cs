@@ -191,7 +191,7 @@ public class GameInput : Singleton<GameInput> {
 	public static bool IsBackOrEscapePressed {
 		get {
 			// Escape is back for android
-			return Input.GetKeyUp ( KeyCode.Escape );
+			return Input.GetKeyUp ( KeyCode.Escape ) || Input.GetKeyUp ( KeyCode.Pause );
 		}
 	}
 
