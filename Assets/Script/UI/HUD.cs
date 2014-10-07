@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class HUD : Singleton<HUD> {
 
@@ -57,6 +58,10 @@ public class HUD : Singleton<HUD> {
 		}
 	}
 
+	public void OnMenuClick () {
+		StartCoroutine ( LoadLevelAfterSound () );
+	}
+
 	private string GetKillCountAchievementText () {
 		if ( Achievements.IsKillCountAchievement ( GameManager.NumDeadCreatures ) ) {
 			return ( ( Achievements.KillCount ) GameManager.NumDeadCreatures ).ToString ().Replace ( '_' , ' ' );
@@ -85,6 +90,14 @@ public class HUD : Singleton<HUD> {
 
 	private void UpdateQuietFeetIcon ( bool IsBonusActive ) {
 		QuietFeetIcon.cachedGameObject.SetActive ( IsBonusActive );
+	}
+
+	private IEnumerator LoadLevelAfterSound () {
+		Time.timeScale = 1;
+
+		yield return new WaitForSeconds ( 0.288f );
+
+		Application.LoadLevel ( "MainMenuScene" );
 	}
 
 }

@@ -188,6 +188,13 @@ public class GameInput : Singleton<GameInput> {
 		//Handheld.Vibrate ();
 	}
 
+	public static bool IsBackOrEscapePressed {
+		get {
+			// Escape is back for android
+			return Input.GetKeyUp ( KeyCode.Escape );
+		}
+	}
+
 	private void UpdatePoseData () {
 		if ( IsSimulation ) {
 			SimulationInput.GetLatestPose ( Pose );

@@ -194,6 +194,8 @@ public class GameManager : Singleton<GameManager> {
 
 	private const string KEY_LIFETIME_KILLED_CREATURES_COUNT = "TotalKills";
 
+	private const string HARMED_TEXT = " animals were [b]HARMED[/b]\nin the making of this activity.";
+
 	public int NumCreaturesToSpawn = 10;
 	public float SpawnInterval = 5.0f;
 
@@ -208,6 +210,9 @@ public class GameManager : Singleton<GameManager> {
 	public AudioSource BGMSource;
 	public float TimeBeforeFadeBGM = 5.0f;
 
+	public UIPanel PausePanel;
+	public UILabel HarmedLabel;
+
 	private Transform CreatureContainer;
 
 	private LinkedList<Creature> SpawnedCreatures;
@@ -221,10 +226,12 @@ public class GameManager : Singleton<GameManager> {
 	private int LifetimeKilledCreaturesCount;
 	private float LastKilledCreatureTime;
 
-    public GameObject BloodSplatter;
+	public GameObject BloodSplatter;
 
-    private int nextKillLevel = 0;
-    private float timelastcreaturekilled = 0;
+	private int nextKillLevel = 0;
+	private float timelastcreaturekilled = 0;
+
+	private bool IsPaused = false;
 
 	// Use this for initialization
 	void Start () {
@@ -260,6 +267,7 @@ public class GameManager : Singleton<GameManager> {
 	// Update is called once per frame
 	void Update () {
 		CheckFadeBGM ();
+		CheckPause ();
 	}
 
 	void OnApplicationQuit () {
@@ -287,7 +295,7 @@ public class GameManager : Singleton<GameManager> {
 
 	public static int NumLifetimeKilledCreatures {
 		get {
-			return Instance.LifetimeKilledCreaturesCount;
+			return Instance.LifetimeKilledCreaturesCount + NumDeadCreatures;
 		}
 	}
 
@@ -308,19 +316,19 @@ public class GameManager : Singleton<GameManager> {
 			Instance.DeadCreatures.Add ( CreatureEntry.Value );
 			Instance.DeadCreatureCount [ Creature.Type ]++;
 
-            if ( (Time.time - Instance.timelastcreaturekilled) < 5.0f)
-                Instance.nextKillLevel++;
+			if ( ( Time.time - Instance.timelastcreaturekilled ) < 5.0f )
+				Instance.nextKillLevel++;
 
-            Debug.Log(Instance.nextKillLevel);
+			Debug.Log ( Instance.nextKillLevel );
 
-            if (Instance.nextKillLevel > 3)
-                Instance.nextKillLevel = 0;
+			if ( Instance.nextKillLevel > 3 )
+				Instance.nextKillLevel = 0;
 
-            Instance.timelastcreaturekilled = Time.time;
+			Instance.timelastcreaturekilled = Time.time;
 
-            Instance.CheckBonuses ();
+			Instance.CheckBonuses ();
 			Instance.CheckAndPlayAnnouncerSounds ();
-            Instance.makeSplatter(Creature.gameObject.transform.position);
+			Instance.makeSplatter ( Creature.gameObject.transform.position );
 
 			Instance.audio.PlayOneShot ( Instance.Bonuses.GetCurrentSpearSound () , 15 );
 
@@ -337,19 +345,17 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
-    private void makeSplatter(Vector3 pos)
-    {
-        if (Terrain.activeTerrain.SampleHeight(pos) > 19.9 &&
-            Terrain.activeTerrain.SampleHeight(pos + Vector3.forward * 5f ) > 19.9 &&
-            Terrain.activeTerrain.SampleHeight(pos + Vector3.back * 5f) > 19.9 &&
-            Terrain.activeTerrain.SampleHeight(pos + Vector3.right * 5f) > 19.9 &&
-            Terrain.activeTerrain.SampleHeight(pos + Vector3.left * 5f) > 19.9)
-        {
-            Vector3 splatterpos = pos;
-            splatterpos.y = 0.0001f;
-            Instantiate(Instance.BloodSplatter, splatterpos, Quaternion.Euler(90, 0, 0));
-        }
-    }
+	private void makeSplatter ( Vector3 pos ) {
+		if ( Terrain.activeTerrain.SampleHeight ( pos ) > 19.9 &&
+			Terrain.activeTerrain.SampleHeight ( pos + Vector3.forward * 5f ) > 19.9 &&
+			Terrain.activeTerrain.SampleHeight ( pos + Vector3.back * 5f ) > 19.9 &&
+			Terrain.activeTerrain.SampleHeight ( pos + Vector3.right * 5f ) > 19.9 &&
+			Terrain.activeTerrain.SampleHeight ( pos + Vector3.left * 5f ) > 19.9 ) {
+			Vector3 splatterpos = pos;
+			splatterpos.y = 0.0001f;
+			Instantiate ( Instance.BloodSplatter , splatterpos , Quaternion.Euler ( 90 , 0 , 0 ) );
+		}
+	}
 
 	private void SpawnInitialCreatures () {
 		// Add existing creatures to list
@@ -436,6 +442,21 @@ public class GameManager : Singleton<GameManager> {
 		}
 	}
 
+	private void CheckPause () {
+		if ( GameInput.IsBackOrEscapePressed ) {
+			IsPaused = !IsPaused;
+
+			Time.timeScale = IsPaused ? 0 : 1;
+
+			if ( IsPaused ) {
+				PausePanel.cachedGameObject.SetActive ( true );
+				HarmedLabel.text = NumLifetimeKilledCreatures + HARMED_TEXT;
+			}
+			else {
+				PausePanel.cachedGameObject.SetActive ( false );
+			}
+		}
+	}
 
 	private void CheckAndPlayAnnouncerSounds () {
 		if ( Achievements.IsKillCountAchievement ( GameManager.NumDeadCreatures ) )
@@ -453,33 +474,31 @@ public class GameManager : Singleton<GameManager> {
 				case Achievements.KillCount.HOLY_SHIT:
 				case Achievements.KillCount.OWNAGE:
 					StartCoroutine ( playAnnouncerSound ( GameManager.NumDeadCreatures + 2 ) );
-                    return;
+					return;
 				default:
 					break;
 
 
 			}
 
-        if (nextKillLevel == 2)
-        {
-            Debug.Log("Double Kill Played");
-            StartCoroutine (playAnnouncerSound(1));
-        }
-        else if (nextKillLevel == 3)
-        {
-            Debug.Log("Triple Kill Played");
-            StartCoroutine (playAnnouncerSound(2));
-        }
-        else if (GameManager.NumDeadCreatures > 11)
-            StartCoroutine(playAnnouncerSound(13));
+		if ( nextKillLevel == 2 ) {
+			Debug.Log ( "Double Kill Played" );
+			StartCoroutine ( playAnnouncerSound ( 1 ) );
+		}
+		else if ( nextKillLevel == 3 ) {
+			Debug.Log ( "Triple Kill Played" );
+			StartCoroutine ( playAnnouncerSound ( 2 ) );
+		}
+		else if ( GameManager.NumDeadCreatures > 11 )
+			StartCoroutine ( playAnnouncerSound ( 13 ) );
 
-    }
+	}
 
 	IEnumerator playAnnouncerSound ( int sound_index ) {
 		if ( isplaying && currentAnnouncerSound == sound_index ) yield break;
 		AudioClip sound = achievements.GetAnnouncerSound ( sound_index );
 		this.audio.PlayOneShot ( sound , 15.0f );
-        Debug.Log("sound played:" + sound_index);
+		Debug.Log ( "sound played:" + sound_index );
 		isplaying = true;
 		currentAnnouncerSound = sound_index;
 		yield return new WaitForSeconds ( sound.length );
